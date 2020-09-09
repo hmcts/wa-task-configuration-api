@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.controllers.advice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,8 +18,8 @@ public class CallbackControllerAdvice extends ResponseEntityExceptionHandler {
 
     private final ErrorLogger errorLogger;
 
-
-    public CallbackControllerAdvice(ErrorLogger errorLogger) {
+    @Autowired
+    public CallbackControllerAdvice(@Autowired ErrorLogger errorLogger) {
         this.errorLogger = errorLogger;
     }
 
