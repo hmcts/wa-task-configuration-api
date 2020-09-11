@@ -11,7 +11,9 @@ import static org.junit.Assert.assertNotNull;
 
 public class RootControllerTest {
 
+
     private static final String demoSecret = "demoSecret";
+
     private final RootController rootController = new RootController(demoSecret);
 
     @Test
