@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.ConfigureTaskException;
 import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.ConfigureTaskService;
 
@@ -21,10 +22,13 @@ public class ConfigurationController {
         consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> configureTask(@RequestBody ConfigureTaskRequest configureTaskRequest) {
-        configureTaskService.configureTask(configureTaskRequest.getTaskId());
-
-        return ResponseEntity
-            .ok()
-            .body("OK");
+        try {
+            configureTaskService.configureTask(configureTaskRequest.getTaskId());
+            return ResponseEntity
+                .ok()
+                .body("OK");
+        } catch (ConfigureTaskException exc) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

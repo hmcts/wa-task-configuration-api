@@ -43,11 +43,12 @@ class ConfigureTaskServiceTest {
         HashMap<String, CamundaValue<String>> modifications = new HashMap<>();
         modifications.put("key1", CamundaValue.stringValue("value1"));
         modifications.put("key2", CamundaValue.stringValue("value2"));
+        modifications.put("ccdId", CamundaValue.stringValue(ccdId));
         verify(camundaClient).addLocalVariablesToTask(taskId, new AddLocalVariableRequest(modifications));
     }
 
     @Test
-    void canConfigureATaskWithNoVariables() {
+    void canConfigureATaskWithNoExtraVariables() {
         String taskId = "taskId";
         String processInstanceId = "processInstanceId";
         when(camundaClient.getTask(taskId)).thenReturn(new TaskResponse("id", processInstanceId));
@@ -61,6 +62,7 @@ class ConfigureTaskServiceTest {
         configureTaskService.configureTask(taskId);
 
         HashMap<String, CamundaValue<String>> modifications = new HashMap<>();
+        modifications.put("ccdId", CamundaValue.stringValue(ccdId));
         verify(camundaClient).addLocalVariablesToTask(taskId, new AddLocalVariableRequest(modifications));
     }
 

@@ -44,6 +44,7 @@ public class ConfigureTaskService {
         }
         CamundaValue<Object> ccdId = processVariables.get(CCD_ID_PROCESS_VARIABLE_KEY);
         Map<String, Object> mappedDetails = mapCaseDetailsService.getMappedDetails((String) ccdId.getValue());
+        mappedDetails.put(CCD_ID_PROCESS_VARIABLE_KEY, ccdId.getValue());
 
         Map<String, CamundaValue<String>> map = mappedDetails.entrySet().stream().collect(toMap(
             Map.Entry::getKey,
