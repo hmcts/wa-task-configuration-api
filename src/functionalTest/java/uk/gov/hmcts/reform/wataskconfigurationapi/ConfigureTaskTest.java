@@ -26,7 +26,9 @@ public class ConfigureTaskTest {
 
     @Test
     public void canConfigureATask() {
-        CreateTaskMessage createTaskMessage = createBasicMessageForTask().build();
+        CreateTaskMessage createTaskMessage = createBasicMessageForTask()
+            .withCcdId("1600701250195380")
+            .build();
         String taskId = createTask(createTaskMessage);
 
         given()
@@ -47,7 +49,7 @@ public class ConfigureTaskTest {
             .when()
             .get()
             .then()
-            .body("appealType.value", is("PA/53816/2019"))
+            .body("appealType.value", is("RP/50001/2020"))
             .body("ccdId.value", is(createTaskMessage.getCcdId()))
         ;
     }
