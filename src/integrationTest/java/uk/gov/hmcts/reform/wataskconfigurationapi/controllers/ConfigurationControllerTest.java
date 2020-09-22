@@ -103,7 +103,7 @@ public class ConfigurationControllerTest {
         String serviceToken = "service_token";
         when(authTokenGenerator.generate()).thenReturn(serviceToken);
         String caseData = "{ data: {} }";
-        when(ccdClient.getCase(userToken, serviceToken, ccdId)).thenReturn(caseData);
+        when(ccdClient.getCase("Bearer " + userToken, serviceToken, ccdId)).thenReturn(caseData);
         when(camundaClient.mapCaseData(new DmnRequest<>(new MapCaseDataDmnRequest(jsonValue(caseData))))).thenReturn(
             singletonList(new MapCaseDataDmnResult(stringValue("name1"), stringValue("value1")))
         );
