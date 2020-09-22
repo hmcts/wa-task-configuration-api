@@ -21,6 +21,27 @@ enableSwagger: ${ENABLE_SWAGGER:true}
 camunda:
   url: ${CAMUNDA_URL:http://localhost:8080/engine-rest}
 
+ccd:
+  url: ${CCD_URL:http://ccd-data-store-api}
+
+
+auth:
+  provider:
+    service:
+      client:
+        baseUrl: ${S2S_URL:http://service-auth-provider-api}
+
+idam:
+  baseUrl: ${IDAM_URL:http://sidsidamam-api}
+  redirectUrl: ${IA_IDAM_REDIRECT_URI:http://localhost:3002/oauth2/callback}
+  s2s-auth:
+    url: ${S2S_URL:http://service-auth-provider-api}
+    secret: ${S2S_SECRET_WORKFLOW_API:AAAAAAAAAAAAAAAC}
+    name: ${S2S_NAME_WORKFLOW_API:wa_workflow_api}
+  system:
+    username: ${IA_SYSTEM_USERNAME:ia-system-user@fake.hmcts.net}
+    password: ${IA_SYSTEM_PASSWORD:London05}
+    scope: "openid profile roles"
 
 #If you use a database then uncomment below lines and update db properties accordingly
 
@@ -29,6 +50,15 @@ spring:
     name: WA Task Configuration
   jackson:
     property-naming-strategy: SNAKE_CASE
+
+  security:
+    oauth2:
+      client:
+        registration:
+          oidc:
+            client-id: ${IA_IDAM_CLIENT_ID:ia}
+            client-secret: ${IA_IDAM_SECRET:something}
+
 #  datasource:
 #    driver-class-name: org.postgresql.Driver
 #    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}${DB_OPTIONS:}
