@@ -23,7 +23,9 @@ camunda:
 
 ccd:
   url: ${CCD_URL:http://ccd-data-store-api}
-
+core_case_data:
+  api:
+    url: ${CCD_URL:http://ccd-data-store-api}
 
 auth:
   provider:
@@ -39,8 +41,8 @@ idam:
     secret: ${S2S_SECRET_WORKFLOW_API:AAAAAAAAAAAAAAAC}
     name: ${S2S_NAME_WORKFLOW_API:wa_workflow_api}
   system:
-    username: ${IA_SYSTEM_USERNAME:ia-system-user@fake.hmcts.net}
-    password: ${IA_SYSTEM_PASSWORD:London05}
+    username: ${TEST_LAW_FIRM_A_USERNAME:some_user@hmcts.net}
+    password: ${TEST_LAW_FIRM_A_PASSWORD:password}
     scope: "openid profile roles"
 
 #If you use a database then uncomment below lines and update db properties accordingly
@@ -48,6 +50,8 @@ idam:
 spring:
   application:
     name: WA Task Configuration
+  main:
+    allow-bean-definition-overriding: true
   jackson:
     property-naming-strategy: SNAKE_CASE
 

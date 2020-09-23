@@ -47,4 +47,8 @@ public class IdamSystemTokenGenerator {
 
         return tokenResponse.getAccessToken();
     }
+
+    public UserInfo getUserInfo(String accessToken) {
+        return idamApi.userInfo(accessToken);
+    }
 }
