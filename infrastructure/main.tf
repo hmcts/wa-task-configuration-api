@@ -25,8 +25,8 @@ data "azurerm_key_vault" "s2s_key_vault" {
 }
 
 data "azurerm_key_vault" "ia_key_vault" {
-  name                = "${ia_key_vault_name}"
-  resource_group_name = "${ia_key_vault_name}"
+  name                = "ia-${var.env}"
+  resource_group_name = "ia-aat"
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {
