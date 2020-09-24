@@ -7,7 +7,3 @@ spring:
       aliases:
         testsecret: A_SECRET
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
-        microservicekey-wa-workflow-api: S2S_SECRET_WORKFLOW_API
-        idam-redirect-uri: IA_IDAM_REDIRECT_URI
-        test-law-firm-a-username: TEST_LAW_FIRM_A_USERNAME
-        test-law-firm-a-password: TEST_LAW_FIRM_A_PASSWORD
