@@ -1,12 +1,16 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.idam;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @Component
 public class IdamSystemTokenGenerator {
+    private static final Logger LOG = getLogger(IdamSystemTokenGenerator.class);
 
     private final String systemUserName;
     private final String systemUserPass;
@@ -43,6 +47,7 @@ public class IdamSystemTokenGenerator {
         map.add("username", systemUserName);
         map.add("password", systemUserPass);
         map.add("scope", systemUserScope);
+        LOG.info("Trying to connect with \n" + map);
         Token tokenResponse = idamApi.token(map);
 
         return tokenResponse.getAccessToken();
