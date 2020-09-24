@@ -38,6 +38,9 @@ public class IdamSystemTokenGenerator {
         this.idamApi = idamApi;
     }
 
+    @SuppressWarnings({
+        "PMD.SystemPrintln"
+    })
     public String generate() {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
