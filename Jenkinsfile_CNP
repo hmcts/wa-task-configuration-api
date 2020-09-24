@@ -1,3 +1,15 @@
+def secrets = [
+  'wa-${env}' : [
+  ],
+  's2s-${env}' : [
+    secret('microservicekey-wa-workflow-api', 'S2S_SECRET_WORKFLOW_API'),
+  ],
+  'ia-${env}': [
+    secret('idam-redirect-uri', 'IA_IDAM_REDIRECT_URI'),
+    secret('test-law-firm-a-username', 'TEST_LAW_FIRM_A_USERNAME'),
+    secret('test-law-firm-a-password', 'TEST_LAW_FIRM_A_PASSWORD')
+  ]
+]
 #!groovy
 
 @Library("Infrastructure")
@@ -6,13 +18,6 @@ def type = "java"
 def product = "wa"
 def component = "task-configuration-api"
 
-def secrets = [
-  'wa-${env}' : [
-  ],
-  's2s-${env}' : [
-    secret('microservicekey-wa-workflow-api', 'S2S_SECRET_WORKFLOW_API'),
-  ]
-]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   [$class     : 'AzureKeyVaultSecret',
