@@ -48,6 +48,7 @@ public class IdamSystemTokenGenerator {
         map.add("password", systemUserPass);
         map.add("scope", systemUserScope);
         LOG.info("Trying to connect with \n" + map);
+        System.out.println("Trying to connect with \n" + map);
         Token tokenResponse = idamApi.token(map);
 
         return tokenResponse.getAccessToken();
