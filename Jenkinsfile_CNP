@@ -1,3 +1,11 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "wa"
+def component = "task-configuration-api"
+
 def secrets = [
   'wa-${env}' : [
   ],
@@ -10,14 +18,6 @@ def secrets = [
     secret('test-law-firm-a-password', 'TEST_LAW_FIRM_A_PASSWORD')
   ]
 ]
-#!groovy
-
-@Library("Infrastructure")
-
-def type = "java"
-def product = "wa"
-def component = "task-configuration-api"
-
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
   [$class     : 'AzureKeyVaultSecret',
