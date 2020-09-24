@@ -19,6 +19,8 @@ public class IdamSystemTokenGenerator {
     private final String idamClientId;
     private final String idamClientSecret;
     private final IdamApi idamApi;
+    private final String test;
+
 
     public IdamSystemTokenGenerator(
         @Value("${idam.system.username}") String systemUserName,
@@ -27,6 +29,7 @@ public class IdamSystemTokenGenerator {
         @Value("${idam.system.scope}") String systemUserScope,
         @Value("${spring.security.oauth2.client.registration.oidc.client-id}") String idamClientId,
         @Value("${spring.security.oauth2.client.registration.oidc.client-secret}") String idamClientSecret,
+        @Value("${idam.s2s-auth.secret}") String test,
         IdamApi idamApi
     ) {
         this.systemUserName = systemUserName;
@@ -36,6 +39,7 @@ public class IdamSystemTokenGenerator {
         this.idamClientId = idamClientId;
         this.idamClientSecret = idamClientSecret;
         this.idamApi = idamApi;
+        this.test = test;
     }
 
     @SuppressWarnings({
@@ -52,6 +56,7 @@ public class IdamSystemTokenGenerator {
         map.add("scope", systemUserScope);
         LOG.info("Trying to connect with \n" + map);
         System.out.println("Trying to connect with \n" + map);
+        System.out.println("VAULT or default: " + test);
         Token tokenResponse = idamApi.token(map);
 
         return tokenResponse.getAccessToken();
