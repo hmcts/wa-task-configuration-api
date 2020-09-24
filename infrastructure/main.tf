@@ -10,7 +10,7 @@ locals {
 
     ia_preview_vault_name     = "ia-aat"
     ia_non_preview_vault_name = "ia-${var.env}"
-    ia_key_vault_name         = "${var.env == "preview" || var.env == "spreview" ? local.preview_vault_name : local.non_preview_vault_name}"
+    ia_key_vault_name         = "${var.env == "preview" || var.env == "spreview" ? local.ia_preview_vault_name : local.ia_non_preview_vault_name}"
 
 }
 
