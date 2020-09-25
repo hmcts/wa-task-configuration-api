@@ -14,7 +14,3 @@ java:
       secrets:
         - testsecret
         - AppInsightsInstrumentationKey
-        - wa-workflow-s2s-secret
-        - wa-idam-redirect-uri
-        - wa-idam-username
-        - wa-idam-password
