@@ -3,30 +3,34 @@ provider "azurerm" {
 }
 
 locals {
-  S2S_SECRET_WORKFLOW_API = "${data.azurerm_key_vault_secret.s2s_secret.value}"
-  IA_IDAM_REDIRECT_URI = "${data.azurerm_key_vault_secret.idam_redirect_uri.value}"
-  TEST_LAW_FIRM_A_USERNAME = "${data.azurerm_key_vault_secret.idam_username.value}"
-  TEST_LAW_FIRM_A_PASSWORD = "${data.azurerm_key_vault_secret.idam_password.value}"
 
-    ia_preview_vault_name     = "ia-aat"
-    ia_non_preview_vault_name = "ia-${var.env}"
-    ia_key_vault_name         = "${var.env == "preview" || var.env == "spreview" ? local.ia_preview_vault_name : local.ia_non_preview_vault_name}"
+  local_env = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env
+
+  // Vault name
+  previewVaultName = "${var.raw_product}-aat"
+  nonPreviewVaultName = "${var.raw_product}-${var.env}"
+  vaultName = (var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName
+
+  // Shared Resource Group
+  previewResourceGroup = "${var.raw_product}-shared-infrastructure-aat"
+  nonPreviewResourceGroup = "${var.raw_product}-shared-infrastructure-${var.env}"
+  sharedResourceGroup = (var.env == "preview" || var.env == "spreview") ? local.previewResourceGroup : local.nonPreviewResourceGroup
 
 }
 
 data "azurerm_key_vault" "wa_key_vault" {
-  name                = "wa-aat"
-  resource_group_name = "wa-aat"
+  name = local.vaultName
+  resource_group_name = local.sharedResourceGroup
 }
 
 data "azurerm_key_vault" "s2s_key_vault" {
-  name                = "s2s-${var.env}"
-  resource_group_name = "rpe-service-auth-provider-${var.env}"
+  name                = "s2s-${local.local_env}"
+  resource_group_name = "rpe-service-auth-provider-${local.local_env}"
 }
 
 data "azurerm_key_vault" "ia_key_vault" {
-  name                = "ia-${var.env}"
-  resource_group_name = "ia-aat"
+  name                = "ia-${local.local_env}"
+  resource_group_name = "ia-${local.local_env}"
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {

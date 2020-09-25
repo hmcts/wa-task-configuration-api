@@ -5,6 +5,9 @@ variable "component" {}
 variable "location" {
   default = "UK South"
 }
+variable "raw_product" {
+  default = "wa" // jenkins-library overrides product for PRs and adds e.g. pr-123-ia
+}
 
 variable "env" {}
 
