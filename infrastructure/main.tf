@@ -15,8 +15,8 @@ locals {
 }
 
 data "azurerm_key_vault" "wa_key_vault" {
-  name                = "${var.product}-${var.env}"
-  resource_group_name = "${var.product}-aat"
+  name                = "wa-aat"
+  resource_group_name = "wa-aat"
 }
 
 data "azurerm_key_vault" "s2s_key_vault" {
