@@ -3,54 +3,46 @@ provider "azurerm" {
 }
 
 locals {
+  local_env = (var.env == "preview" || var.env == "spreview") ?  "aat" : var.env
 
-  local_env = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env
-
-  // Vault name
-  previewVaultName = "${var.raw_product}-aat"
-  nonPreviewVaultName = "${var.raw_product}-${var.env}"
-  vaultName = (var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName
-
-  // Shared Resource Group
-  previewResourceGroup = "${var.raw_product}-shared-infrastructure-aat"
-  nonPreviewResourceGroup = "${var.raw_product}-shared-infrastructure-${var.env}"
-  sharedResourceGroup = (var.env == "preview" || var.env == "spreview") ? local.previewResourceGroup : local.nonPreviewResourceGroup
-
+  preview_vault_name = "${var.raw_product}-aat"
+  non_preview_vault_name = "${var.raw_product}-${var.env}"
+  key_vault_name = "${var.env == "preview" || var.env == "spreview" ? local.preview_vault_name : local.non_preview_vault_name}"
 }
 
 data "azurerm_key_vault" "wa_key_vault" {
-  name = local.vaultName
-  resource_group_name = local.sharedResourceGroup
+  name = "${local.key_vault_name}"
+  resource_group_name = "${local.key_vault_name}"
 }
 
 data "azurerm_key_vault" "s2s_key_vault" {
-  name                = "s2s-${local.local_env}"
+  name = "s2s-${}"
   resource_group_name = "rpe-service-auth-provider-${local.local_env}"
 }
 
 data "azurerm_key_vault" "ia_key_vault" {
-  name                = "ia-${local.local_env}"
+  name = "ia-${local.local_env}"
   resource_group_name = "ia-${local.local_env}"
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {
   key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
-  name         = "microservicekey-wa-workflow-api"
+  name = "microservicekey-wa-workflow-api"
 }
 
 data "azurerm_key_vault_secret" "idam-redirect-uri" {
   key_vault_id = data.azurerm_key_vault.ia_key_vault.id
-  name         = "idam-redirect-uri"
+  name = "idam-redirect-uri"
 }
 
 data "azurerm_key_vault_secret" "idam_username" {
   key_vault_id = data.azurerm_key_vault.ia_key_vault.id
-  name         = "test-law-firm-a-username"
+  name = "test-law-firm-a-username"
 }
 
 data "azurerm_key_vault_secret" "idam_password" {
   key_vault_id = data.azurerm_key_vault.ia_key_vault.id
-  name         = "test-law-firm-a-password"
+  name = "test-law-firm-a-password"
 }
 
 resource "azurerm_key_vault_secret" "wa_workflow_s2s_secret" {
