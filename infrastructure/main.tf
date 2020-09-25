@@ -16,7 +16,7 @@ data "azurerm_key_vault" "wa_key_vault" {
 }
 
 data "azurerm_key_vault" "s2s_key_vault" {
-  name = "s2s-${}"
+  name = "s2s-${local.local_env}"
   resource_group_name = "rpe-service-auth-provider-${local.local_env}"
 }
 
