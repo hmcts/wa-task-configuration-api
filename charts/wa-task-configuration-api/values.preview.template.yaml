@@ -1,4 +1,22 @@
 java:
- # Don't modify below here
+  environment:
+    CAMUNDA_URL: "http://camunda-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/engine-rest"
+    IDAM_URL: "https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net"
+    S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    CCD_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    keyVaults:
+      wa:
+        secrets:
+          - testsecret
+          - AppInsightsInstrumentationKey
+      s2s:
+        secrets:
+          - microservicekey-wa-workflow-api
+      ia:
+        secrets:
+          - idam-redirect-uri
+          - test-law-firm-a-username
+          - test-law-firm-a-password
+  # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
