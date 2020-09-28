@@ -9,14 +9,11 @@ java:
       secrets:
         - testsecret
         - AppInsightsInstrumentationKey
-    s2s:
-      secrets:
-        - microservicekey-wa-workflow-api
-    ia:
-      secrets:
-        - idam-redirect-uri
-        - test-law-firm-a-username
-        - test-law-firm-a-password
+        - wa-workflow-s2s-secret
+        - wa-idam-redirect-uri
+        - wa-idam-username
+        - wa-idam-password
+
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
