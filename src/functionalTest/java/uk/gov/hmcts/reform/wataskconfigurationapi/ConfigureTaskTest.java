@@ -63,8 +63,9 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             .then()
             .body("caseName.value", is("Bob Smith"))
             .body("appealType.value", is("protection"))
-            .body("staffLocation.value", is("Taylor House"))
-            .body("staffLocationId.value", is(nullValue())) //this is still to be set
+            .body("region.value", is("1"))
+            .body("location.value", is("765324"))
+            .body("locationName.value", is("Taylor House"))
             .body("taskState.value", is("configured"))
             .body("ccdId.value", is(createTaskMessage.getCcdId()))
             .body("securityClassification.value", is("PUBLIC"))
