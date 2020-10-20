@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.UserInfo;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 import static net.serenitybdd.rest.SerenityRest.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -112,7 +113,8 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             "startAppeal"
         );
         String caseData = new String(
-            (Thread.currentThread().getContextClassLoader().getResourceAsStream("case_data.json")).readAllBytes()
+            (Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+                                        .getResourceAsStream("case_data.json"))).readAllBytes()
         );
         Map data = new ObjectMapper().readValue(caseData, Map.class);
         CaseDataContent caseDataContent = CaseDataContent.builder()
