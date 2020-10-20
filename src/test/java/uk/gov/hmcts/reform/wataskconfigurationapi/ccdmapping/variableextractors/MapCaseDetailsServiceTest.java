@@ -1,12 +1,9 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors.MapCaseDetailsService;
-import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors.PermissionsService;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaClient;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DecisionTableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DecisionTableResult;
@@ -22,7 +19,6 @@ import static java.util.Collections.emptyMap;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors.MapCaseDetailsService.MAP_CASE_DATA_DECISION_TABLE_NAME;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue.jsonValue;
@@ -50,8 +46,10 @@ class MapCaseDetailsServiceTest {
         when(ccdDataService.getCaseData(someCcdId)).thenReturn(ccdData);
         when(permissionsService.getMappedDetails("ia", "Asylum", ccdData))
             .thenReturn(asList(
-                new DecisionTableResult(stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
-                new DecisionTableResult(stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
+                new DecisionTableResult(
+                    stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
+                new DecisionTableResult(
+                    stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
             ));
         when(camundaClient.mapCaseData(
             MAP_CASE_DATA_DECISION_TABLE_NAME,

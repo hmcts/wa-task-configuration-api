@@ -6,20 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.server.ServerErrorException;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaClient;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DecisionTableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DecisionTableResult;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DmnRequest;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors.PermissionsService.PERMISSION_DECISION_TABLE_NAME;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue.jsonValue;
@@ -53,16 +50,20 @@ class PermissionsServiceTest {
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(
-                new DecisionTableResult(stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
-                new DecisionTableResult(stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
+                new DecisionTableResult(
+                    stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
+                new DecisionTableResult(
+                    stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
             ));
 
         List<DecisionTableResult> response = permissionsService.getMappedDetails("ia", "Asylum", ccdData);
 
         assertThat(response.size(), is(2));
         assertThat(response, is(asList(
-            new DecisionTableResult(stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
-            new DecisionTableResult(stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
+            new DecisionTableResult(
+                stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
+            new DecisionTableResult(
+                stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
         )));
     }
 
