@@ -25,7 +25,9 @@ public class MapCaseDetailsService {
     private final CamundaClient camundaClient;
     private final PermissionsService permissionsService;
 
-    public MapCaseDetailsService(CcdDataService ccdDataService, CamundaClient camundaClient, PermissionsService permissionsService) {
+    public MapCaseDetailsService(CcdDataService ccdDataService,
+                                 CamundaClient camundaClient,
+                                 PermissionsService permissionsService) {
         this.ccdDataService = ccdDataService;
         this.camundaClient = camundaClient;
         this.permissionsService = permissionsService;
