@@ -1,15 +1,6 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
-import static net.serenitybdd.rest.SerenityRest.given;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.CreateTaskMessageBuilder.createBasicMessageForTask;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asCamundaJsonString;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asJsonString;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.util.Map;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +13,16 @@ import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 import uk.gov.hmcts.reform.wataskconfigurationapi.controllers.ConfigureTaskRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.IdamSystemTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.UserInfo;
+
+import java.io.IOException;
+import java.util.Map;
+
+import static net.serenitybdd.rest.SerenityRest.given;
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.CreateTaskMessageBuilder.createBasicMessageForTask;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asCamundaJsonString;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asJsonString;
 
 public class ConfigureTaskTest extends BaseFunctionalTest {
 
