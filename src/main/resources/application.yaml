@@ -18,7 +18,7 @@ config:
 enableSwagger: ${ENABLE_SWAGGER:true}
 
 camunda:
-  url: ${CAMUNDA_URL:http://localhost:8080/engine-rest}
+  url: ${CAMUNDA_URL:http://camunda-bpm/engine-rest}
 
 ccd:
   url: ${CCD_URL:http://ccd-data-store-api}
