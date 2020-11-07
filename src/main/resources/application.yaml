@@ -55,6 +55,8 @@ spring:
     allow-bean-definition-overriding: true
   jackson:
     property-naming-strategy: SNAKE_CASE
+    serialization:
+      indent_output: true
 
   security:
     oauth2:

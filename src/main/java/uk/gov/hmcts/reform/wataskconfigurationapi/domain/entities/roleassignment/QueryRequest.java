@@ -1,5 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
@@ -7,9 +9,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @EqualsAndHashCode
 @Builder
+@JsonNaming
+@JsonInclude(Include.NON_NULL)
 public final class QueryRequest {
+
     private final List<String> actorId;
     private final List<String> roleType;
     private final List<String> roleName;
