@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.ConfigureTaskService;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @Component
+@Order
 public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
 
     private final RoleAssignmentApi roleAssignmentApi;
@@ -41,15 +43,22 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
     public Map<String, Object> getValues(TaskResponse task, Map<String, CamundaValue<Object>> processVariables) {
         String ccdId = (String) processVariables.get(ConfigureTaskService.CCD_ID_PROCESS_VARIABLE_KEY).getValue();
 
-        String s2sToken = authTokenGenerator.generate();
-        String userToken = idamSystemTokenGenerator.generate();
-        RoleAssignment roleAssignment = roleAssignmentApi.queryRoleAssignments(
+        RoleAssignment roleAssignment = queryRoleAssignment(
+            ccdId,
+            authTokenGenerator.generate(),
+            idamSystemTokenGenerator.generate()
+        );
+
+        log.info(roleAssignment.toString());
+        return Collections.emptyMap();
+    }
+
+    private RoleAssignment queryRoleAssignment(String ccdId, String s2sToken, String userToken) {
+        return roleAssignmentApi.queryRoleAssignments(
             userToken,
             s2sToken,
             buildQueryRequest(ccdId)
         );
-        log.info(roleAssignment.toString());
-        return Collections.emptyMap();
     }
 
     private QueryRequest buildQueryRequest(String ccdId) {

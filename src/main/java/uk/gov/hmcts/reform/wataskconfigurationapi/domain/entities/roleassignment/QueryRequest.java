@@ -19,4 +19,40 @@ public final class QueryRequest {
     private final List<String> roleCategory;
     private final Map<String, List<String>> attributes;
     private final List<String> authorisations;
+
+    public List<String> getActorId() {
+        return actorId;
+    }
+
+    public List<String> getRoleType() {
+        return roleType;
+    }
+
+    public List<String> getRoleName() {
+        return roleName;
+    }
+
+    public List<String> getClassification() {
+        return classification;
+    }
+
+    public List<String> getGrantType() {
+        return grantType;
+    }
+
+    public LocalDateTime getValidAt() {
+        return validAt;
+    }
+
+    public List<String> getRoleCategory() {
+        return roleCategory;
+    }
+
+    public Map<String, List<String>> getAttributes() {
+        return attributes;
+    }
+
+    public List<String> getAuthorisations() {
+        return authorisations;
+    }
 }

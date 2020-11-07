@@ -48,8 +48,6 @@ idam:
     password: ${TEST_LAW_FIRM_A_PASSWORD:password}
     scope: "openid profile roles"
 
-#If you use a database then uncomment below lines and update db properties accordingly
-
 spring:
   application:
     name: WA Task Configuration

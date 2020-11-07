@@ -7,9 +7,9 @@ import lombok.EqualsAndHashCode;
 import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
-@Builder
 public class RequestedRoles extends Assignment {
 
+    @Builder
     private RequestedRoles(ActorIdType actorIdType,
                            String actorId,
                            RoleType roleType,

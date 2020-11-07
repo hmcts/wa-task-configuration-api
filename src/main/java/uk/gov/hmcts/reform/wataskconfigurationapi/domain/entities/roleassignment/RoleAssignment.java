@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@EqualsAndHashCode
-@Builder
+@EqualsAndHashCode(callSuper = true)
 public final class RoleAssignment extends Assignment {
     private final UUID id;
     private final LocalDateTime created;
     private final List<String> authorisations;
 
+    @Builder
     private RoleAssignment(UUID id,
                            ActorIdType actorIdType,
                            String actorId,
@@ -33,6 +33,8 @@ public final class RoleAssignment extends Assignment {
         this.created = created;
         this.authorisations = authorisations;
     }
+
+
 
     public UUID getId() {
         return id;
