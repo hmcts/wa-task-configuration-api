@@ -15,7 +15,7 @@ public abstract class Assignment {
     protected final Classification classification;
     protected final GrantType grantType;
     protected final Boolean readOnly;
-    protected final Map<String, JsonNode> attributes;
+    protected final Map<String, String> attributes;
 
     public Assignment(ActorIdType actorIdType,
                       String actorId,
@@ -25,7 +25,7 @@ public abstract class Assignment {
                       Classification classification,
                       GrantType grantType,
                       Boolean readOnly,
-                      Map<String, JsonNode> attributes) {
+                      Map<String, String> attributes) {
         this.actorIdType = actorIdType;
         this.actorId = actorId;
         this.roleType = roleType;

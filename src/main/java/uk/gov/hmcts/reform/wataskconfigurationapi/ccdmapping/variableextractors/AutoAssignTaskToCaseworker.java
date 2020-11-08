@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.Role
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -43,22 +44,14 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
     public Map<String, Object> getValues(TaskResponse task, Map<String, CamundaValue<Object>> processVariables) {
         String ccdId = (String) processVariables.get(ConfigureTaskService.CCD_ID_PROCESS_VARIABLE_KEY).getValue();
 
-        RoleAssignment roleAssignment = queryRoleAssignment(
-            ccdId,
+        List<RoleAssignment> roleAssignment = roleAssignmentApi.queryRoleAssignments(
+            idamSystemTokenGenerator.generate(),
             authTokenGenerator.generate(),
-            idamSystemTokenGenerator.generate()
+            buildQueryRequest(ccdId)
         );
 
         log.info(roleAssignment.toString());
         return Collections.emptyMap();
-    }
-
-    private RoleAssignment queryRoleAssignment(String ccdId, String s2sToken, String userToken) {
-        return roleAssignmentApi.queryRoleAssignments(
-            userToken,
-            s2sToken,
-            buildQueryRequest(ccdId)
-        );
     }
 
     private QueryRequest buildQueryRequest(String ccdId) {

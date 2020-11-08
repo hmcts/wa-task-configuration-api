@@ -19,19 +19,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 class QueryRequestTest {
 
     @Autowired
-    private JacksonTester<QueryRequest> actualQueryRequestJson;
+    private JacksonTester<QueryRequest> jacksonTester;
 
     @Test
-    void testSerialiseQueryRequest() throws Exception {
-        QueryRequest query = QueryRequest.builder()
+    public void testSerializeQueryRequest() throws Exception {
+        QueryRequest queryRequest = QueryRequest.builder()
             .roleType(Collections.singletonList(RoleType.CASE.name()))
             .roleName(Collections.singletonList(RoleName.TRIBUNAL_CASEWORKER.getValue()))
-            .validAt(LocalDateTime.of(2020, 10, 6, 17, 0, 0))
+            .validAt(LocalDateTime.parse("2020-10-06T17:00:00"))
             .attributes(Map.of(Attributes.CASE_ID.getValue(), Collections.singletonList("1604584759556245")))
             .build();
 
-        JsonContent<QueryRequest> queryRequestJsonContent = this.actualQueryRequestJson.write(query);
-        System.out.println(queryRequestJsonContent);
+        JsonContent<QueryRequest> queryRequestJsonContent = jacksonTester.write(queryRequest);
         assertThat(queryRequestJsonContent).isEqualToJson("queryRequest.json");
     }
 }

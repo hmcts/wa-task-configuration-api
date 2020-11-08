@@ -1,22 +1,22 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public final class RoleAssignment extends Assignment {
-    private final UUID id;
+    private final String id;
     private final LocalDateTime created;
     private final List<String> authorisations;
 
     @Builder
-    private RoleAssignment(UUID id,
+    private RoleAssignment(String id,
                            ActorIdType actorIdType,
                            String actorId,
                            RoleType roleType,
@@ -26,7 +26,7 @@ public final class RoleAssignment extends Assignment {
                            GrantType grantType,
                            Boolean readOnly,
                            LocalDateTime created,
-                           Map<String, JsonNode> attributes,
+                           Map<String, String> attributes,
                            List<String> authorisations) {
         super(actorIdType, actorId, roleType, roleName, roleCategory, classification, grantType, readOnly, attributes);
         this.id = id;
@@ -36,7 +36,7 @@ public final class RoleAssignment extends Assignment {
 
 
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

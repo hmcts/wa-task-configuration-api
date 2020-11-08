@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +17,7 @@ public class RequestedRoles extends Assignment {
                            Classification classification,
                            GrantType grantType,
                            Boolean readOnly,
-                           Map<String, JsonNode> attributes) {
+                           Map<String, String> attributes) {
         super(actorIdType, actorId, roleType, roleName, roleCategory, classification, grantType, readOnly, attributes);
     }
 
@@ -54,7 +53,7 @@ public class RequestedRoles extends Assignment {
         return readOnly;
     }
 
-    public Map<String, JsonNode> getAttributes() {
+    public Map<String, String> getAttributes() {
         return attributes;
     }
 }
