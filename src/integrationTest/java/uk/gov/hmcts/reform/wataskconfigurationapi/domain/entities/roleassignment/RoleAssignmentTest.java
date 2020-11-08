@@ -37,6 +37,7 @@ class RoleAssignmentTest {
             .build();
 
         ObjectContent<RoleAssignment> actualRoleAssignment = jacksonTester.read("roleAssignment.json");
+
         actualRoleAssignment.assertThat().isEqualTo(expectedRoleAssignment);
     }
 }

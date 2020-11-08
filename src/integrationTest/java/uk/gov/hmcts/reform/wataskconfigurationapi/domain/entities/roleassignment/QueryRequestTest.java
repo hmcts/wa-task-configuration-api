@@ -31,6 +31,7 @@ class QueryRequestTest {
             .build();
 
         JsonContent<QueryRequest> queryRequestJsonContent = jacksonTester.write(queryRequest);
+
         assertThat(queryRequestJsonContent).isEqualToJson("queryRequest.json");
     }
 }
