@@ -11,7 +11,7 @@ import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ToString
+@ToString(callSuper = true)
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RoleAssignment extends Assignment {
     private final String id;

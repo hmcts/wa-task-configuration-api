@@ -1,10 +1,12 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.Map;
 
 @EqualsAndHashCode
+@ToString
 public class Assignment {
     protected final ActorIdType actorIdType;
     protected final String actorId;
@@ -15,6 +17,7 @@ public class Assignment {
     protected final GrantType grantType;
     protected final Boolean readOnly;
     protected final Map<Attributes, String> attributes;
+
 
     public Assignment(ActorIdType actorIdType,
                       String actorId,
@@ -35,4 +38,5 @@ public class Assignment {
         this.readOnly = readOnly;
         this.attributes = attributes;
     }
+
 }
