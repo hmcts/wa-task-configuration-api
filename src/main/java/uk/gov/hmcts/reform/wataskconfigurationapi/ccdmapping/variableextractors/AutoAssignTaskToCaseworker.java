@@ -44,13 +44,19 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
     public Map<String, Object> getValues(TaskResponse task, Map<String, CamundaValue<Object>> processVariables) {
         String ccdId = (String) processVariables.get(ConfigureTaskService.CCD_ID_PROCESS_VARIABLE_KEY).getValue();
 
-        List<RoleAssignment> roleAssignment = roleAssignmentApi.queryRoleAssignments(
+        List<RoleAssignment> roleAssignmentList = roleAssignmentApi.queryRoleAssignments(
             idamSystemTokenGenerator.generate(),
             authTokenGenerator.generate(),
             buildQueryRequest(ccdId)
         );
+        if (!roleAssignmentList.isEmpty()) {
+            log.debug("Role assignment found: {}", roleAssignmentList.toString());
+            //update task
+        } else {
+            log.debug("Role assignment not found: {}", roleAssignmentList.toString());
+            //update task
+        }
 
-        log.info(roleAssignment.toString());
         return Collections.emptyMap();
     }
 
