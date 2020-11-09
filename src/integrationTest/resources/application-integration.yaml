@@ -1,0 +1,2 @@
+role-assignment-service:
+  url: http://localhost:8888
