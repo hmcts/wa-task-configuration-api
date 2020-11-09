@@ -39,8 +39,7 @@ public class RoleAssignmentApiTest {
 
     @BeforeAll
     static void beforeAll() {
-        //todo: inject port name from env var in the application-integration file
-        wireMockServer = new WireMockServer(8888);
+        wireMockServer = new WireMockServer(8091);
         wireMockServer.start();
     }
 
