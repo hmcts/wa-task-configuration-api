@@ -125,7 +125,7 @@ public class ConfigurationControllerTest {
                           + "\"security_classification\": \"PUBLIC\","
                           + "\"data\": {}"
                           + " }";
-        when(ccdClient.getCase("Bearer " + userToken, BEARER_SERVICE_TOKEN, ccdId)).thenReturn(caseData);
+        when(ccdClient.getCase(userToken, BEARER_SERVICE_TOKEN, ccdId)).thenReturn(caseData);
         when(camundaClient.mapCaseData(
             BEARER_SERVICE_TOKEN,
             MAP_CASE_DATA_DECISION_TABLE_NAME,

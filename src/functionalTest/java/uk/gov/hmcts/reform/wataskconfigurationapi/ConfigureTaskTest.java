@@ -45,6 +45,8 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     public void canConfigureATask() throws IOException {
         String ccdId = createCcdCase();
 
+        //create role assignment for user and for ccdId
+
         CreateTaskMessage createTaskMessage = createBasicMessageForTask()
             .withCcdId(ccdId)
             .build();
@@ -114,7 +116,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     }
 
     private String createCcdCase() throws IOException {
-        String userToken = "Bearer " + systemTokenGenerator.generate();
+        String userToken = systemTokenGenerator.generate();
         UserInfo userInfo = systemTokenGenerator.getUserInfo(userToken);
         String serviceToken = ccdServiceAuthTokenGenerator.generate();
         StartEventResponse startCase = coreCaseDataApi.startForCaseworker(
