@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 @Builder
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RoleRequest {
     private final String assignerId;
     private final String process;

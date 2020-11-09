@@ -12,12 +12,14 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RoleAssignment extends Assignment {
     private final String id;
     private final LocalDateTime created;
     private final List<String> authorisations;
 
     @Builder
+    @SuppressWarnings({"PMD.ExcessiveParameterList"})
     private RoleAssignment(String id,
                            ActorIdType actorIdType,
                            String actorId,
@@ -35,8 +37,6 @@ public final class RoleAssignment extends Assignment {
         this.created = created;
         this.authorisations = authorisations;
     }
-
-
 
     public String getId() {
         return id;

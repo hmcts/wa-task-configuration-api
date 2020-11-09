@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Map;
 
 @EqualsAndHashCode
-public abstract class Assignment {
+public class Assignment {
     protected final ActorIdType actorIdType;
     protected final String actorId;
     protected final RoleType roleType;

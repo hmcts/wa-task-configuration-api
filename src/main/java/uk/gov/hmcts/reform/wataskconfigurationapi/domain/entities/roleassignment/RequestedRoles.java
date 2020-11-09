@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RequestedRoles extends Assignment {
 
     @Builder
