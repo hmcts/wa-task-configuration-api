@@ -30,7 +30,7 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
     private final AuthTokenGenerator authTokenGenerator;
     private final IdamSystemTokenGenerator idamSystemTokenGenerator;
 
-    private static final Logger log = LoggerFactory.getLogger(AutoAssignTaskToCaseworker.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AutoAssignTaskToCaseworker.class);
 
     public AutoAssignTaskToCaseworker(RoleAssignmentApi roleAssignmentApi,
                                       @Qualifier("ccdServiceAuthTokenGenerator") AuthTokenGenerator authTokenGenerator,
@@ -49,12 +49,12 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
             authTokenGenerator.generate(),
             buildQueryRequest(ccdId)
         );
-        if (!roleAssignmentList.isEmpty()) {
-            log.debug("Role assignment found: {}", roleAssignmentList.toString());
+        if (roleAssignmentList.isEmpty()) {
+            LOG.debug("Role assignment not found: {}", roleAssignmentList.toString());
             //update task
         } else {
-            log.debug("Role assignment not found: {}", roleAssignmentList.toString());
-            //update task
+            LOG.debug("Role assignment found: {}", roleAssignmentList.toString());
+            //update taskAssignment
         }
 
         return Collections.emptyMap();
@@ -62,10 +62,10 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
 
     private QueryRequest buildQueryRequest(String ccdId) {
         return QueryRequest.builder()
-            .roleType(Collections.singletonList(RoleType.CASE.name()))
-            .roleName(Collections.singletonList(RoleName.TRIBUNAL_CASEWORKER.getValue()))
+            .roleType(Collections.singletonList(RoleType.CASE))
+            .roleName(Collections.singletonList(RoleName.TRIBUNAL_CASEWORKER))
             .validAt(LocalDateTime.now())
-            .attributes(Collections.singletonMap(Attributes.CASE_ID.getValue(), Collections.singletonList(ccdId)))
+            .attributes(Collections.singletonMap(Attributes.CASE_ID, Collections.singletonList(ccdId)))
             .build();
     }
 }

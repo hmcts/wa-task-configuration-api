@@ -24,10 +24,10 @@ class QueryRequestTest {
     @Test
     public void testSerializeQueryRequest() throws Exception {
         QueryRequest queryRequest = QueryRequest.builder()
-            .roleType(Collections.singletonList(RoleType.CASE.name()))
-            .roleName(Collections.singletonList(RoleName.TRIBUNAL_CASEWORKER.getValue()))
+            .roleType(Collections.singletonList(RoleType.CASE))
+            .roleName(Collections.singletonList(RoleName.TRIBUNAL_CASEWORKER))
             .validAt(LocalDateTime.parse("2020-10-06T17:00:00"))
-            .attributes(Map.of(Attributes.CASE_ID.getValue(), Collections.singletonList("1604584759556245")))
+            .attributes(Map.of(Attributes.CASE_ID, Collections.singletonList("1604584759556245")))
             .build();
 
         JsonContent<QueryRequest> queryRequestJsonContent = jacksonTester.write(queryRequest);

@@ -18,32 +18,32 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 public final class QueryRequest {
 
     private final List<String> actorId;
-    private final List<String> roleType;
-    private final List<String> roleName;
-    private final List<String> classification;
-    private final List<String> grantType;
+    private final List<RoleType> roleType;
+    private final List<RoleName> roleName;
+    private final List<Classification> classification;
+    private final List<GrantType> grantType;
     private final LocalDateTime validAt;
-    private final List<String> roleCategory;
-    private final Map<String, List<String>> attributes;
+    private final List<RoleCategory> roleCategory;
+    private final Map<Attributes, List<String>> attributes;
     private final List<String> authorisations;
 
     public List<String> getActorId() {
         return actorId;
     }
 
-    public List<String> getRoleType() {
+    public List<RoleType> getRoleType() {
         return roleType;
     }
 
-    public List<String> getRoleName() {
+    public List<RoleName> getRoleName() {
         return roleName;
     }
 
-    public List<String> getClassification() {
+    public List<Classification> getClassification() {
         return classification;
     }
 
-    public List<String> getGrantType() {
+    public List<GrantType> getGrantType() {
         return grantType;
     }
 
@@ -51,11 +51,11 @@ public final class QueryRequest {
         return validAt;
     }
 
-    public List<String> getRoleCategory() {
+    public List<RoleCategory> getRoleCategory() {
         return roleCategory;
     }
 
-    public Map<String, List<String>> getAttributes() {
+    public Map<Attributes, List<String>> getAttributes() {
         return attributes;
     }
 

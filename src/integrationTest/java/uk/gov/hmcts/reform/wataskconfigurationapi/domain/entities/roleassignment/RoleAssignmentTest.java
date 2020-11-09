@@ -26,13 +26,13 @@ class RoleAssignmentTest {
             .actorIdType(ActorIdType.IDAM)
             .actorId("4afa7d5c-02fa-4a82-82c2-0a9ad7467d30")
             .roleType(RoleType.CASE)
-            .roleName(RoleName.TRIBUNAL_CASEWORKER.getValue())
+            .roleName(RoleName.TRIBUNAL_CASEWORKER)
             .classification(Classification.RESTRICTED)
             .grantType(GrantType.SPECIFIC)
             .roleCategory(RoleCategory.STAFF)
             .readOnly(false)
             .created(LocalDateTime.parse("2020-11-06T17:15:36.960886"))
-            .attributes(Map.of(Attributes.CASE_ID.getValue(), "1604584759556245"))
+            .attributes(Map.of(Attributes.CASE_ID, "1604584759556245"))
             .authorisations(Collections.emptyList())
             .build();
 
