@@ -1,2 +1,2 @@
 role-assignment-service:
-  url: http://localhost:8091
+  url: http://localhost:8888

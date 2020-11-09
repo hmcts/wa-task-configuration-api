@@ -1,12 +1,14 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.ActorIdType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.Attributes;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.Classification;
@@ -18,6 +20,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentApi;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +42,7 @@ public class RoleAssignmentApiTest {
 
     @BeforeAll
     static void beforeAll() {
-        wireMockServer = new WireMockServer(8091);
+        wireMockServer = new WireMockServer(8888);
         wireMockServer.start();
     }
 
@@ -49,38 +52,11 @@ public class RoleAssignmentApiTest {
     }
 
     @Test
-    void queryRoleAssignmentTest() {
+    void queryRoleAssignmentTest() throws IOException {
 
-        //todo: move this to a json resource file
-        String body = "[\n"
-            + "    {\n"
-            + "        \"id\": \"4c704d91-de05-43e1-a9ee-9b8dc87c2c12\",\n"
-            + "        \"actorIdType\": \"IDAM\",\n"
-            + "        \"actorId\": \"4afa7d5c-02fa-4a82-82c2-0a9ad7467d30\",\n"
-            + "        \"roleType\": \"CASE\",\n"
-            + "        \"roleName\": \"tribunal-caseworker\",\n"
-            + "        \"classification\": \"RESTRICTED\",\n"
-            + "        \"grantType\": \"SPECIFIC\",\n"
-            + "        \"roleCategory\": \"STAFF\",\n"
-            + "        \"readOnly\": false,\n"
-            + "        \"created\": \"2020-11-06T17:15:36.960886\",\n"
-            + "        \"attributes\": {\n"
-            + "            \"caseId\": \"1604584759556245\"\n"
-            + "        },\n"
-            + "        \"authorisations\": []\n"
-            + "    }\n"
-            + "]";
+        String roleAssignmentsResponseAsJsonString = loadJsonFileResource();
 
-        wireMockServer.stubFor(post(urlEqualTo("/am/role-assignments/query")).willReturn(
-            aResponse()
-                .withStatus(200)
-                .withHeader(
-                    "Content-Type",
-                    "application/vnd.uk.gov.hmcts.role-assignment-service.post-assignment-query-request+json; "
-                        + "version=1.0;charset=UTF-8"
-                )
-                .withBody(body))
-        );
+        stubRoleAssignmentApiResponse(roleAssignmentsResponseAsJsonString);
 
         List<RoleAssignment> actualRoleAssignments = roleAssignmentApi.queryRoleAssignments(
             "user token",
@@ -89,21 +65,40 @@ public class RoleAssignmentApiTest {
         );
 
         RoleAssignment expectedRoleAssignment = RoleAssignment.builder()
-            .id("4c704d91-de05-43e1-a9ee-9b8dc87c2c12")
+            .id("428971b1-3954-4783-840f-c2718732b466")
             .actorIdType(ActorIdType.IDAM)
-            .actorId("4afa7d5c-02fa-4a82-82c2-0a9ad7467d30")
+            .actorId("122f8de4-2eb6-4dcf-91c9-16c2c8aaa422")
             .roleType(RoleType.CASE)
             .roleName(RoleName.TRIBUNAL_CASEWORKER)
             .classification(Classification.RESTRICTED)
             .grantType(GrantType.SPECIFIC)
             .roleCategory(RoleCategory.STAFF)
             .readOnly(false)
-            .created(LocalDateTime.parse("2020-11-06T17:15:36.960886"))
-            .attributes(Map.of(Attributes.CASE_ID, "1604584759556245"))
+            .created(LocalDateTime.parse("2020-11-09T14:32:23.693195"))
+            .attributes(Map.of(Attributes.CASE_ID, "1604929600826893"))
             .authorisations(Collections.emptyList())
             .build();
 
         assertThat(actualRoleAssignments.get(0)).isEqualTo(expectedRoleAssignment);
+    }
+
+    private void stubRoleAssignmentApiResponse(String roleAssignmentsResponseAsJsonString) {
+        wireMockServer.stubFor(post(urlEqualTo("/am/role-assignments/query")).willReturn(
+            aResponse()
+                .withStatus(200)
+                .withHeader(
+                    "Content-Type",
+                    "application/vnd.uk.gov.hmcts.role-assignment-service.post-assignment-query-request+json; "
+                        + "version=1.0;charset=UTF-8"
+                )
+                .withBody(roleAssignmentsResponseAsJsonString))
+        );
+    }
+
+    private String loadJsonFileResource() throws IOException {
+        String resourceLocation = "classpath:uk/gov/hmcts/reform/wataskconfigurationapi/ccdmapping/variableextractors/"
+            + "roleAssignmentsResponse.json";
+        return FileUtils.readFileToString(ResourceUtils.getFile(resourceLocation));
     }
 
 }
