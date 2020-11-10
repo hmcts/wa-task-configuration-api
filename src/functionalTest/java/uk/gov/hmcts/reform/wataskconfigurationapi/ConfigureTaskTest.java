@@ -1,7 +1,9 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.http.HttpStatus;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +28,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.CreateTaskMessageBuilde
 import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asCamundaJsonString;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asJsonString;
 
+@Slf4j
 public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @Autowired
@@ -45,18 +48,23 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     @Autowired
     private RoleAssignmentHelper roleAssignmentHelper;
 
-    @Test
-    public void canConfigureATask() throws IOException {
+    private String taskId;
+    private CreateTaskMessage createTaskMessage;
+
+    @Override
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
         String ccdId = createCcdCase();
-
         roleAssignmentHelper.postRoleAssignment(ccdId);
-
-        CreateTaskMessage createTaskMessage = createBasicMessageForTask()
+        createTaskMessage = createBasicMessageForTask()
             .withCcdId(ccdId)
             .build();
+        taskId = createTask(createTaskMessage);
+    }
 
-        String taskId = createTask(createTaskMessage);
-
+    @Test
+    public void canConfigureATask() {
         given()
             .relaxedHTTPSValidation()
             .contentType(APPLICATION_JSON_VALUE)
@@ -155,7 +163,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             caseDataContent
         );
 
-        System.out.println("Created case [" + caseDetails.getId() + "]");
+        log.info("Created case [" + caseDetails.getId() + "]");
 
         StartEventResponse submitCase = coreCaseDataApi.startEventForCaseWorker(
             userToken,
