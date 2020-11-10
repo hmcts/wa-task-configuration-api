@@ -19,9 +19,9 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.Role
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Order
@@ -51,14 +51,14 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
             buildQueryRequest(ccdId)
         );
 
-        Map<String, Object> mappedDetails = new HashMap<>();
+        Map<String, Object> mappedDetails = new ConcurrentHashMap<>();
 
         if (roleAssignmentList.isEmpty()) {
             LOG.debug("Role assignment not found: {}", roleAssignmentList.toString());
             mappedDetails.put("taskState", "Unassigned");
         } else {
             LOG.debug("Role assignment found: {}", roleAssignmentList.toString());
-            String actorId = roleAssignmentList.get(0).getActorId();
+            // String actorId = roleAssignmentList.get(0).getActorId();
             //todo: call the /task/id/assignee camunda api to set assignee
             mappedDetails.put("taskState", "Assigned");
         }

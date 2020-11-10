@@ -22,38 +22,47 @@ public final class RequestedRoles extends Assignment {
         super(actorIdType, actorId, roleType, roleName, roleCategory, classification, grantType, readOnly, attributes);
     }
 
+    @Override
     public ActorIdType getActorIdType() {
         return actorIdType;
     }
 
+    @Override
     public String getActorId() {
         return actorId;
     }
 
+    @Override
     public RoleType getRoleType() {
         return roleType;
     }
 
+    @Override
     public RoleName getRoleName() {
         return roleName;
     }
 
+    @Override
     public RoleCategory getRoleCategory() {
         return roleCategory;
     }
 
+    @Override
     public Classification getClassification() {
         return classification;
     }
 
+    @Override
     public GrantType getGrantType() {
         return grantType;
     }
 
+    @Override
     public Boolean getReadOnly() {
         return readOnly;
     }
 
+    @Override
     public Map<Attributes, String> getAttributes() {
         return attributes;
     }
