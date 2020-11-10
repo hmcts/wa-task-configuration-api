@@ -39,4 +39,39 @@ public class Assignment {
         this.attributes = attributes;
     }
 
+    public ActorIdType getActorIdType() {
+        return actorIdType;
+    }
+
+    public String getActorId() {
+        return actorId;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public RoleName getRoleName() {
+        return roleName;
+    }
+
+    public RoleCategory getRoleCategory() {
+        return roleCategory;
+    }
+
+    public Classification getClassification() {
+        return classification;
+    }
+
+    public GrantType getGrantType() {
+        return grantType;
+    }
+
+    public Boolean getReadOnly() {
+        return readOnly;
+    }
+
+    public Map<Attributes, String> getAttributes() {
+        return attributes;
+    }
 }
