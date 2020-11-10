@@ -38,14 +38,18 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @Autowired
     private IdamSystemTokenGenerator systemTokenGenerator;
+
     @Autowired
     private CoreCaseDataApi coreCaseDataApi;
+
+    @Autowired
+    private RoleAssignmentHelper roleAssignmentHelper;
 
     @Test
     public void canConfigureATask() throws IOException {
         String ccdId = createCcdCase();
 
-        //create role assignment for user and for ccdId
+        roleAssignmentHelper.postRoleAssignment(ccdId);
 
         CreateTaskMessage createTaskMessage = createBasicMessageForTask()
             .withCcdId(ccdId)
