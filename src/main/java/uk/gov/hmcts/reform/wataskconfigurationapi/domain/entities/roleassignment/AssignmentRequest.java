@@ -1,10 +1,12 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.List;
 
 @EqualsAndHashCode
+@ToString
 public final class AssignmentRequest {
     private final RoleRequest roleRequest;
     private final List<RequestedRoles> requestedRoles;
@@ -21,4 +23,5 @@ public final class AssignmentRequest {
     public List<RequestedRoles> getRequestedRoles() {
         return requestedRoles;
     }
+
 }

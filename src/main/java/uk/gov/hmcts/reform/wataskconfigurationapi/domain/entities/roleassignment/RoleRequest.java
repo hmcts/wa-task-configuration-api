@@ -2,9 +2,11 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignmen
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @EqualsAndHashCode
 @Builder
+@ToString
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RoleRequest {
     private final String assignerId;
@@ -34,4 +36,5 @@ public final class RoleRequest {
     public boolean isReplaceExisting() {
         return replaceExisting;
     }
+
 }
