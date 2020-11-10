@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi;
 import org.eclipse.jetty.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.IdamSystemTokenGenerator;
@@ -13,6 +14,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
 public class RoleAssignmentHelper {
+
+    @Value("${targets.role-assignment}")
+    protected String roleAssignmentUrl;
 
     @Autowired
     @Qualifier("ccdServiceAuthTokenGenerator")
@@ -54,7 +58,7 @@ public class RoleAssignmentHelper {
             .contentType(APPLICATION_JSON_VALUE)
             .header("ServiceAuthorization", ccdServiceAuthTokenGenerator.generate())
             .header("Authorization", bearerUserToken)
-            .baseUri("http://role-assignment")
+            .baseUri(roleAssignmentUrl)
             .basePath("/am/role-assignments")
             .body(roleAssignmentRequest)
             .when()
