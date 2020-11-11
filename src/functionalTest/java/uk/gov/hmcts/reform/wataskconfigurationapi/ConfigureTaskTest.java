@@ -56,7 +56,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     public void setUp() throws Exception {
         super.setUp();
         String ccdId = createCcdCase();
-        roleAssignmentHelper.postRoleAssignment(ccdId);
+        roleAssignmentHelper.setRoleAssignments(ccdId);
         createTaskMessage = createBasicMessageForTask()
             .withCcdId(ccdId)
             .build();

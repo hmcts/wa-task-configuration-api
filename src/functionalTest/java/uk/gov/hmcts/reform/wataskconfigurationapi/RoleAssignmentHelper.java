@@ -30,10 +30,23 @@ public class RoleAssignmentHelper {
     @Autowired
     private IdamSystemTokenGenerator systemTokenGenerator;
 
-    public void postRoleAssignment(String caseId) throws IOException {
+    public void setRoleAssignments(String caseId) throws IOException {
         String bearerUserToken = systemTokenGenerator.generate();
         UserInfo userInfo = systemTokenGenerator.getUserInfo(bearerUserToken);
+        createRoleAssignmentInThisOrder(caseId, bearerUserToken, userInfo);
+    }
 
+    private void createRoleAssignmentInThisOrder(String caseId,
+                                                 String bearerUserToken,
+                                                 UserInfo userInfo) throws IOException {
+        postRoleAssignment(caseId, bearerUserToken, userInfo, "set-rules-assignment-request.json");
+        postRoleAssignment(caseId, bearerUserToken, userInfo, "assignment-request.json");
+    }
+
+    private void postRoleAssignment(String caseId,
+                                    String bearerUserToken,
+                                    UserInfo userInfo,
+                                    String resourceFilename) throws IOException {
         given()
             .relaxedHTTPSValidation()
             .contentType(APPLICATION_JSON_VALUE)
@@ -41,19 +54,20 @@ public class RoleAssignmentHelper {
             .header("Authorization", bearerUserToken)
             .baseUri(roleAssignmentUrl)
             .basePath("/am/role-assignments")
-            .body(getBody(caseId, userInfo))
+            .body(getBody(caseId, userInfo, resourceFilename))
             .when()
             .post()
             .prettyPeek()
             .then()
             .statusCode(HttpStatus.CREATED_201);
-
     }
 
     @NotNull
-    private String getBody(String caseId, UserInfo userInfo) throws IOException {
+    private String getBody(final String caseId,
+                           final UserInfo userInfo,
+                           final String resourceFilename) throws IOException {
         String assignmentRequestBody =
-            FileUtils.readFileToString(ResourceUtils.getFile("classpath:assignment-request.json"));
+            FileUtils.readFileToString(ResourceUtils.getFile("classpath:" + resourceFilename));
 
         assignmentRequestBody = assignmentRequestBody.replace("{ACTOR_ID_PLACEHOLDER}", userInfo.getUid());
         assignmentRequestBody = assignmentRequestBody.replace("{CASE_ID_PLACEHOLDER}", caseId);
