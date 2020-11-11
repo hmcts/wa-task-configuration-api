@@ -57,7 +57,7 @@ public class RoleAssignmentHelper {
             s2sToken,
             userInfo,
             "assignment-request.json"
-            );
+        );
     }
 
     private void postRoleAssignment(String caseId,
