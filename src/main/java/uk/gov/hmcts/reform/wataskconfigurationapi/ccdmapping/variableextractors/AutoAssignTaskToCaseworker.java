@@ -39,8 +39,10 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
 
     public AutoAssignTaskToCaseworker(RoleAssignmentClient roleAssignmentClient,
                                       CamundaClient camundaClient,
-                                      @Qualifier("ccdServiceAuthTokenGenerator") AuthTokenGenerator ccdServiceAuthTokenGenerator,
-                                      @Qualifier("camundaServiceAuthTokenGenerator")AuthTokenGenerator camundaServiceAuthTokenGenerator,
+                                      @Qualifier("ccdServiceAuthTokenGenerator")
+                                          AuthTokenGenerator ccdServiceAuthTokenGenerator,
+                                      @Qualifier("camundaServiceAuthTokenGenerator")
+                                          AuthTokenGenerator camundaServiceAuthTokenGenerator,
                                       IdamSystemTokenGenerator idamSystemTokenGenerator) {
         this.roleAssignmentClient = roleAssignmentClient;
         this.camundaClient = camundaClient;
