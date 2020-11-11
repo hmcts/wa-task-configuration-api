@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.http.HttpStatus;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,7 @@ import static net.serenitybdd.rest.SerenityRest.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
+@Slf4j
 public class RoleAssignmentHelper {
 
     @Value("${targets.role-assignment}")
@@ -47,6 +49,11 @@ public class RoleAssignmentHelper {
                                     String bearerUserToken,
                                     UserInfo userInfo,
                                     String resourceFilename) throws IOException {
+        log.info("*** caseId *** : " + caseId);
+        log.info("*** bearerUserToken *** : " + bearerUserToken);
+        log.info("*** userInfo *** : " + userInfo);
+        log.info("*** resourceFilename *** : " + resourceFilename);
+
         given()
             .relaxedHTTPSValidation()
             .contentType(APPLICATION_JSON_VALUE)
@@ -72,6 +79,8 @@ public class RoleAssignmentHelper {
         assignmentRequestBody = assignmentRequestBody.replace("{ACTOR_ID_PLACEHOLDER}", userInfo.getUid());
         assignmentRequestBody = assignmentRequestBody.replace("{CASE_ID_PLACEHOLDER}", caseId);
         assignmentRequestBody = assignmentRequestBody.replace("{ASSIGNER_ID_PLACEHOLDER}", userInfo.getUid());
+
+        log.info("**** assignmentRequestBody **** : "  + assignmentRequestBody);
         return assignmentRequestBody;
     }
 
