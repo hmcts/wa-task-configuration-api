@@ -15,7 +15,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.TaskResponse;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.IdamSystemTokenGenerator;
-import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentApi;
+import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentClient;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -27,16 +27,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Order
 public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
 
-    private final RoleAssignmentApi roleAssignmentApi;
+    private final RoleAssignmentClient roleAssignmentClient;
     private final AuthTokenGenerator authTokenGenerator;
     private final IdamSystemTokenGenerator idamSystemTokenGenerator;
 
     private static final Logger LOG = LoggerFactory.getLogger(AutoAssignTaskToCaseworker.class);
 
-    public AutoAssignTaskToCaseworker(RoleAssignmentApi roleAssignmentApi,
+    public AutoAssignTaskToCaseworker(RoleAssignmentClient roleAssignmentClient,
                                       @Qualifier("ccdServiceAuthTokenGenerator") AuthTokenGenerator authTokenGenerator,
                                       IdamSystemTokenGenerator idamSystemTokenGenerator) {
-        this.roleAssignmentApi = roleAssignmentApi;
+        this.roleAssignmentClient = roleAssignmentClient;
         this.authTokenGenerator = authTokenGenerator;
         this.idamSystemTokenGenerator = idamSystemTokenGenerator;
     }
@@ -45,7 +45,7 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
     public Map<String, Object> getValues(TaskResponse task, Map<String, CamundaValue<Object>> processVariables) {
         String ccdId = (String) processVariables.get(ConfigureTaskService.CCD_ID_PROCESS_VARIABLE_KEY).getValue();
 
-        List<RoleAssignment> roleAssignmentList = roleAssignmentApi.queryRoleAssignments(
+        List<RoleAssignment> roleAssignmentList = roleAssignmentClient.queryRoleAssignments(
             idamSystemTokenGenerator.generate(),
             authTokenGenerator.generate(),
             buildQueryRequest(ccdId)

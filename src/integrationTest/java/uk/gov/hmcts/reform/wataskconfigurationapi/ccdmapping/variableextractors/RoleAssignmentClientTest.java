@@ -18,7 +18,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleCategory;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleName;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleType;
-import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentApi;
+import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentClient;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -33,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("integration")
-public class RoleAssignmentApiTest {
+public class RoleAssignmentClientTest {
 
     @Autowired
-    private RoleAssignmentApi roleAssignmentApi;
+    private RoleAssignmentClient roleAssignmentClient;
 
     private static WireMockServer wireMockServer;
 
@@ -58,7 +58,7 @@ public class RoleAssignmentApiTest {
 
         stubRoleAssignmentApiResponse(roleAssignmentsResponseAsJsonString);
 
-        List<RoleAssignment> actualRoleAssignments = roleAssignmentApi.queryRoleAssignments(
+        List<RoleAssignment> actualRoleAssignments = roleAssignmentClient.queryRoleAssignments(
             "user token",
             "s2s token",
             QueryRequest.builder().build()

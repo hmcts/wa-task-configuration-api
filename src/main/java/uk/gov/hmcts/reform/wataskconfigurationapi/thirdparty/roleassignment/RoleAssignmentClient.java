@@ -15,7 +15,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
     name = "role-assignment-service-api",
     url = "${role-assignment-service.url}"
 )
-public interface RoleAssignmentApi {
+public interface RoleAssignmentClient {
 
     String SERVICE_AUTHORIZATION = "ServiceAuthorization";
 

@@ -22,7 +22,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.TaskRespons
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.ccd.CcdClient;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.IdamApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.Token;
-import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentApi;
+import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.roleassignment.RoleAssignmentClient;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -67,7 +67,7 @@ public class ConfigurationControllerTest {
     private IdamApi idamApi;
 
     @MockBean
-    private RoleAssignmentApi roleAssignmentApi;
+    private RoleAssignmentClient roleAssignmentClient;
 
     private static final String BEARER_SERVICE_TOKEN = "Bearer service token";
 
@@ -117,7 +117,7 @@ public class ConfigurationControllerTest {
     private HashMap<String, CamundaValue<String>> configure3rdPartyResponses(String taskId, String processInstanceId) {
 
         String userToken = "user_token";
-        when(roleAssignmentApi.queryRoleAssignments(
+        when(roleAssignmentClient.queryRoleAssignments(
             eq("Bearer " + userToken),
             eq(BEARER_SERVICE_TOKEN),
             any(QueryRequest.class)
