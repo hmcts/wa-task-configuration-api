@@ -34,30 +34,48 @@ public class RoleAssignmentHelper {
 
     public void setRoleAssignments(String caseId) throws IOException {
         String bearerUserToken = systemTokenGenerator.generate();
+        String s2sToken = ccdServiceAuthTokenGenerator.generate();
         UserInfo userInfo = systemTokenGenerator.getUserInfo(bearerUserToken);
-        createRoleAssignmentInThisOrder(caseId, bearerUserToken, userInfo);
+        createRoleAssignmentInThisOrder(caseId, bearerUserToken, s2sToken, userInfo);
     }
 
     private void createRoleAssignmentInThisOrder(String caseId,
                                                  String bearerUserToken,
+                                                 String s2sToken,
                                                  UserInfo userInfo) throws IOException {
-        postRoleAssignment(caseId, bearerUserToken, userInfo, "set-rules-assignment-request.json");
-        postRoleAssignment(caseId, bearerUserToken, userInfo, "assignment-request.json");
+        postRoleAssignment(
+            caseId,
+            bearerUserToken,
+            s2sToken,
+            userInfo,
+            "set-rules-assignment-request.json"
+        );
+
+        postRoleAssignment(
+            caseId,
+            bearerUserToken,
+            s2sToken,
+            userInfo,
+            "assignment-request.json"
+            );
     }
 
     private void postRoleAssignment(String caseId,
                                     String bearerUserToken,
+                                    String s2sToken,
                                     UserInfo userInfo,
                                     String resourceFilename) throws IOException {
+
         log.info("*** caseId *** : " + caseId);
         log.info("*** bearerUserToken *** : " + bearerUserToken);
+        log.info("*** s2sToken *** : " + s2sToken);
         log.info("*** userInfo *** : " + userInfo);
         log.info("*** resourceFilename *** : " + resourceFilename);
 
         given()
             .relaxedHTTPSValidation()
             .contentType(APPLICATION_JSON_VALUE)
-            .header("ServiceAuthorization", ccdServiceAuthTokenGenerator.generate())
+            .header("ServiceAuthorization", s2sToken)
             .header("Authorization", bearerUserToken)
             .baseUri(roleAssignmentUrl)
             .basePath("/am/role-assignments")
@@ -80,7 +98,7 @@ public class RoleAssignmentHelper {
         assignmentRequestBody = assignmentRequestBody.replace("{CASE_ID_PLACEHOLDER}", caseId);
         assignmentRequestBody = assignmentRequestBody.replace("{ASSIGNER_ID_PLACEHOLDER}", userInfo.getUid());
 
-        log.info("**** assignmentRequestBody **** : "  + assignmentRequestBody);
+        log.info("**** assignmentRequestBody **** : " + assignmentRequestBody);
         return assignmentRequestBody;
     }
 
