@@ -7,11 +7,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.ConfigureTaskService;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AssigneeRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.Attributes;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleAssignment;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleName;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaClient;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.TaskResponse;
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.IdamSystemTokenGenerator;
@@ -28,16 +30,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
 
     private final RoleAssignmentClient roleAssignmentClient;
-    private final AuthTokenGenerator authTokenGenerator;
+    private final CamundaClient camundaClient;
+    private final AuthTokenGenerator ccdServiceAuthTokenGenerator;
+    private final AuthTokenGenerator camundaServiceAuthTokenGenerator;
     private final IdamSystemTokenGenerator idamSystemTokenGenerator;
 
     private static final Logger LOG = LoggerFactory.getLogger(AutoAssignTaskToCaseworker.class);
 
     public AutoAssignTaskToCaseworker(RoleAssignmentClient roleAssignmentClient,
-                                      @Qualifier("ccdServiceAuthTokenGenerator") AuthTokenGenerator authTokenGenerator,
+                                      CamundaClient camundaClient,
+                                      @Qualifier("ccdServiceAuthTokenGenerator") AuthTokenGenerator ccdServiceAuthTokenGenerator,
+                                      @Qualifier("camundaServiceAuthTokenGenerator")AuthTokenGenerator camundaServiceAuthTokenGenerator,
                                       IdamSystemTokenGenerator idamSystemTokenGenerator) {
         this.roleAssignmentClient = roleAssignmentClient;
-        this.authTokenGenerator = authTokenGenerator;
+        this.camundaClient = camundaClient;
+        this.ccdServiceAuthTokenGenerator = ccdServiceAuthTokenGenerator;
+        this.camundaServiceAuthTokenGenerator = camundaServiceAuthTokenGenerator;
         this.idamSystemTokenGenerator = idamSystemTokenGenerator;
     }
 
@@ -47,23 +55,29 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
 
         List<RoleAssignment> roleAssignmentList = roleAssignmentClient.queryRoleAssignments(
             idamSystemTokenGenerator.generate(),
-            authTokenGenerator.generate(),
+            ccdServiceAuthTokenGenerator.generate(),
             buildQueryRequest(ccdId)
         );
+        LOG.debug("Role assignments: {}", roleAssignmentList);
 
-        Map<String, Object> mappedDetails = new ConcurrentHashMap<>();
+        return updateTaskStateAndSetAssignee(task, roleAssignmentList);
+    }
 
+    private Map<String, Object> updateTaskStateAndSetAssignee(TaskResponse task,
+                                                              List<RoleAssignment> roleAssignmentList) {
+        Map<String, Object> taskVariables = new ConcurrentHashMap<>();
         if (roleAssignmentList.isEmpty()) {
-            LOG.debug("Role assignment not found: {}", roleAssignmentList.toString());
-            mappedDetails.put("taskState", "Unassigned");
+            taskVariables.put("taskState", "Unassigned");
         } else {
-            LOG.debug("Role assignment found: {}", roleAssignmentList.toString());
-            // String actorId = roleAssignmentList.get(0).getActorId();
-            //todo: call the /task/id/assignee camunda api to set assignee
-            mappedDetails.put("taskState", "Assigned");
+            String actorId = roleAssignmentList.get(0).getActorId();
+            camundaClient.setAssignee(
+                camundaServiceAuthTokenGenerator.generate(),
+                task.getId(),
+                new AssigneeRequest(actorId)
+            );
+            taskVariables.put("taskState", "Assigned");
         }
-
-        return mappedDetails;
+        return taskVariables;
     }
 
     private QueryRequest buildQueryRequest(String ccdId) {
