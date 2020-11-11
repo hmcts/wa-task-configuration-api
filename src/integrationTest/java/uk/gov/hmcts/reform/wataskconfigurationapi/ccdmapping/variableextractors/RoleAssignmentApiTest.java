@@ -96,9 +96,9 @@ public class RoleAssignmentApiTest {
     }
 
     private String loadJsonFileResource() throws IOException {
-        String resourceLocation = "classpath:uk/gov/hmcts/reform/wataskconfigurationapi/ccdmapping/variableextractors/"
-            + "roleAssignmentsResponse.json";
-        return FileUtils.readFileToString(ResourceUtils.getFile(resourceLocation));
+        return FileUtils.readFileToString(ResourceUtils.getFile(
+            "classpath:uk/gov/hmcts/reform/wataskconfigurationapi/ccdmapping/variableextractors/"
+                + "roleAssignmentsResponse.json"));
     }
 
 }
