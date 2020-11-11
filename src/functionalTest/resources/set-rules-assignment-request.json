@@ -11,8 +11,7 @@
       "readOnly": false,
       "roleCategory": "STAFF",
       "roleName": "tribunal-caseworker",
-      "roleType": "ORGANISATION",
-      "primaryLocation": "1234565"
+      "roleType": "ORGANISATION"
     }
   ],
   "roleRequest": {
