@@ -15,6 +15,6 @@ java:
         - AppInsightsInstrumentationKey
         - test-law-firm-a-username
         - test-law-firm-a-password
-        - idam-redirect-uri
-        - idam-secret
+        - wa-idam-client-id
+        - wa-idam-client-secret
         - s2s-secret-task-configuration-api
