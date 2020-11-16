@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Attributes {
     CASE_ID("caseId");
+
     private final String value;
 
     @JsonValue

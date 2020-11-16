@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.ConfigureTaskService;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AssigneeRequest;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskState;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.Attributes;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleAssignment;
@@ -35,8 +36,6 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
     private final AuthTokenGenerator camundaServiceAuthTokenGenerator;
     private final IdamSystemTokenGenerator idamSystemTokenGenerator;
 
-    private static final Logger LOG = LoggerFactory.getLogger(AutoAssignTaskToCaseworker.class);
-
     public AutoAssignTaskToCaseworker(RoleAssignmentClient roleAssignmentClient,
                                       CamundaClient camundaClient,
                                       @Qualifier("ccdServiceAuthTokenGenerator")
@@ -60,7 +59,6 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
             ccdServiceAuthTokenGenerator.generate(),
             buildQueryRequest(ccdId)
         );
-        LOG.debug("Role assignments: {}", roleAssignmentList);
 
         return updateTaskStateAndSetAssignee(task, roleAssignmentList);
     }
@@ -69,7 +67,7 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
                                                               List<RoleAssignment> roleAssignmentList) {
         Map<String, Object> taskVariables = new ConcurrentHashMap<>();
         if (roleAssignmentList.isEmpty()) {
-            taskVariables.put("taskState", "Unassigned");
+            taskVariables.put("taskState", TaskState.UNASSIGNED.getValue());
         } else {
             String actorId = roleAssignmentList.get(0).getActorId();
             camundaClient.setAssignee(
@@ -77,7 +75,7 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
                 task.getId(),
                 new AssigneeRequest(actorId)
             );
-            taskVariables.put("taskState", "Assigned");
+            taskVariables.put("taskState", TaskState.ASSIGNED.getValue());
         }
         return taskVariables;
     }
