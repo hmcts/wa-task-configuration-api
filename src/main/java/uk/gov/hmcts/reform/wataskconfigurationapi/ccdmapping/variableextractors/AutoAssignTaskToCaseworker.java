@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -63,6 +61,7 @@ public class AutoAssignTaskToCaseworker implements TaskVariableExtractor {
         return updateTaskStateAndSetAssignee(task, roleAssignmentList);
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private Map<String, Object> updateTaskStateAndSetAssignee(TaskResponse task,
                                                               List<RoleAssignment> roleAssignmentList) {
         Map<String, Object> taskVariables = new ConcurrentHashMap<>();
