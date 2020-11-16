@@ -3,15 +3,16 @@
     {
       "actorId": "{ACTOR_ID_PLACEHOLDER}",
       "actorIdType": "IDAM",
-      "attributes": {
-        "jurisdiction": "IA"
-      },
       "classification": "PUBLIC",
       "grantType": "STANDARD",
       "readOnly": false,
       "roleCategory": "STAFF",
       "roleName": "tribunal-caseworker",
-      "roleType": "ORGANISATION"
+      "roleType": "ORGANISATION",
+      "attributes": {
+        "primaryLocation": "765324",
+        "jurisdiction": "IA"
+      }
     }
   ],
   "roleRequest": {
