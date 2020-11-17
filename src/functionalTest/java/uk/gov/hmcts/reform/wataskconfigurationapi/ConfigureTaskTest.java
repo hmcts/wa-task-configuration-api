@@ -3,8 +3,10 @@ package uk.gov.hmcts.reform.wataskconfigurationapi;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.http.HttpStatus;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -50,21 +52,26 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
     private String taskId;
     private CreateTaskMessage createTaskMessage;
+    private String ccdId;
 
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
-        String ccdId = createCcdCase();
-        roleAssignmentHelper.setRoleAssignments(ccdId);
+        ccdId = createCcdCase();
         createTaskMessage = createBasicMessageForTask()
             .withCcdId(ccdId)
             .build();
         taskId = createTask(createTaskMessage);
     }
 
-    @Test
-    public void canConfigureATask() {
+    @DisplayName("test configure task endpoint and expect taskState as per parameter")
+    @ParameterizedTest
+    @ValueSource(strings = { "assigned", "unassigned"})
+    public void given_configure_task_then_expect_task_state(String taskState) throws Exception {
+        if ("assigned".equals(taskState)) {
+            roleAssignmentHelper.setRoleAssignments(ccdId);
+        }
         given()
             .relaxedHTTPSValidation()
             .contentType(APPLICATION_JSON_VALUE)
@@ -88,14 +95,13 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             .body("region.value", is("1"))
             .body("location.value", is("765324"))
             .body("locationName.value", is("Taylor House"))
-            .body("taskState.value", is("assigned"))
+            .body("taskState.value", is(taskState))
             .body("ccdId.value", is(createTaskMessage.getCcdId()))
             .body("securityClassification.value", is("PUBLIC"))
             .body("caseType.value", is("Asylum"))
             .body("title.value", is("task name"))
             .body("tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
             .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
-
         ;
     }
 
