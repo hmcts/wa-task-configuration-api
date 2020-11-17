@@ -66,12 +66,6 @@ public class RoleAssignmentHelper {
                                     UserInfo userInfo,
                                     String resourceFilename) throws IOException {
 
-        log.info("*** caseId *** : " + caseId);
-        log.info("*** bearerUserToken *** : " + bearerUserToken);
-        log.info("*** s2sToken *** : " + s2sToken);
-        log.info("*** userInfo *** : " + userInfo);
-        log.info("*** resourceFilename *** : " + resourceFilename);
-
         given()
             .relaxedHTTPSValidation()
             .contentType(APPLICATION_JSON_VALUE)
