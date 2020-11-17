@@ -34,7 +34,7 @@ public class CcdDataServiceTest {
 
     @Test
     public void should_get_case_data() {
-        String ccdId = UUID.randomUUID().toString();
+        String caseId = UUID.randomUUID().toString();
         String userToken = "user_token";
         String serviceToken = "service_token";
 
@@ -48,9 +48,9 @@ public class CcdDataServiceTest {
         when(idamSystemTokenGenerator.generate()).thenReturn(userToken);
         when(authTokenGenerator.generate()).thenReturn(serviceToken);
 
-        when(ccdClient.getCase(userToken, serviceToken, ccdId)).thenReturn(caseData);
+        when(ccdClient.getCase("Bearer " + userToken, serviceToken, caseId)).thenReturn(caseData);
 
-        String actualCaseData = ccdDataService.getCaseData(ccdId);
+        String actualCaseData = ccdDataService.getCaseData(caseId);
 
         assertEquals(actualCaseData, caseData);
     }
