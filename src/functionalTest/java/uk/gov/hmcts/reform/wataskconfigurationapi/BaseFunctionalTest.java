@@ -2,7 +2,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi;
 
 import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,9 +25,10 @@ public abstract class BaseFunctionalTest {
     @Value("${targets.camunda}")
     protected String camundaUrl;
 
-    @BeforeEach
+    @Before
     public void setUp() throws Exception {
         RestAssured.baseURI = testUrl;
         RestAssured.useRelaxedHTTPSValidation();
     }
+
 }
