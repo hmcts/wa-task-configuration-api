@@ -14,7 +14,7 @@ data "azurerm_key_vault" "s2s_key_vault" {
 
 data "azurerm_key_vault_secret" "s2s_secret" {
   key_vault_id = data.azurerm_key_vault.s2s_key_vault.id
-  name        = "microservicekey-wa-case-event-handler"
+  name        = "microservicekey-wa-task-configuration-api"
 }
 
 resource "azurerm_key_vault_secret" "s2s_secret_task_configuration_api" {
