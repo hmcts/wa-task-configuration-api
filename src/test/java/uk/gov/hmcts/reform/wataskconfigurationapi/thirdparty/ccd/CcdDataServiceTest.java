@@ -48,10 +48,10 @@ public class CcdDataServiceTest {
         when(idamSystemTokenGenerator.generate()).thenReturn(userToken);
         when(authTokenGenerator.generate()).thenReturn(serviceToken);
 
-        when(ccdClient.getCase("Bearer " + userToken, serviceToken, caseId)).thenReturn(caseData);
+        when(ccdClient.getCase(userToken, serviceToken, caseId)).thenReturn(caseData);
 
         String actualCaseData = ccdDataService.getCaseData(caseId);
 
-        assertEquals(actualCaseData, caseData);
+        assertEquals(caseData, actualCaseData);
     }
 }
