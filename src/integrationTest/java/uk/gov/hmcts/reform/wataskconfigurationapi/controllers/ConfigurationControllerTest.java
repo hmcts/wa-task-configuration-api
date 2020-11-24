@@ -150,7 +150,7 @@ public class ConfigurationControllerTest {
 
         HashMap<String, CamundaValue<String>> modifications = new HashMap<>();
         modifications.put("name1", stringValue("value1"));
-        modifications.put("ccdId", stringValue(caseId));
+        modifications.put("caseId", stringValue(caseId));
         modifications.put(STATUS_VARIABLE_KEY, stringValue("unassigned"));
         modifications.put("autoAssigned", stringValue("false"));
         modifications.put("executionType", stringValue("Case Management Task"));
