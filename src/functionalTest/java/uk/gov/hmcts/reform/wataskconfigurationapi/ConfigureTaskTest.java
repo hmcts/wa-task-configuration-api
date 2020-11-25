@@ -163,7 +163,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     }
 
     private String createCcdCase() throws IOException {
-        String userToken = "Bearer " + systemTokenGenerator.generate();
+        String userToken = systemTokenGenerator.generate();
         UserInfo userInfo = systemTokenGenerator.getUserInfo(userToken);
         String serviceToken = ccdServiceAuthTokenGenerator.generate();
         StartEventResponse startCase = coreCaseDataApi.startForCaseworker(
