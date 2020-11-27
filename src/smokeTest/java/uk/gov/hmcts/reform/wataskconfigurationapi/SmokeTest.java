@@ -15,9 +15,9 @@ class SmokeTest {
     private final String targetInstance =
         StringUtils.defaultIfBlank(
             System.getenv("TEST_URL"),
-            "http://localhost:8099"
+            "http://localhost:8091"
         );
-    
+
     @Test
     void should_check_service_and_return_welcome_message() {
 
