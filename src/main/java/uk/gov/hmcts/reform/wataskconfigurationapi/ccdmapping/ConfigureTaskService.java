@@ -27,7 +27,7 @@ public class ConfigureTaskService {
 
     public ConfigureTaskService(CamundaClient camundaClient,
                                 List<TaskVariableExtractor> taskVariableExtractors,
-                                @Qualifier("camundaServiceAuthTokenGenerator")
+                                @Qualifier("serviceAuthTokenGenerator")
                                     AuthTokenGenerator camundaServiceAuthTokenGenerator) {
         this.camundaClient = camundaClient;
         this.taskVariableExtractors = taskVariableExtractors;

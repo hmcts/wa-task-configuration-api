@@ -26,7 +26,7 @@ public class RoleAssignmentHelper {
     protected String roleAssignmentUrl;
 
     @Autowired
-    @Qualifier("ccdServiceAuthTokenGenerator")
+    @Qualifier("serviceAuthTokenGenerator")
     private AuthTokenGenerator ccdServiceAuthTokenGenerator;
 
     @Autowired

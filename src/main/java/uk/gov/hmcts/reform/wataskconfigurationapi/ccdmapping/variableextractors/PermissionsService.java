@@ -21,7 +21,7 @@ public class PermissionsService {
     private final AuthTokenGenerator camundaServiceAuthTokenGenerator;
 
     public PermissionsService(CamundaClient camundaClient,
-                              @Qualifier("camundaServiceAuthTokenGenerator")
+                              @Qualifier("serviceAuthTokenGenerator")
                                   AuthTokenGenerator camundaServiceAuthTokenGenerator) {
         this.camundaClient = camundaClient;
         this.camundaServiceAuthTokenGenerator = camundaServiceAuthTokenGenerator;

@@ -13,7 +13,7 @@ public class CcdDataService {
 
     public CcdDataService(
         CcdClient ccdClient,
-        @Qualifier("ccdServiceAuthTokenGenerator") AuthTokenGenerator ccdServiceAuthTokenGenerator,
+        @Qualifier("serviceAuthTokenGenerator") AuthTokenGenerator ccdServiceAuthTokenGenerator,
         IdamSystemTokenGenerator systemTokenGenerator
     ) {
         this.ccdClient = ccdClient;

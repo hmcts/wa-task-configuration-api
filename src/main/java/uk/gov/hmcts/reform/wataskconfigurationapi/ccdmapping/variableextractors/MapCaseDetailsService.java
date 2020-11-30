@@ -32,7 +32,7 @@ public class MapCaseDetailsService {
     public MapCaseDetailsService(CcdDataService ccdDataService,
                                  CamundaClient camundaClient,
                                  PermissionsService permissionsService,
-                                 @Qualifier("camundaServiceAuthTokenGenerator")
+                                 @Qualifier("serviceAuthTokenGenerator")
                                      AuthTokenGenerator camundaServiceAuthTokenGenerator) {
         this.ccdDataService = ccdDataService;
         this.camundaClient = camundaClient;
