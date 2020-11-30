@@ -1,14 +1,14 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
-import static io.restassured.RestAssured.given;
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
-import static org.hamcrest.Matchers.containsString;
-
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+
+import static io.restassured.RestAssured.given;
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+import static org.hamcrest.Matchers.containsString;
 
 class SmokeTest {
 
