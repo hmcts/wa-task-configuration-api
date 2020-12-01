@@ -9,12 +9,10 @@ import org.springframework.boot.test.json.ObjectContent;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
