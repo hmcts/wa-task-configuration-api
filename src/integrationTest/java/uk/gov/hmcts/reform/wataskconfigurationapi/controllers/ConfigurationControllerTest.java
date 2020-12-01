@@ -122,7 +122,7 @@ public class ConfigurationControllerTest {
             eq("Bearer " + userToken),
             eq(BEARER_SERVICE_TOKEN),
             any(QueryRequest.class)
-        )).thenReturn(new RoleAssignmentResource(emptyList()));
+        )).thenReturn(new RoleAssignmentResource(emptyList(), null));
 
         when(camundaClient.getTask(BEARER_SERVICE_TOKEN, taskId))
             .thenReturn(new TaskResponse("id", processInstanceId, TASK_NAME));
