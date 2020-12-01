@@ -40,9 +40,11 @@ class RoleAssignmentTest {
             .authorisations(Collections.emptyList())
             .build();
 
-        ObjectContent<RoleAssignmentResource> actualRoleAssignment = jacksonTester.read("roleAssignment.json");
+        ObjectContent<RoleAssignmentResource> actualRoleAssignment =
+            jacksonTester.read("roleAssignment.json");
 
         assertThat(actualRoleAssignment.getObject()).isNotNull();
-        assertThat(actualRoleAssignment.getObject().getRoleAssignmentResponse()).isEqualTo(asList(expectedRoleAssignment));
+        assertThat(actualRoleAssignment.getObject().getRoleAssignmentResponse())
+            .isEqualTo(asList(expectedRoleAssignment));
     }
 }
