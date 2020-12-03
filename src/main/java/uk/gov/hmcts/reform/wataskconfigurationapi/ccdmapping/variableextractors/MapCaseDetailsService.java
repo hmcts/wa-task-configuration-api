@@ -22,7 +22,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.Camu
 
 @Component
 public class MapCaseDetailsService {
-    public static final String MAP_CASE_DATA_DECISION_TABLE_NAME = "mapCaseData";
+    public static final String WA_TASK_CONFIGURATION_DECISION_TABLE_NAME = "wa-task-configuration";
     private final CcdDataService ccdDataService;
     private final CamundaClient camundaClient;
     private final PermissionsService permissionsService;
@@ -50,7 +50,7 @@ public class MapCaseDetailsService {
 
             List<DecisionTableResult> decisionTableResults = camundaClient.mapCaseData(
                 camundaServiceAuthTokenGenerator.generate(),
-                MAP_CASE_DATA_DECISION_TABLE_NAME,
+                WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
                 jurisdiction,
                 caseType,
                 new DmnRequest<>(

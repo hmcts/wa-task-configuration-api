@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors.PermissionsService.PERMISSION_DECISION_TABLE_NAME;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.ccdmapping.variableextractors.PermissionsService.WA_TASK_PERMISSIONS_DECISION_TABLE_NAME;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue.jsonValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue.stringValue;
 
@@ -50,7 +50,7 @@ class PermissionsServiceTest {
 
         when(camundaClient.mapCaseData(
             BEARER_SERVICE_TOKEN,
-            PERMISSION_DECISION_TABLE_NAME,
+            WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
             "ia",
             "Asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
@@ -87,7 +87,7 @@ class PermissionsServiceTest {
 
         when(camundaClient.mapCaseData(
             BEARER_SERVICE_TOKEN,
-            PERMISSION_DECISION_TABLE_NAME,
+            WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
             "ia",
             "Asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
@@ -97,7 +97,7 @@ class PermissionsServiceTest {
 
         assertThatThrownBy(() -> permissionsService.getMappedDetails("ia", "Asylum", ccdData))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessage("Could not evaluate from decision table [permissions]")
+            .hasMessage("Could not evaluate from decision table [wa-task-permissions]")
             .hasCauseInstanceOf(FeignException.class);
     }
 }

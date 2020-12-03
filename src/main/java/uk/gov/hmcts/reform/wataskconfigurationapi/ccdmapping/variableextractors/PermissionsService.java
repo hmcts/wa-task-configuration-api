@@ -15,7 +15,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.Camu
 
 @Component
 public class PermissionsService {
-    public static final String PERMISSION_DECISION_TABLE_NAME = "permissions";
+    public static final String WA_TASK_PERMISSIONS_DECISION_TABLE_NAME = "wa-task-permissions";
     private final CamundaClient camundaClient;
     private final AuthTokenGenerator camundaServiceAuthTokenGenerator;
 
@@ -31,7 +31,7 @@ public class PermissionsService {
         try {
             return camundaClient.mapCaseData(
                 camundaServiceAuthTokenGenerator.generate(),
-                PERMISSION_DECISION_TABLE_NAME,
+                WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
                 jurisdiction,
                 caseType,
                 new DmnRequest<>(
@@ -41,7 +41,7 @@ public class PermissionsService {
 
         } catch (FeignException e) {
             throw new IllegalStateException(
-                "Could not evaluate from decision table [" + PERMISSION_DECISION_TABLE_NAME + "]",
+                "Could not evaluate from decision table [" + WA_TASK_PERMISSIONS_DECISION_TABLE_NAME + "]",
                 e
             );
         }
