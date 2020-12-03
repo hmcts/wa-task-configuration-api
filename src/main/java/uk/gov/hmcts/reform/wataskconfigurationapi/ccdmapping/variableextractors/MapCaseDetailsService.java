@@ -48,7 +48,7 @@ public class MapCaseDetailsService {
             String jurisdiction = caseDetails.getJurisdiction();
             String caseType = caseDetails.getCaseTypeId();
 
-            List<DecisionTableResult> decisionTableResults = camundaClient.mapCaseData(
+            List<DecisionTableResult> decisionTableResults = camundaClient.evaluateDmnTable(
                 camundaServiceAuthTokenGenerator.generate(),
                 WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
                 jurisdiction,

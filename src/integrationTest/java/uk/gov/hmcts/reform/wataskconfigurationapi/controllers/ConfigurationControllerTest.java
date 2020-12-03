@@ -140,7 +140,7 @@ public class ConfigurationControllerTest {
                           + "\"data\": {}"
                           + " }";
         when(ccdClient.getCase("Bearer " + userToken, BEARER_SERVICE_TOKEN, caseId)).thenReturn(caseData);
-        when(camundaClient.mapCaseData(
+        when(camundaClient.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
             "ia",

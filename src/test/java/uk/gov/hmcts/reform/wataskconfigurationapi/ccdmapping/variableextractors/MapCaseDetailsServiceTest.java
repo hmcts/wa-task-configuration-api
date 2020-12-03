@@ -56,7 +56,7 @@ class MapCaseDetailsServiceTest {
                 new DecisionTableResult(
                     stringValue("seniorTribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel"))
             ));
-        when(camundaClient.mapCaseData(
+        when(camundaClient.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
             "ia",
@@ -114,7 +114,7 @@ class MapCaseDetailsServiceTest {
                          + "\"data\": {}"
                          + "}";
         when(ccdDataService.getCaseData(someCaseId)).thenReturn(ccdData);
-        when(camundaClient.mapCaseData(
+        when(camundaClient.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
             "ia",

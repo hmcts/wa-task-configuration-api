@@ -29,7 +29,7 @@ public class PermissionsService {
     public List<DecisionTableResult> getMappedDetails(String jurisdiction, String caseType, String caseData) {
 
         try {
-            return camundaClient.mapCaseData(
+            return camundaClient.evaluateDmnTable(
                 camundaServiceAuthTokenGenerator.generate(),
                 WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
                 jurisdiction,

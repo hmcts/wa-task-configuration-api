@@ -48,7 +48,7 @@ class PermissionsServiceTest {
                          + "\"data\": {}"
                          + "}";
 
-        when(camundaClient.mapCaseData(
+        when(camundaClient.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
             "ia",
@@ -85,7 +85,7 @@ class PermissionsServiceTest {
                          + "\"data\": {}"
                          + "}";
 
-        when(camundaClient.mapCaseData(
+        when(camundaClient.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
             "ia",
