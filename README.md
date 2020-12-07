@@ -68,8 +68,7 @@ This will do compilation, checkstyle, PMD checks , run tests , but not integrati
    ```
 - In order to test if the application is up, you can call its health endpoint:
    ```
-     http://http://ccd-data-store-api/
-     Note: ccd-data-store-api should match the service name defined in /etc/hosts
+     http://localhost:8091/health
    ```
 
   You should get a response similar to this:
