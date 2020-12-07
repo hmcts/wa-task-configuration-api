@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DecisionTab
 import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.DmnRequest;
 
 import java.util.List;
+import java.util.Locale;
 
 import static uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.camunda.CamundaValue.jsonValue;
 
@@ -32,8 +33,8 @@ public class PermissionsService {
             return camundaClient.evaluateDmnTable(
                 camundaServiceAuthTokenGenerator.generate(),
                 WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
-                jurisdiction.toLowerCase(),
-                caseType.toLowerCase(),
+                jurisdiction.toLowerCase(Locale.getDefault()),
+                caseType.toLowerCase(Locale.getDefault()),
                 new DmnRequest<>(
                     new DecisionTableRequest(jsonValue(caseData))
                 )
