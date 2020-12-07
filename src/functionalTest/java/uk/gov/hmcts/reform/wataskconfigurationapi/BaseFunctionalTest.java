@@ -11,6 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 import java.time.format.DateTimeFormatter;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
+import static net.serenitybdd.rest.SerenityRest.given;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 @SpringBootTest
@@ -29,6 +31,16 @@ public abstract class BaseFunctionalTest {
     public void setUp() throws Exception {
         RestAssured.baseURI = testUrl;
         RestAssured.useRelaxedHTTPSValidation();
+    }
+
+    public void cleanUp(String taskId, String token) {
+        given()
+            .header(SERVICE_AUTHORIZATION, token)
+            .contentType(APPLICATION_JSON_VALUE)
+            .baseUri(camundaUrl)
+            .basePath("/task/" + taskId + "/complete")
+            .when()
+            .post();
     }
 
 }
