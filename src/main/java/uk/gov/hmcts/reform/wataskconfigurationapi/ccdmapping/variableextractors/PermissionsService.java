@@ -32,8 +32,8 @@ public class PermissionsService {
             return camundaClient.evaluateDmnTable(
                 camundaServiceAuthTokenGenerator.generate(),
                 WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
-                jurisdiction,
-                caseType,
+                jurisdiction.toLowerCase(),
+                caseType.toLowerCase(),
                 new DmnRequest<>(
                     new DecisionTableRequest(jsonValue(caseData))
                 )

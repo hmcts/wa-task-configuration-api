@@ -144,7 +144,7 @@ public class ConfigurationControllerTest {
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
             "ia",
-            "Asylum",
+            "asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(caseData)))
              )
         ).thenReturn(singletonList(new DecisionTableResult(stringValue("name1"), stringValue("value1"))));

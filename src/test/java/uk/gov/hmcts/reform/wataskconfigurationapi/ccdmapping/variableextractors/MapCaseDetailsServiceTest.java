@@ -60,7 +60,7 @@ class MapCaseDetailsServiceTest {
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
             "ia",
-            "Asylum",
+            "asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
              )
         ).thenReturn(emptyList());
@@ -118,7 +118,7 @@ class MapCaseDetailsServiceTest {
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
             "ia",
-            "Asylum",
+            "asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(

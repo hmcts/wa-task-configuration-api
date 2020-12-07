@@ -52,7 +52,7 @@ class PermissionsServiceTest {
             BEARER_SERVICE_TOKEN,
             WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
             "ia",
-            "Asylum",
+            "asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(
@@ -89,7 +89,7 @@ class PermissionsServiceTest {
             BEARER_SERVICE_TOKEN,
             WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
             "ia",
-            "Asylum",
+            "asylum",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         )).thenThrow(FeignException.class);
 
