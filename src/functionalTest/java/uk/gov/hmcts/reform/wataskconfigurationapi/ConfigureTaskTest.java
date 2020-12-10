@@ -6,7 +6,6 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.ccd.client.CoreCaseDataApi;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
@@ -32,12 +31,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asJ
 public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @Autowired
-    @Qualifier("serviceAuthTokenGenerator")
     private AuthTokenGenerator serviceAuthTokenGenerator;
-
-    @Autowired
-    @Qualifier("serviceAuthTokenGenerator")
-    private AuthTokenGenerator camundaServiceAuthTokenGenerator;
 
     @Autowired
     private IdamSystemTokenGenerator systemTokenGenerator;
@@ -78,7 +72,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
         given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/task/" + taskId + "/localVariables")
             .when()
@@ -113,7 +107,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
         given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/task/" + taskId + "/localVariables")
             .when()
@@ -137,7 +131,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     private String createTask(CreateTaskMessage createTaskMessage) {
         given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/message")
             .body(asCamundaJsonString(createTaskMessage))
@@ -149,7 +143,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
         Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
         return given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/task")
             .param("processVariables", "caseId_eq_" + createTaskMessage.getCaseId())
