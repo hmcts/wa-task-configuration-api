@@ -25,14 +25,14 @@ public class RoleAssignmentHelper {
     protected String roleAssignmentUrl;
 
     @Autowired
-    private AuthTokenGenerator ccdServiceAuthTokenGenerator;
+    private AuthTokenGenerator serviceAuthTokenGenerator;
 
     @Autowired
     private IdamSystemTokenGenerator systemTokenGenerator;
 
     public void setRoleAssignments(String caseId) throws IOException {
         String bearerUserToken = systemTokenGenerator.generate();
-        String s2sToken = ccdServiceAuthTokenGenerator.generate();
+        String s2sToken = serviceAuthTokenGenerator.generate();
         UserInfo userInfo = systemTokenGenerator.getUserInfo(bearerUserToken);
         createRoleAssignmentInThisOrder(caseId, bearerUserToken, s2sToken, userInfo);
     }
