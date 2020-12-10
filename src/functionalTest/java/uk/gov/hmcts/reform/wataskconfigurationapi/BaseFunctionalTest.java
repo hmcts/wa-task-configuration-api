@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static net.serenitybdd.rest.SerenityRest.given;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
@@ -41,6 +42,16 @@ public abstract class BaseFunctionalTest {
             .basePath("/task/" + taskId + "/complete")
             .when()
             .post();
+
+        given()
+            .header(SERVICE_AUTHORIZATION, token)
+            .contentType(APPLICATION_JSON_VALUE)
+            .accept(APPLICATION_JSON_VALUE)
+            .baseUri(camundaUrl)
+            .when()
+            .get("/history/task?taskId=" + taskId)
+            .then()
+            .body("[0].deleteReason", is("completed"));
     }
 
 }
