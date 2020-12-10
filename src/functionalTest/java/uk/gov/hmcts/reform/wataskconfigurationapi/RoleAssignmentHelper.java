@@ -41,6 +41,8 @@ public class RoleAssignmentHelper {
                                                  String bearerUserToken,
                                                  String s2sToken,
                                                  UserInfo userInfo) throws IOException {
+
+        log.info("Creating Organizational Role");
         postRoleAssignment(
             caseId,
             bearerUserToken,
@@ -49,6 +51,7 @@ public class RoleAssignmentHelper {
             "set-rules-assignment-request.json"
         );
 
+        log.info("Creating Restricted role-assignment");
         postRoleAssignment(
             caseId,
             bearerUserToken,

@@ -59,6 +59,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @Test
     public void given_configure_task_then_expect_task_state_is_assigned() throws Exception {
+        log.info("Creating roles");
         roleAssignmentHelper.setRoleAssignments(caseId);
         given()
             .relaxedHTTPSValidation()
@@ -182,6 +183,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
                 .build())
             .data(data)
             .build();
+
         CaseDetails caseDetails = coreCaseDataApi.submitForCaseworker(
             userToken,
             serviceToken,
@@ -203,6 +205,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             caseDetails.getId().toString(),
             "submitAppeal"
         );
+
         CaseDataContent submitCaseDataContent = CaseDataContent.builder()
             .eventToken(submitCase.getToken())
             .event(Event.builder()
@@ -222,6 +225,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             true,
             submitCaseDataContent
         );
+        log.info("Submitted case [" + caseDetails.getId() + "]");
 
         return caseDetails.getId().toString();
     }
