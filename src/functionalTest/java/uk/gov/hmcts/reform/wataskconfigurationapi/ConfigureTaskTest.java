@@ -132,7 +132,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @After
     public void cleanUp() {
-        super.cleanUp(taskId, camundaServiceAuthTokenGenerator.generate());
+        super.cleanUp(taskId, serviceAuthTokenGenerator.generate());
     }
 
     private String createTask(CreateTaskMessage createTaskMessage) {
