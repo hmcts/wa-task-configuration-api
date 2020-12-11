@@ -7,7 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.ccd.client.CoreCaseDataApi;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
@@ -33,12 +32,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asJ
 public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @Autowired
-    @Qualifier("ccdServiceAuthTokenGenerator")
-    private AuthTokenGenerator ccdServiceAuthTokenGenerator;
-
-    @Autowired
-    @Qualifier("camundaServiceAuthTokenGenerator")
-    private AuthTokenGenerator camundaServiceAuthTokenGenerator;
+    private AuthTokenGenerator serviceAuthTokenGenerator;
 
     @Autowired
     private IdamSystemTokenGenerator systemTokenGenerator;
@@ -66,6 +60,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
     @Test
     public void given_configure_task_then_expect_task_state_is_assigned() throws Exception {
+        log.info("Creating roles");
         roleAssignmentHelper.setRoleAssignments(caseId);
         given()
             .relaxedHTTPSValidation()
@@ -79,7 +74,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
         given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/task/" + taskId + "/localVariables")
             .when()
@@ -114,7 +109,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
 
         given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/task/" + taskId + "/localVariables")
             .when()
@@ -143,7 +138,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     private String createTask(CreateTaskMessage createTaskMessage) {
         given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/message")
             .body(asCamundaJsonString(createTaskMessage))
@@ -155,7 +150,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
         Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
         return given()
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, camundaServiceAuthTokenGenerator.generate())
+            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
             .baseUri(camundaUrl)
             .basePath("/task")
             .param("processVariables", "caseId_eq_" + createTaskMessage.getCaseId())
@@ -171,7 +166,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
     private String createCcdCase() throws IOException {
         String userToken = systemTokenGenerator.generate();
         UserInfo userInfo = systemTokenGenerator.getUserInfo(userToken);
-        String serviceToken = ccdServiceAuthTokenGenerator.generate();
+        String serviceToken = serviceAuthTokenGenerator.generate();
         StartEventResponse startCase = coreCaseDataApi.startForCaseworker(
             userToken,
             serviceToken,
@@ -194,6 +189,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
                 .build())
             .data(data)
             .build();
+
         CaseDetails caseDetails = coreCaseDataApi.submitForCaseworker(
             userToken,
             serviceToken,
@@ -215,6 +211,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             caseDetails.getId().toString(),
             "submitAppeal"
         );
+
         CaseDataContent submitCaseDataContent = CaseDataContent.builder()
             .eventToken(submitCase.getToken())
             .event(Event.builder()
@@ -234,6 +231,7 @@ public class ConfigureTaskTest extends BaseFunctionalTest {
             true,
             submitCaseDataContent
         );
+        log.info("Submitted case [" + caseDetails.getId() + "]");
 
         return caseDetails.getId().toString();
     }
