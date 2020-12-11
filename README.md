@@ -64,7 +64,7 @@ This will do compilation, checkstyle, PMD checks , run tests , but not integrati
         ```
 - To run application, from IDE or command line
    ```
-     ./grdlew bootRun
+     ./gradlew bootRun
    ```
 - In order to test if the application is up, you can call its health endpoint:
    ```
