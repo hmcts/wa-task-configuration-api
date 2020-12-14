@@ -29,13 +29,11 @@ public class JacksonConfiguration {
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         // Set default date to RFC3339 standards
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
-        objectMapper.setDateFormat(df);
+        objectMapper.registerModule(new ParameterNamesModule());
+        //Avoids having to declare empty no-op constructors
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.registerModule(new JavaTimeModule());
-        //Avoids having to declare empty no-op constructors
-        objectMapper.registerModule(new ParameterNamesModule());
         return objectMapper;
     }
 
