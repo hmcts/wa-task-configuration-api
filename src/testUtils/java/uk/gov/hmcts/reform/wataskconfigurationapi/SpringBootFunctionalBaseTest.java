@@ -14,6 +14,7 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 import static net.serenitybdd.rest.SerenityRest.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.config.ServiceTokenGeneratorConfiguration.SERVICE_AUTHORIZATION;
 
 @RunWith(SpringIntegrationSerenityRunner.class)
 @SpringBootTest
