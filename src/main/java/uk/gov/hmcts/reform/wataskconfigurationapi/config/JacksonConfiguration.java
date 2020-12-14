@@ -33,9 +33,7 @@ public class JacksonConfiguration {
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         objectMapper.setDateFormat(df);
         //Avoids having to declare empty no-op constructors
-        objectMapper.registerModule(new ParameterNamesModule());
-        objectMapper.registerModule(new Jdk8Module());
-        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.findAndRegisterModules();
         return objectMapper;
     }
 
