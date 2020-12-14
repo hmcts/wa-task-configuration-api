@@ -21,7 +21,8 @@ public class JacksonConfiguration {
     @Primary
     public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
         return new Jackson2ObjectMapperBuilder()
-            .serializationInclusion(JsonInclude.Include.NON_ABSENT);
+            .serializationInclusion(JsonInclude.Include.NON_ABSENT)
+            .modules(new JavaTimeModule());
     }
 
     @Bean
@@ -35,7 +36,6 @@ public class JacksonConfiguration {
         //Avoids having to declare empty no-op constructors
         objectMapper.registerModule(new ParameterNamesModule());
         objectMapper.registerModule(new Jdk8Module());
-        objectMapper.registerModule(new JavaTimeModule());
         return objectMapper;
     }
 
