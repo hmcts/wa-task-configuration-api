@@ -21,7 +21,13 @@ public class JacksonConfiguration {
     @Primary
     public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
         return new Jackson2ObjectMapperBuilder()
-            .serializationInclusion(JsonInclude.Include.NON_ABSENT);
+            .serializationInclusion(JsonInclude.Include.NON_ABSENT)
+            .propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
+            .modules(
+                new ParameterNamesModule(),
+                new JavaTimeModule(),
+                new Jdk8Module()
+            );
     }
 
     @Bean
@@ -30,13 +36,7 @@ public class JacksonConfiguration {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         // Set default date to RFC3339 standards
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
-        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         objectMapper.setDateFormat(df);
-        objectMapper.registerModules(
-            new ParameterNamesModule(),
-            new JavaTimeModule(),
-            new Jdk8Module()
-        );
         return objectMapper;
     }
 
