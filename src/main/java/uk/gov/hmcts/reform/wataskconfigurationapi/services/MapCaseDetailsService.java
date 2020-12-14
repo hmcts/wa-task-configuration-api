@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
@@ -26,22 +27,26 @@ public class MapCaseDetailsService {
     private final CamundaServiceApi camundaServiceApi;
     private final PermissionsService permissionsService;
     private final AuthTokenGenerator serviceAuthTokenGenerator;
+    private final ObjectMapper objectMapper;
 
+
+    @Autowired
     public MapCaseDetailsService(CcdDataService ccdDataService,
                                  CamundaServiceApi camundaServiceApi,
                                  PermissionsService permissionsService,
-                                 AuthTokenGenerator serviceAuthTokenGenerator) {
+                                 AuthTokenGenerator serviceAuthTokenGenerator,
+                                 ObjectMapper objectMapper) {
         this.ccdDataService = ccdDataService;
         this.camundaServiceApi = camundaServiceApi;
         this.permissionsService = permissionsService;
         this.serviceAuthTokenGenerator = serviceAuthTokenGenerator;
+        this.objectMapper = objectMapper;
     }
 
     public Map<String, Object> getMappedDetails(String caseId) {
         String caseData = ccdDataService.getCaseData(caseId);
-
         try {
-            CaseDetails caseDetails = new ObjectMapper().readValue(caseData, CaseDetails.class);
+            CaseDetails caseDetails = objectMapper.readValue(caseData, CaseDetails.class);
 
             String jurisdiction = caseDetails.getJurisdiction();
             String caseType = caseDetails.getCaseTypeId();
