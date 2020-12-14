@@ -22,7 +22,11 @@ public class JacksonConfiguration {
     public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
         return new Jackson2ObjectMapperBuilder()
             .serializationInclusion(JsonInclude.Include.NON_ABSENT)
-            .modules(new JavaTimeModule());
+            .modules(
+                new JavaTimeModule(),
+                new ParameterNamesModule(),
+                new Jdk8Module()
+            );
     }
 
     @Bean
@@ -33,9 +37,6 @@ public class JacksonConfiguration {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         objectMapper.setDateFormat(df);
-        //Avoids having to declare empty no-op constructors
-        objectMapper.registerModule(new ParameterNamesModule());
-        objectMapper.registerModule(new Jdk8Module());
         return objectMapper;
     }
 
