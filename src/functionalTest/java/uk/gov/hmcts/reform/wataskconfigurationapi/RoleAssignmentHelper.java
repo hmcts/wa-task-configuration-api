@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.IdamSystemTokenGenerator;
-import uk.gov.hmcts.reform.wataskconfigurationapi.thirdparty.idam.UserInfo;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.idam.IdamSystemTokenGenerator;
 
 import java.io.IOException;
 
