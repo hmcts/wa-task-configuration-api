@@ -4,12 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableResult;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.ccd.CcdDataService;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.ccd.CaseDetails;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +67,7 @@ public class MapCaseDetailsService {
                     ));
 
             HashMap<String, Object> allMappedDetails = new HashMap<>(mappedCaseDetails);
-            allMappedDetails.put("securityClassification", caseDetails.getSecurityClassification().toString());
+            allMappedDetails.put("securityClassification", caseDetails.getSecurityClassification());
             allMappedDetails.put("caseType", caseDetails.getCaseTypeId());
             return allMappedDetails;
         } catch (JsonProcessingException e) {

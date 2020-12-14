@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.ccd;
+package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CcdDataServiceApi;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.idam.IdamSystemTokenGenerator;
 
 import java.util.UUID;
 

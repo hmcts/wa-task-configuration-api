@@ -1,19 +1,38 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.ccd;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import java.util.Objects;
+import java.util.Map;
 
+@EqualsAndHashCode
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class CaseDetails {
+
     private String jurisdiction;
-    @JsonProperty("case_type_id")
-    @JsonAlias("case_type")
     private String caseTypeId;
-    @JsonProperty("security_classification")
     private String securityClassification;
+    private Map<String, Object> data;
+
+    public CaseDetails() {
+        super();
+        //No-op constructor
+    }
+
+    public CaseDetails(String jurisdiction,
+                       String caseTypeId,
+                       String securityClassification,
+                       Map<String, Object> data) {
+        this.jurisdiction = jurisdiction;
+        this.caseTypeId = caseTypeId;
+        this.securityClassification = securityClassification;
+        this.data = data;
+    }
 
     public String getJurisdiction() {
         return jurisdiction;
@@ -27,31 +46,8 @@ public class CaseDetails {
         return securityClassification;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        CaseDetails that = (CaseDetails) object;
-        return Objects.equals(jurisdiction, that.jurisdiction)
-               && Objects.equals(caseTypeId, that.caseTypeId)
-               && Objects.equals(securityClassification, that.securityClassification);
+    public Map<String, Object> getData() {
+        return data;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(jurisdiction, caseTypeId);
-    }
-
-    @Override
-    public String toString() {
-        return "CaseDetails{"
-               + "jurisdiction='" + jurisdiction + '\''
-               + ", caseTypeId='" + caseTypeId + '\''
-               + ", securityClassification='" + securityClassification + '\''
-               + '}';
-    }
 }

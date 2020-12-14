@@ -13,9 +13,9 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 import uk.gov.hmcts.reform.wataskconfigurationapi.controllers.ConfigureTaskRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.idam.IdamSystemTokenGenerator;
 
 import java.io.IOException;
 import java.util.Map;
