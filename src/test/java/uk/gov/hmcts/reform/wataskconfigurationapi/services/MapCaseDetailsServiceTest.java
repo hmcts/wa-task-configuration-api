@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,6 +48,7 @@ class MapCaseDetailsServiceTest {
 
     @BeforeEach
     void setUp() {
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         mapCaseDetailsService = new MapCaseDetailsService(
             ccdDataService,
             camundaServiceApi,
