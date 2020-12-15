@@ -53,12 +53,16 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
     @Override
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         caseId = createCcdCase();
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
         taskId = createTask(createTaskMessage);
+    }
+
+    @After
+    public void cleanUp() {
+        super.cleanUp(taskId);
     }
 
     @Test
@@ -73,7 +77,8 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
 
         result.then().assertThat()
-            .statusCode(HttpStatus.OK.value());
+            .statusCode(HttpStatus.OK.value())
+            .contentType(APPLICATION_JSON_VALUE);
 
         Response camundaResult = camundaApiActions.get(
             "/task/{task-id}/variables",
@@ -108,12 +113,13 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
 
         result.then().assertThat()
-            .statusCode(HttpStatus.OK.value());
+            .statusCode(HttpStatus.OK.value())
+            .contentType(APPLICATION_JSON_VALUE);
 
         Response camundaResult = camundaApiActions.get(
             "/task/{task-id}/variables",
             taskId,
-            new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader())
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
         );
 
         camundaResult.then().assertThat()
@@ -133,17 +139,12 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
             .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"));
     }
 
-    @After
-    public void cleanUp() {
-        super.cleanUp(taskId);
-    }
-
     private String createTask(CreateTaskMessage createTaskMessage) {
 
         Response camundaResult = camundaApiActions.post(
             "/message",
             createTaskMessage,
-            new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader())
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
         );
 
         camundaResult.then().assertThat()

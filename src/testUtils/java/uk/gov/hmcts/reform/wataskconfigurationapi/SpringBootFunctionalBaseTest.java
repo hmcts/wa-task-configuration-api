@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
+import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Before;
@@ -51,7 +52,7 @@ public abstract class SpringBootFunctionalBaseTest {
         camundaApiActions.post(
             ENDPOINT_COMPLETE_TASK,
             taskId,
-            authorizationHeadersProvider.getServiceAuthorizationHeader());
+            new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader()));
 
         Response result = camundaApiActions.get(
             ENDPOINT_HISTORY_TASK + "?taskId=" + taskId,
