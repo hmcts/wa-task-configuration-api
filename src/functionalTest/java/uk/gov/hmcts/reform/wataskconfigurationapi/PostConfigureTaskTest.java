@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
