@@ -1,12 +1,14 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.http.Headers;
+import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.jetty.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.ccd.client.CoreCaseDataApi;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
@@ -21,16 +23,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-import static net.serenitybdd.rest.SerenityRest.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.CreateTaskMessageBuilder.createBasicMessageForTask;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asCamundaJsonString;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.CreatorObjectMapper.asJsonString;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.config.ServiceTokenGeneratorConfiguration.SERVICE_AUTHORIZATION;
 
 @Slf4j
 public class ConfigureTaskBaseTest extends SpringBootFunctionalBaseTest {
+
+    private static final String ENDPOINT_BEING_TESTED = "/configureTask";
 
     @Autowired
     private AuthTokenGenerator serviceAuthTokenGenerator;
@@ -63,24 +63,26 @@ public class ConfigureTaskBaseTest extends SpringBootFunctionalBaseTest {
     public void given_configure_task_then_expect_task_state_is_assigned() throws Exception {
         log.info("Creating roles");
         roleAssignmentHelper.setRoleAssignments(caseId);
-        given()
-            .relaxedHTTPSValidation()
-            .contentType(APPLICATION_JSON_VALUE)
-            .basePath("/configureTask")
-            .body(asJsonString(new ConfigureTaskRequest(taskId)))
-            .when()
-            .post()
-            .then()
-            .statusCode(HttpStatus.OK_200);
 
-        given()
+        Response result = restApiActions.post(
+            ENDPOINT_BEING_TESTED,
+            new ConfigureTaskRequest(taskId),
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        result.then().assertThat()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(APPLICATION_JSON_VALUE);
+
+        Response camundaResult = camundaApiActions.get(
+            "/task/{task-id}/variables",
+            taskId,
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        camundaResult.then().assertThat()
+            .statusCode(HttpStatus.OK.value())
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
-            .baseUri(camundaUrl)
-            .basePath("/task/" + taskId + "/localVariables")
-            .when()
-            .get()
-            .then()
             .body("caseName.value", is("Bob Smith"))
             .body("appealType.value", is("protection"))
             .body("region.value", is("1"))
@@ -92,30 +94,31 @@ public class ConfigureTaskBaseTest extends SpringBootFunctionalBaseTest {
             .body("caseType.value", is("Asylum"))
             .body("title.value", is("task name"))
             .body("tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
-            .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
-        ;
+            .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"));
     }
 
     @Test
     public void given_configure_task_then_expect_task_state_is_unassigned() {
-        given()
-            .relaxedHTTPSValidation()
-            .contentType(APPLICATION_JSON_VALUE)
-            .basePath("/configureTask")
-            .body(asJsonString(new ConfigureTaskRequest(taskId)))
-            .when()
-            .post()
-            .then()
-            .statusCode(HttpStatus.OK_200);
 
-        given()
+        Response result = restApiActions.post(
+            ENDPOINT_BEING_TESTED,
+            new ConfigureTaskRequest(taskId),
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        result.then().assertThat()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(APPLICATION_JSON_VALUE);
+
+        Response camundaResult = camundaApiActions.get(
+            "/task/{task-id}/variables",
+            taskId,
+            new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader())
+        );
+
+        camundaResult.then().assertThat()
+            .statusCode(HttpStatus.OK.value())
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
-            .baseUri(camundaUrl)
-            .basePath("/task/" + taskId + "/localVariables")
-            .when()
-            .get()
-            .then()
             .body("caseName.value", is("Bob Smith"))
             .body("appealType.value", is("protection"))
             .body("region.value", is("1"))
@@ -127,8 +130,7 @@ public class ConfigureTaskBaseTest extends SpringBootFunctionalBaseTest {
             .body("caseType.value", is("Asylum"))
             .body("title.value", is("task name"))
             .body("tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
-            .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
-        ;
+            .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"));
     }
 
     @After
@@ -137,31 +139,39 @@ public class ConfigureTaskBaseTest extends SpringBootFunctionalBaseTest {
     }
 
     private String createTask(CreateTaskMessage createTaskMessage) {
-        given()
-            .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
-            .baseUri(camundaUrl)
-            .basePath("/message")
-            .body(asCamundaJsonString(createTaskMessage))
-            .when()
-            .post()
-            .then()
-            .statusCode(HttpStatus.NO_CONTENT_204);
+
+        Response camundaResult = camundaApiActions.post(
+            "/message",
+            createTaskMessage,
+            new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader())
+        );
+
+        camundaResult.then().assertThat()
+            .statusCode(HttpStatus.NO_CONTENT.value())
+            .contentType(APPLICATION_JSON_VALUE);
 
         Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
-        return given()
+
+        Response camundaResultGetTask = camundaApiActions.get(
+            "/task",
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        String filter = "?processVariables=" + "caseId_eq_" + createTaskMessage.getCaseId();
+
+        Response camundaGetTaskResult = camundaApiActions.get(
+            "/task" + filter,
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        return camundaGetTaskResult.then().assertThat()
+            .statusCode(HttpStatus.OK.value())
             .contentType(APPLICATION_JSON_VALUE)
-            .header(SERVICE_AUTHORIZATION, serviceAuthTokenGenerator.generate())
-            .baseUri(camundaUrl)
-            .basePath("/task")
-            .param("processVariables", "caseId_eq_" + createTaskMessage.getCaseId())
-            .when()
-            .get()
-            .then()
             .body("size()", is(1))
             .body("[0].name", is(taskName))
             .extract()
             .path("[0].id");
+
     }
 
     private String createCcdCase() throws IOException {

@@ -1,15 +1,19 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
-import io.restassured.RestAssured;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import uk.gov.hmcts.reform.wataskconfigurationapi.config.RestApiActions;
+import uk.gov.hmcts.reform.wataskconfigurationapi.services.AuthorizationHeadersProvider;
 
 import java.time.format.DateTimeFormatter;
 
+import static com.fasterxml.jackson.databind.PropertyNamingStrategy.LOWER_CAMEL_CASE;
+import static com.fasterxml.jackson.databind.PropertyNamingStrategy.SNAKE_CASE;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static net.serenitybdd.rest.SerenityRest.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -27,10 +31,18 @@ public abstract class SpringBootFunctionalBaseTest {
     @Value("${targets.camunda}")
     protected String camundaUrl;
 
+    protected RestApiActions restApiActions;
+    protected RestApiActions camundaApiActions;
+
+    @Autowired
+    protected AuthorizationHeadersProvider authorizationHeadersProvider;
+
     @Before
     public void setUp() throws Exception {
-        RestAssured.baseURI = testUrl;
-        RestAssured.useRelaxedHTTPSValidation();
+
+        restApiActions = new RestApiActions(testUrl, SNAKE_CASE).setUp();
+        camundaApiActions = new RestApiActions(camundaUrl, LOWER_CAMEL_CASE).setUp();
+
     }
 
     public void cleanUp(String taskId, String token) {
