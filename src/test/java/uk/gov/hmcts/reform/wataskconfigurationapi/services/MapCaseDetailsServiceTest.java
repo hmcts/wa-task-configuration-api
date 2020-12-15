@@ -62,7 +62,7 @@ class MapCaseDetailsServiceTest {
         String someCaseId = "someCaseId";
         String ccdData = "{"
                          + "\"jurisdiction\": \"ia\","
-                         + "\"case_type_id\": \"Asylum\","
+                         + "\"case_type\": \"Asylum\","
                          + "\"security_classification\": \"PUBLIC\","
                          + "\"data\": {}"
                          + "}";
@@ -118,7 +118,7 @@ class MapCaseDetailsServiceTest {
         String someCaseId = "someCaseId";
         String ccdData = "{ "
                          + "\"jurisdiction\": \"ia\","
-                         + "\"case_type_id\": \"Asylum\","
+                         + "\"case_type\": \"Asylum\","
                          + "\"security_classification\": \"PUBLIC\","
                          + "\"data\": {}"
                          + "}";

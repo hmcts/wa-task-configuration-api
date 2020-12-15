@@ -3,6 +3,8 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.ZonedDateTime;
@@ -11,6 +13,8 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda
 
 @SuppressWarnings({"PMD.TooManyFields", "PMD.ExcessiveParameterList"})
 @JsonIgnoreProperties(ignoreUnknown = true)
+@EqualsAndHashCode
+@ToString
 public class CamundaTask {
 
     private String id;

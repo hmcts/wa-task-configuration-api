@@ -7,8 +7,8 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGener
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AssigneeRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskState;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.Attributes;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.QueryRequest;

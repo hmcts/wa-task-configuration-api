@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.ConfigureTaskService;
 
 import java.util.HashMap;

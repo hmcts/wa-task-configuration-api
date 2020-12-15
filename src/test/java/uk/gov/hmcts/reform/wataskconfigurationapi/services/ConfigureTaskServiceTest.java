@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AddLocalVariableRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.exceptions.ConfigureTaskException;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators.TaskConfigurator;
 
@@ -21,11 +21,10 @@ import static org.mockito.Mockito.when;
 
 class ConfigureTaskServiceTest {
 
+    private static final String BEARER_SERVICE_TOKEN = "Bearer service token";
     private CamundaServiceApi camundaServiceApi;
     private ConfigureTaskService configureTaskService;
     private TaskConfigurator taskVariableExtractor;
-
-    private static final String BEARER_SERVICE_TOKEN = "Bearer service token";
 
     @BeforeEach
     void setup() {

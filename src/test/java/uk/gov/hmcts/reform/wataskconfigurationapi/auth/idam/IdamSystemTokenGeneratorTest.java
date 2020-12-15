@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.Token;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.IdamServiceApi;

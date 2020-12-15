@@ -17,7 +17,6 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.Camund
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableResult;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 
 import java.util.List;
 
@@ -43,7 +42,6 @@ class PojoTest {
         DecisionTableResult.class,
         CamundaValue.class,
         AddLocalVariableRequest.class,
-        CamundaTask.class,
         Token.class,
         UserInfo.class
     };

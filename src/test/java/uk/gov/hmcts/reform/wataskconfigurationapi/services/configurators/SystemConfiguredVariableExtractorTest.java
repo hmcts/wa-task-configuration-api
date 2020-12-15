@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.ConfigureTaskService;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.MapCaseDetailsService;
 
