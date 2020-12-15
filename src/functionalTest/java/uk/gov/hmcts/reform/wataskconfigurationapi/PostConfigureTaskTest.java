@@ -73,8 +73,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
 
         result.then().assertThat()
-            .statusCode(HttpStatus.OK.value())
-            .contentType(APPLICATION_JSON_VALUE);
+            .statusCode(HttpStatus.OK.value());
 
         Response camundaResult = camundaApiActions.get(
             "/task/{task-id}/variables",
@@ -109,8 +108,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
 
         result.then().assertThat()
-            .statusCode(HttpStatus.OK.value())
-            .contentType(APPLICATION_JSON_VALUE);
+            .statusCode(HttpStatus.OK.value());
 
         Response camundaResult = camundaApiActions.get(
             "/task/{task-id}/variables",
@@ -153,11 +151,6 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
             .contentType(APPLICATION_JSON_VALUE);
 
         Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
-
-        Response camundaResultGetTask = camundaApiActions.get(
-            "/task",
-            authorizationHeadersProvider.getServiceAuthorizationHeader()
-        );
 
         String filter = "?processVariables=" + "caseId_eq_" + createTaskMessage.getCaseId();
 
