@@ -127,7 +127,7 @@ public class ConfigurationControllerTest {
         when(serviceAuthTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
         String caseData = "{ "
                           + "\"jurisdiction\": \"ia\", "
-                          + "\"case_type_id\": \"Asylum\", "
+                          + "\"case_type\": \"Asylum\", "
                           + "\"security_classification\": \"PUBLIC\","
                           + "\"data\": {}"
                           + " }";
