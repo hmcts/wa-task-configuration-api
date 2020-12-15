@@ -48,6 +48,7 @@ public class MapCaseDetailsService {
         try {
             CaseDetails caseDetails = objectMapper.readValue(caseData, CaseDetails.class);
 
+            System.out.println(caseDetails);
             String jurisdiction = caseDetails.getJurisdiction();
             String caseType = caseDetails.getCaseTypeId();
 
