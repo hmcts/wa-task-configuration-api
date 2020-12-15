@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.wataskmanagementapi.domain.entities.camunda;
+package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda;
 
 import java.time.format.DateTimeFormatter;
 

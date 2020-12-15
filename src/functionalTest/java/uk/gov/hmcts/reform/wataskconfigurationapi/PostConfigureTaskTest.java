@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,16 +48,6 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
     private CreateTaskMessage createTaskMessage;
     private String caseId;
 
-    @Override
-    @Before
-    public void setUp() throws Exception {
-        caseId = createCcdCase();
-        createTaskMessage = createBasicMessageForTask()
-            .withCaseId(caseId)
-            .build();
-        taskId = createTask(createTaskMessage);
-    }
-
     @After
     public void cleanUp() {
         super.cleanUp(taskId);
@@ -66,6 +55,12 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
     @Test
     public void given_configure_task_then_expect_task_state_is_assigned() throws Exception {
+        caseId = createCcdCase();
+        createTaskMessage = createBasicMessageForTask()
+            .withCaseId(caseId)
+            .build();
+        taskId = createTask(createTaskMessage);
+
         log.info("Creating roles");
         roleAssignmentHelper.setRoleAssignments(caseId);
 
@@ -103,7 +98,13 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
     }
 
     @Test
-    public void given_configure_task_then_expect_task_state_is_unassigned() {
+    public void given_configure_task_then_expect_task_state_is_unassigned() throws IOException {
+
+        caseId = createCcdCase();
+        createTaskMessage = createBasicMessageForTask()
+            .withCaseId(caseId)
+            .build();
+        taskId = createTask(createTaskMessage);
 
         Response result = restApiActions.post(
             ENDPOINT_BEING_TESTED,
@@ -147,8 +148,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
 
         camundaResult.then().assertThat()
-            .statusCode(HttpStatus.NO_CONTENT.value())
-            .contentType(APPLICATION_JSON_VALUE);
+            .statusCode(HttpStatus.NO_CONTENT.value());
 
         Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
 

@@ -6,7 +6,7 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AddLocalVariableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 import uk.gov.hmcts.reform.wataskconfigurationapi.exceptions.ConfigureTaskException;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators.TaskConfigurator;
 
@@ -35,7 +35,7 @@ public class ConfigureTaskService {
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
     public void configureTask(String taskId) {
-        TaskResponse task;
+        CamundaTask task;
         try {
             task = camundaServiceApi.getTask(serviceAuthTokenGenerator.generate(), taskId);
         } catch (FeignException.NotFound notFoundException) {

@@ -8,7 +8,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AssigneeRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskState;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.Attributes;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.QueryRequest;
@@ -44,7 +44,7 @@ public class AutoAssignTaskToCaseworker implements TaskConfigurator {
     }
 
     @Override
-    public Map<String, Object> getConfigurationVariables(TaskResponse task,
+    public Map<String, Object> getConfigurationVariables(CamundaTask task,
                                                          Map<String, CamundaValue<Object>> processVariables) {
         String caseId = (String) processVariables.get(ConfigureTaskService.CASE_ID_PROCESS_VARIABLE_KEY).getValue();
 
@@ -59,7 +59,7 @@ public class AutoAssignTaskToCaseworker implements TaskConfigurator {
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private Map<String, Object> updateTaskStateAndSetAssignee(TaskResponse task,
+    private Map<String, Object> updateTaskStateAndSetAssignee(CamundaTask task,
                                                               List<RoleAssignment> roleAssignmentList) {
         Map<String, Object> taskVariables = new ConcurrentHashMap<>();
         if (roleAssignmentList.isEmpty()) {

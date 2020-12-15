@@ -1,61 +1,97 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Objects;
+import java.time.ZonedDateTime;
 
-public class TaskResponse {
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTime.CAMUNDA_DATA_TIME_FORMAT;
+
+@SuppressWarnings({"PMD.TooManyFields", "PMD.ExcessiveParameterList"})
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CamundaTask {
+
     private String id;
+    private String name;
     @JsonProperty("processInstanceId")
     private String processInstanceId;
-    private String name;
+    private String assignee;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @JsonFormat(pattern = CAMUNDA_DATA_TIME_FORMAT)
+    private ZonedDateTime created;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
+    @JsonFormat(pattern = CAMUNDA_DATA_TIME_FORMAT)
+    private ZonedDateTime due;
+    private String description;
+    private String owner;
+    private String formKey;
 
-    private TaskResponse() {
+    private CamundaTask() {
+        //Hidden constructor
+        super();
     }
 
-    public TaskResponse(String id, String processInstanceId, String name) {
+    public CamundaTask(String id, String processInstanceId, String name) {
         this.id = id;
         this.processInstanceId = processInstanceId;
         this.name = name;
+    }
+
+    public CamundaTask(String id,
+                       String name,
+                       String processInstanceId,
+                       String assignee,
+                       ZonedDateTime created,
+                       ZonedDateTime due,
+                       String description,
+                       String owner,
+                       String formKey) {
+        this.id = id;
+        this.name = name;
+        this.processInstanceId = processInstanceId;
+        this.assignee = assignee;
+        this.created = created;
+        this.due = due;
+        this.description = description;
+        this.owner = owner;
+        this.formKey = formKey;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getProcessInstanceId() {
-        return processInstanceId;
-    }
-
     public String getName() {
         return name;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        TaskResponse that = (TaskResponse) object;
-        return Objects.equals(id, that.id)
-               && Objects.equals(processInstanceId, that.processInstanceId)
-               && Objects.equals(name, that.name);
+    public String getProcessInstanceId() {
+        return processInstanceId;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, processInstanceId);
+    public String getAssignee() {
+        return assignee;
     }
 
-    @Override
-    public String toString() {
-        return "TaskResponse{"
-               + "id='" + id + '\''
-               + ", processInstanceId='" + processInstanceId + '\''
-               + ", name='" + name + '\''
-               + '}';
+    public ZonedDateTime getCreated() {
+        return created;
+    }
+
+    public ZonedDateTime getDue() {
+        return due;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public String getFormKey() {
+        return formKey;
     }
 }

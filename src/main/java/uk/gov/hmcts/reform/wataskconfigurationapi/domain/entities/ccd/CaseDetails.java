@@ -15,7 +15,7 @@ import java.util.Map;
 public class CaseDetails {
 
     private String jurisdiction;
-    private String caseTypeId;
+    private String caseType;
     private String securityClassification;
     private Map<String, Object> data;
 
@@ -25,11 +25,11 @@ public class CaseDetails {
     }
 
     public CaseDetails(String jurisdiction,
-                       String caseTypeId,
+                       String caseType,
                        String securityClassification,
                        Map<String, Object> data) {
         this.jurisdiction = jurisdiction;
-        this.caseTypeId = caseTypeId;
+        this.caseType = caseType;
         this.securityClassification = securityClassification;
         this.data = data;
     }
@@ -38,8 +38,8 @@ public class CaseDetails {
         return jurisdiction;
     }
 
-    public String getCaseTypeId() {
-        return caseTypeId;
+    public String getCaseType() {
+        return caseType;
     }
 
     public String getSecurityClassification() {

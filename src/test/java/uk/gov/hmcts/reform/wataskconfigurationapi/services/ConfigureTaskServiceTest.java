@@ -8,7 +8,7 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AddLocalVariableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 import uk.gov.hmcts.reform.wataskconfigurationapi.exceptions.ConfigureTaskException;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators.TaskConfigurator;
 
@@ -45,8 +45,8 @@ class ConfigureTaskServiceTest {
     void canConfigureATaskWithVariables() {
         String taskId = "taskId";
         String processInstanceId = "processInstanceId";
-        TaskResponse taskResponse = new TaskResponse("id", processInstanceId, "taskName");
-        when(camundaServiceApi.getTask(BEARER_SERVICE_TOKEN, taskId)).thenReturn(taskResponse);
+        CamundaTask camundaTask = new CamundaTask("id", processInstanceId, "taskName");
+        when(camundaServiceApi.getTask(BEARER_SERVICE_TOKEN, taskId)).thenReturn(camundaTask);
 
         HashMap<String, CamundaValue<Object>> processVariables = new HashMap<>();
         String caseId = "someCcdValue";
@@ -57,7 +57,7 @@ class ConfigureTaskServiceTest {
         HashMap<String, Object> mappedValues = new HashMap<>();
         mappedValues.put("key1", "value1");
         mappedValues.put("key2", "value2");
-        when(taskVariableExtractor.getConfigurationVariables(taskResponse, processVariables)).thenReturn(mappedValues);
+        when(taskVariableExtractor.getConfigurationVariables(camundaTask, processVariables)).thenReturn(mappedValues);
 
         configureTaskService.configureTask(taskId);
 
@@ -75,15 +75,15 @@ class ConfigureTaskServiceTest {
     void canConfigureATaskWithNoExtraVariables() {
         String taskId = "taskId";
         String processInstanceId = "processInstanceId";
-        TaskResponse taskResponse = new TaskResponse("id", processInstanceId, "taskName");
-        when(camundaServiceApi.getTask(BEARER_SERVICE_TOKEN, taskId)).thenReturn(taskResponse);
+        CamundaTask camundaTask = new CamundaTask("id", processInstanceId, "taskName");
+        when(camundaServiceApi.getTask(BEARER_SERVICE_TOKEN, taskId)).thenReturn(camundaTask);
         HashMap<String, CamundaValue<Object>> processVariables = new HashMap<>();
         String caseId = "someCcdValue";
         processVariables.put("caseId", new CamundaValue<>(caseId, "String"));
         when(camundaServiceApi.getProcessVariables(BEARER_SERVICE_TOKEN, processInstanceId))
             .thenReturn(processVariables);
         HashMap<String, Object> mappedValues = new HashMap<>();
-        when(taskVariableExtractor.getConfigurationVariables(taskResponse, processVariables)).thenReturn(mappedValues);
+        when(taskVariableExtractor.getConfigurationVariables(camundaTask, processVariables)).thenReturn(mappedValues);
 
         configureTaskService.configureTask(taskId);
 

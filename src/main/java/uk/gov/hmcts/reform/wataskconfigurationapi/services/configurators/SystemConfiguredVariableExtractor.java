@@ -3,7 +3,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.ConfigureTaskService;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.MapCaseDetailsService;
 
@@ -20,7 +20,7 @@ public class SystemConfiguredVariableExtractor implements TaskConfigurator {
     }
 
     @Override
-    public Map<String, Object> getConfigurationVariables(TaskResponse task,
+    public Map<String, Object> getConfigurationVariables(CamundaTask task,
                                                          Map<String, CamundaValue<Object>> processVariables) {
         if (!processVariables.containsKey(ConfigureTaskService.CASE_ID_PROCESS_VARIABLE_KEY)) {
             throw new IllegalStateException(

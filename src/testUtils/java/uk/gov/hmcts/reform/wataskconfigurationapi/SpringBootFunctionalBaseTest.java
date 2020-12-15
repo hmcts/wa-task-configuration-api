@@ -40,7 +40,7 @@ public abstract class SpringBootFunctionalBaseTest {
     protected AuthorizationHeadersProvider authorizationHeadersProvider;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUpGivens() {
 
         restApiActions = new RestApiActions(testUrl, SNAKE_CASE).setUp();
         camundaApiActions = new RestApiActions(camundaUrl, LOWER_CAMEL_CASE).setUp();

@@ -3,7 +3,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +15,12 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.services.ConfigureTaskS
 class CamundaProcessVariableExtractorTest {
 
     public static final String TASK_NAME = "taskName";
-    private TaskResponse task;
+    private CamundaTask task;
     private CamundaProcessVariableExtractor camundaProcessVariableExtractor;
 
     @BeforeEach
     void setUp() {
-        task = new TaskResponse("id", "processInstanceId", TASK_NAME);
+        task = new CamundaTask("id", "processInstanceId", TASK_NAME);
         camundaProcessVariableExtractor = new CamundaProcessVariableExtractor();
     }
 

@@ -13,7 +13,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.Camund
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableResult;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 
 import java.util.List;
 import java.util.Map;
@@ -50,8 +50,8 @@ public interface CamundaServiceApi {
                      @RequestBody AssigneeRequest assigneeRequest);
 
     @GetMapping(value = "/task/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    TaskResponse getTask(@RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorisation,
-                         @PathVariable("id") String taskId);
+    CamundaTask getTask(@RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorisation,
+                        @PathVariable("id") String taskId);
 
     @GetMapping(value = "/process-instance/{id}/variables", produces = MediaType.APPLICATION_JSON_VALUE)
     Map<String, CamundaValue<Object>> getProcessVariables(

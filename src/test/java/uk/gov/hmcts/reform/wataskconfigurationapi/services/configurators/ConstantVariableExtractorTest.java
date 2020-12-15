@@ -3,7 +3,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +13,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.services.configurators.ConstantVariableExtractor.STATUS_VARIABLE_KEY;
 
 class ConstantVariableExtractorTest {
-    private TaskResponse task;
+    private CamundaTask task;
 
     @BeforeEach
     void setUp() {
-        task = new TaskResponse("id", "processInstanceId", "taskName");
+        task = new CamundaTask("id", "processInstanceId", "taskName");
     }
 
     @Test

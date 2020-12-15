@@ -21,7 +21,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.Camund
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableResult;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.TaskResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.roleassignment.RoleAssignmentResource;
 
@@ -116,7 +116,7 @@ public class ConfigurationControllerTest {
         )).thenReturn(new RoleAssignmentResource(emptyList(), null));
 
         when(camundaServiceApi.getTask(BEARER_SERVICE_TOKEN, taskId))
-            .thenReturn(new TaskResponse("id", processInstanceId, TASK_NAME));
+            .thenReturn(new CamundaTask("id", processInstanceId, TASK_NAME));
         HashMap<String, CamundaValue<Object>> processVariables = new HashMap<>();
         String caseId = UUID.randomUUID().toString();
         processVariables.put("caseId", new CamundaValue<>(caseId, "string"));
