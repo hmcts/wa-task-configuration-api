@@ -135,7 +135,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
     @After
     public void cleanUp() {
-        super.cleanUp(taskId, serviceAuthTokenGenerator.generate());
+        super.cleanUp(taskId);
     }
 
     private String createTask(CreateTaskMessage createTaskMessage) {
