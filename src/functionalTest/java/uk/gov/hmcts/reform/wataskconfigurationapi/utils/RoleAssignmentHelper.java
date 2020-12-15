@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.wataskconfigurationapi;
+package uk.gov.hmcts.reform.wataskconfigurationapi.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;

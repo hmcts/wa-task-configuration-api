@@ -1,5 +1,6 @@
-package uk.gov.hmcts.reform.wataskconfigurationapi;
+package uk.gov.hmcts.reform.wataskconfigurationapi.utils;
 
+import uk.gov.hmcts.reform.wataskconfigurationapi.PostConfigureTaskTest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class CreateTaskMessageBuilder {
         processVariables.put("group", stringValue("TCW"));
         processVariables.put(
             "dueDate",
-            stringValue(now().plusDays(2).format(ConfigureTaskBaseTest.CAMUNDA_DATA_TIME_FORMATTER))
+            stringValue(now().plusDays(2).format(PostConfigureTaskTest.CAMUNDA_DATA_TIME_FORMATTER))
         );
         processVariables.put("name", stringValue("task name"));
         return new CreateTaskMessageBuilder()

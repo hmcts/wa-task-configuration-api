@@ -18,6 +18,8 @@ import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 import uk.gov.hmcts.reform.wataskconfigurationapi.controllers.ConfigureTaskRequest;
+import uk.gov.hmcts.reform.wataskconfigurationapi.utils.CreateTaskMessage;
+import uk.gov.hmcts.reform.wataskconfigurationapi.utils.RoleAssignmentHelper;
 
 import java.io.IOException;
 import java.util.Map;
@@ -25,10 +27,10 @@ import java.util.Objects;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.CreateTaskMessageBuilder.createBasicMessageForTask;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.utils.CreateTaskMessageBuilder.createBasicMessageForTask;
 
 @Slf4j
-public class ConfigureTaskBaseTest extends SpringBootFunctionalBaseTest {
+public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
     private static final String ENDPOINT_BEING_TESTED = "/configureTask";
 
