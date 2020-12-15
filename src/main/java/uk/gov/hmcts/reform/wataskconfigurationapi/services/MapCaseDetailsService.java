@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -18,11 +19,14 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
+import static org.slf4j.LoggerFactory.getLogger;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 
 @Component
 public class MapCaseDetailsService {
+
     public static final String WA_TASK_CONFIGURATION_DECISION_TABLE_NAME = "wa-task-configuration";
+    private static final Logger LOG = getLogger(MapCaseDetailsService.class);
     private final CcdDataService ccdDataService;
     private final CamundaServiceApi camundaServiceApi;
     private final PermissionsService permissionsService;
@@ -48,7 +52,7 @@ public class MapCaseDetailsService {
         try {
             CaseDetails caseDetails = objectMapper.readValue(caseData, CaseDetails.class);
 
-            System.out.println(caseDetails);
+            LOG.info("casedata '{}' ", caseDetails);
             String jurisdiction = caseDetails.getJurisdiction();
             String caseType = caseDetails.getCaseTypeId();
 
