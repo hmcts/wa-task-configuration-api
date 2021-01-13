@@ -12,18 +12,13 @@ import java.util.List;
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RoleAssignmentResource {
     private final List<RoleAssignment> roleAssignmentResponse;
-    private final Object links;
 
-    public RoleAssignmentResource(List<RoleAssignment> roleAssignmentResponse, Object links) {
+    public RoleAssignmentResource(List<RoleAssignment> roleAssignmentResponse) {
         this.roleAssignmentResponse = roleAssignmentResponse;
-        this.links = links;
     }
 
     public List<RoleAssignment> getRoleAssignmentResponse() {
         return roleAssignmentResponse;
     }
 
-    public Object getLinks() {
-        return links;
-    }
 }

@@ -288,7 +288,7 @@ class TaskConfigurationControllerTest {
             eq(BEARER_USER_TOKEN),
             eq(BEARER_SERVICE_TOKEN),
             any(QueryRequest.class)
-        )).thenReturn(new RoleAssignmentResource(roleAssignments, null));
+        )).thenReturn(new RoleAssignmentResource(roleAssignments));
 
     }
 
