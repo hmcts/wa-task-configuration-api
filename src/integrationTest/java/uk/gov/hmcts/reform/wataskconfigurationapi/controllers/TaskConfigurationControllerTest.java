@@ -342,7 +342,6 @@ class TaskConfigurationControllerTest {
         modifications.put("taskSystem", stringValue("SELF"));
         modifications.put("caseTypeId", stringValue("Asylum"));
         modifications.put("title", stringValue(TASK_NAME));
-        modifications.put("hasWarnings", stringValue("false"));
         return modifications;
     }
 }
