@@ -216,7 +216,7 @@ class TaskConfigurationControllerTest {
                                   + "    \"securityClassification\": \"PUBLIC\",\n"
                                   + "    \"autoAssigned\": true,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
-                                  + "    \"title\": \"taskName\",\n"
+                                  + "    \"title\": \"taskName\"\n"
                                   + "  }\n"
                                   + "}";
         mockMvc.perform(
@@ -250,7 +250,7 @@ class TaskConfigurationControllerTest {
                                   + "    \"autoAssigned\": false,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
-                                  + "    \"name1\": \"value1\",\n"
+                                  + "    \"name1\": \"value1\"\n"
                                   + "  }\n"
                                   + "}";
         mockMvc.perform(
