@@ -39,9 +39,7 @@ class ConstantVariablesConfiguratorTest {
             TASK_STATE.value(), CONFIGURED.value(),
             AUTO_ASSIGNED.value(), false,
             EXECUTION_TYPE.value(), "Case Management Task",
-            TASK_SYSTEM.value(), "SELF",
-            HAS_WARNINGS.value(), false);
-
+            TASK_SYSTEM.value(), "SELF");
 
         Map<String, Object> values = constantVariablesConfigurator.getConfigurationVariables(testTaskToConfigure);
 
