@@ -217,7 +217,6 @@ class TaskConfigurationControllerTest {
                                   + "    \"autoAssigned\": true,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
-                                  + "    \"hasWarnings\": false\n"
                                   + "  }\n"
                                   + "}";
         mockMvc.perform(
@@ -252,7 +251,6 @@ class TaskConfigurationControllerTest {
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
                                   + "    \"name1\": \"value1\",\n"
-                                  + "    \"hasWarnings\": false\n"
                                   + "  }\n"
                                   + "}";
         mockMvc.perform(
