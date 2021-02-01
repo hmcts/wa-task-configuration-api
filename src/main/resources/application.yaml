@@ -18,7 +18,7 @@ role-assignment-service:
   url: ${ROLE_ASSIGNMENT_URL:http://role-assignment}
 
 camunda:
-  url: ${CAMUNDA_URL:http://camunda-bpm/engine-rest}
+  url: ${CAMUNDA_URL:http://camunda-local-bpm/engine-rest}
 
 ccd:
   url: ${CCD_URL:http://ccd-data-store-api}
