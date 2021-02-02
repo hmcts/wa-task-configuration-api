@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.clients.IdamServiceApi;
 
 import static java.util.Objects.requireNonNull;
 
+//fixme: this class does not seem to be used anywhere. Can it be cleaned up?
 @Component
 public class IdamService {
 
