@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class RoleAssignmentHelper {
 
-    @Value("${targets.role-assignment}")
+    @Value("${role-assignment-service.url}")
     protected String roleAssignmentUrl;
 
     @Autowired

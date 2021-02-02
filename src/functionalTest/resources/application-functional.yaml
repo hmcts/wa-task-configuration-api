@@ -1,4 +1,2 @@
 targets:
   instance: ${TEST_URL:http://localhost:8091}
-  camunda: ${CAMUNDA_URL:http://camunda-local-bpm/engine-rest}
-  role-assignment: ${ROLE_ASSIGNMENT_URL:http://role-assignment}

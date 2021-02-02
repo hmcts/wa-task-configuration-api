@@ -30,7 +30,7 @@ public abstract class SpringBootFunctionalBaseTest {
 
     @Value("${targets.instance}")
     protected String testUrl;
-    @Value("${targets.camunda}")
+    @Value("${camunda.url}")
     protected String camundaUrl;
 
     protected RestApiActions restApiActions;
