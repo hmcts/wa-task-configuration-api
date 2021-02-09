@@ -160,7 +160,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
         String filter = "?processVariables=" + "caseId_eq_" + createTaskMessage.getCaseId();
 
-        waitSeconds(1);
+        waitSeconds(2);
 
         Response camundaGetTaskResult = camundaApiActions.get(
             "/task" + filter,
@@ -249,7 +249,6 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
         log.info("Submitted case [" + caseDetails.getId() + "]");
 
-        waitSeconds(2);
         return caseDetails.getId().toString();
     }
 
