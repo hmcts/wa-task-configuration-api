@@ -249,6 +249,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
         log.info("Submitted case [" + caseDetails.getId() + "]");
 
+        waitSeconds(2);
         return caseDetails.getId().toString();
     }
 
