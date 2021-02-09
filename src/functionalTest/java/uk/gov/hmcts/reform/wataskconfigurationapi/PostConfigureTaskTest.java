@@ -249,6 +249,8 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         );
         log.info("Submitted case [" + caseDetails.getId() + "]");
 
+        //Added wait as there seems to be a delay while retrieving the case.
+        waitSeconds(2);
         return caseDetails.getId().toString();
     }
 
