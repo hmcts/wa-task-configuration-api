@@ -134,7 +134,7 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .body("configuration_variables.executionType", equalTo("Case Management Task"))
             .body("configuration_variables.caseId", equalTo(caseId))
             .body("configuration_variables.securityClassification", equalTo("PUBLIC"))
-            .body("configuration_variables.autoAssigned", equalTo(false))
+            .body("configuration_variables.autoAssigned", equalTo("false"))
             .body("configuration_variables.taskSystem", equalTo("SELF"));
     }
 
