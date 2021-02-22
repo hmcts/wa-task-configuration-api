@@ -8,13 +8,13 @@ def component = "task-configuration-api"
 
 def secrets = [
   'wa-${env}' : [
-    secret('wa-system-username', 'WA_SYSTEM_USERNAME'),
-    secret('wa-system-password', 'WA_SYSTEM_PASSWORD'),
-    secret('wa-idam-client-id', 'WA_IDAM_CLIENT_ID'),
-    secret('wa-idam-client-secret', 'WA_IDAM_CLIENT_SECRET'),
+      secret('wa-system-username', 'WA_SYSTEM_USERNAME'),
+      secret('wa-system-password', 'WA_SYSTEM_PASSWORD'),
+      secret('wa-idam-client-id', 'WA_IDAM_CLIENT_ID'),
+      secret('wa-idam-client-secret', 'WA_IDAM_CLIENT_SECRET'),
   ],
   's2s-${env}' : [
-    secret('microservicekey-wa-task-configuration-api', 'S2S_SECRET_TASK_CONFIGURATION_API')
+      secret('microservicekey-wa-task-configuration-api', 'S2S_SECRET_TASK_CONFIGURATION_API')
   ]
 ]
 

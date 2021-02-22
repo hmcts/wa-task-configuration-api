@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,6 +58,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.controllers.util.Creato
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.stringValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_ID;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.NAME;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_STATE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.ASSIGNED;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.UNASSIGNED;
@@ -217,13 +217,20 @@ class TaskConfigurationControllerTest {
                                   + "    \"autoAssigned\": true,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
-                                  + "    \"name1\": \"value1\"\n"
+                                  + "    \"hasWarnings\": false\n"
                                   + "  }\n"
                                   + "}";
+
+
+        Map<String, Object> requiredProcessVariables = Map.of(
+            CASE_ID.value(), testCaseId,
+            NAME.value(), TASK_NAME
+        );
+
         mockMvc.perform(
             post("/task/" + testTaskId + "/configuration")
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(asJsonString(new ConfigureTaskRequest(testCaseId, TASK_NAME, emptyMap())))
+                .content(asJsonString(new ConfigureTaskRequest(requiredProcessVariables)))
         )
             .andExpect(status().isOk())
             .andExpect(content().json(expectedResponse))
@@ -251,13 +258,20 @@ class TaskConfigurationControllerTest {
                                   + "    \"autoAssigned\": false,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
-                                  + "    \"name1\": \"value1\"\n"
+                                  + "    \"name1\": \"value1\",\n"
+                                  + "    \"hasWarnings\": false\n"
                                   + "  }\n"
                                   + "}";
+
+        Map<String, Object> requiredProcessVariables = Map.of(
+            CASE_ID.value(), testCaseId,
+            NAME.value(), TASK_NAME
+        );
+
         mockMvc.perform(
             post("/task/" + testTaskId + "/configuration")
                 .contentType(APPLICATION_JSON_VALUE)
-                .content(asJsonString(new ConfigureTaskRequest(testCaseId, TASK_NAME, emptyMap())))
+                .content(asJsonString(new ConfigureTaskRequest(requiredProcessVariables)))
         )
             .andExpect(status().isOk())
             .andExpect(content().json(expectedResponse))
@@ -343,6 +357,7 @@ class TaskConfigurationControllerTest {
         modifications.put("taskSystem", stringValue("SELF"));
         modifications.put("caseTypeId", stringValue("Asylum"));
         modifications.put("title", stringValue(TASK_NAME));
+        modifications.put("hasWarnings", stringValue("false"));
         return modifications;
     }
 }
