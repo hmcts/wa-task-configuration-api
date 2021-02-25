@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.Token;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.ActorIdType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.Classification;
@@ -80,7 +80,7 @@ class TaskConfigurationControllerTest {
     @MockBean
     private AuthTokenGenerator serviceAuthTokenGenerator;
     @MockBean
-    private IdamSystemTokenGenerator systemTokenGenerator;
+    private IdamTokenGenerator systemUserIdamToken;
     @MockBean
     private CcdDataServiceApi ccdDataServiceApi;
     @MockBean
@@ -180,7 +180,7 @@ class TaskConfigurationControllerTest {
 
         when(camundaServiceApi.getTask(BEARER_SERVICE_TOKEN, testTaskId))
             .thenThrow(mock(FeignException.NotFound.class));
-        when(systemTokenGenerator.generate()).thenReturn(BEARER_USER_TOKEN);
+        when(systemUserIdamToken.generate()).thenReturn(BEARER_USER_TOKEN);
         when(serviceAuthTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
         mockMvc.perform(
@@ -322,7 +322,7 @@ class TaskConfigurationControllerTest {
         when(idamServiceApi.token(ArgumentMatchers.<Map<String, Object>>any()))
             .thenReturn(new Token(BEARER_USER_TOKEN, "scope"));
 
-        when(systemTokenGenerator.generate()).thenReturn(BEARER_USER_TOKEN);
+        when(systemUserIdamToken.generate()).thenReturn(BEARER_USER_TOKEN);
         when(serviceAuthTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
         String caseData = "{ "

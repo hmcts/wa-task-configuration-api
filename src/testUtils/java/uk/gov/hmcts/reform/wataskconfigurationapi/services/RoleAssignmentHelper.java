@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 
 import java.io.IOException;
@@ -28,12 +28,12 @@ public class RoleAssignmentHelper {
     private AuthTokenGenerator serviceAuthTokenGenerator;
 
     @Autowired
-    private IdamSystemTokenGenerator systemTokenGenerator;
+    private IdamTokenGenerator systemUserIdamToken;
 
     public void setRoleAssignments(String caseId) throws IOException {
-        String bearerUserToken = systemTokenGenerator.generate();
+        String bearerUserToken = systemUserIdamToken.generate();
         String s2sToken = serviceAuthTokenGenerator.generate();
-        UserInfo userInfo = systemTokenGenerator.getUserInfo(bearerUserToken);
+        UserInfo userInfo = systemUserIdamToken.getUserInfo(bearerUserToken);
         createRoleAssignmentInThisOrder(caseId, bearerUserToken, s2sToken, userInfo);
         log.info("Role Assignments created");
 

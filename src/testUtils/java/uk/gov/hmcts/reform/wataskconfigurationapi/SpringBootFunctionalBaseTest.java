@@ -17,7 +17,7 @@ import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
 import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
 import uk.gov.hmcts.reform.ccd.client.model.Event;
 import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 import uk.gov.hmcts.reform.wataskconfigurationapi.config.RestApiActions;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.AuthorizationHeadersProvider;
@@ -60,7 +60,7 @@ public abstract class SpringBootFunctionalBaseTest {
     @Autowired
     protected AuthorizationHeadersProvider authorizationHeadersProvider;
     @Autowired
-    private IdamSystemTokenGenerator systemTokenGenerator;
+    private IdamTokenGenerator systemUserIdamToken;
     @Autowired
     private CoreCaseDataApi coreCaseDataApi;
     @Autowired
@@ -128,8 +128,8 @@ public abstract class SpringBootFunctionalBaseTest {
 
 
     public String createCcdCase() throws IOException {
-        String userToken = systemTokenGenerator.generate();
-        UserInfo userInfo = systemTokenGenerator.getUserInfo(userToken);
+        String userToken = systemUserIdamToken.generate();
+        UserInfo userInfo = systemUserIdamToken.getUserInfo(userToken);
         String serviceToken = authorizationHeadersProvider.getServiceAuthorizationHeader().getValue();
         StartEventResponse startCase = coreCaseDataApi.startForCaseworker(
             userToken,
