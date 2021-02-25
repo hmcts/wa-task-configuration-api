@@ -1,7 +1,9 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -10,10 +12,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
+import uk.gov.hmcts.reform.ccd.client.CoreCaseDataApi;
+import uk.gov.hmcts.reform.ccd.client.model.CaseDataContent;
+import uk.gov.hmcts.reform.ccd.client.model.CaseDetails;
+import uk.gov.hmcts.reform.ccd.client.model.Event;
+import uk.gov.hmcts.reform.ccd.client.model.StartEventResponse;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamSystemTokenGenerator;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 import uk.gov.hmcts.reform.wataskconfigurationapi.config.RestApiActions;
 import uk.gov.hmcts.reform.wataskconfigurationapi.services.AuthorizationHeadersProvider;
+import uk.gov.hmcts.reform.wataskconfigurationapi.services.CreateTaskMessage;
+import uk.gov.hmcts.reform.wataskconfigurationapi.services.RoleAssignmentHelper;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static com.fasterxml.jackson.databind.PropertyNamingStrategy.LOWER_CAMEL_CASE;
@@ -28,6 +43,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RunWith(SpringIntegrationSerenityRunner.class)
 @SpringBootTest
 @ActiveProfiles("functional")
+@Slf4j
 public abstract class SpringBootFunctionalBaseTest {
     public static final DateTimeFormatter CAMUNDA_DATA_TIME_FORMATTER = ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     private static final String ENDPOINT_COMPLETE_TASK = "task/{task-id}/complete";
@@ -43,6 +59,12 @@ public abstract class SpringBootFunctionalBaseTest {
 
     @Autowired
     protected AuthorizationHeadersProvider authorizationHeadersProvider;
+    @Autowired
+    private IdamSystemTokenGenerator systemTokenGenerator;
+    @Autowired
+    private CoreCaseDataApi coreCaseDataApi;
+    @Autowired
+    protected RoleAssignmentHelper roleAssignmentHelper;
 
     @Before
     public void setUpGivens() {
@@ -104,4 +126,108 @@ public abstract class SpringBootFunctionalBaseTest {
         return response;
     }
 
+
+    public String createCcdCase() throws IOException {
+        String userToken = systemTokenGenerator.generate();
+        UserInfo userInfo = systemTokenGenerator.getUserInfo(userToken);
+        String serviceToken = authorizationHeadersProvider.getServiceAuthorizationHeader().getValue();
+        StartEventResponse startCase = coreCaseDataApi.startForCaseworker(
+            userToken,
+            serviceToken,
+            userInfo.getUid(),
+            "IA",
+            "Asylum",
+            "startAppeal"
+        );
+        String caseData = new String(
+            (Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+                                        .getResourceAsStream("case_data.json"))).readAllBytes()
+        );
+        var data = new ObjectMapper().readValue(caseData, Map.class);
+        CaseDataContent caseDataContent = CaseDataContent.builder()
+            .eventToken(startCase.getToken())
+            .event(Event.builder()
+                       .id(startCase.getEventId())
+                       .summary("summary")
+                       .description("description")
+                       .build())
+            .data(data)
+            .build();
+
+        CaseDetails caseDetails = coreCaseDataApi.submitForCaseworker(
+            userToken,
+            serviceToken,
+            userInfo.getUid(),
+            "IA",
+            "Asylum",
+            true,
+            caseDataContent
+        );
+
+        log.info("Created case [" + caseDetails.getId() + "]");
+
+        StartEventResponse submitCase = coreCaseDataApi.startEventForCaseWorker(
+            userToken,
+            serviceToken,
+            userInfo.getUid(),
+            "IA",
+            "Asylum",
+            caseDetails.getId().toString(),
+            "submitAppeal"
+        );
+
+        CaseDataContent submitCaseDataContent = CaseDataContent.builder()
+            .eventToken(submitCase.getToken())
+            .event(Event.builder()
+                       .id(submitCase.getEventId())
+                       .summary("summary")
+                       .description("description")
+                       .build())
+            .data(data)
+            .build();
+        coreCaseDataApi.submitEventForCaseWorker(
+            userToken,
+            serviceToken,
+            userInfo.getUid(),
+            "IA",
+            "Asylum",
+            caseDetails.getId().toString(),
+            true,
+            submitCaseDataContent
+        );
+        log.info("Submitted case [" + caseDetails.getId() + "]");
+        //Added wait as there seems to be a delay while retrieving the case.
+        waitSeconds(2);
+        return caseDetails.getId().toString();
+    }
+
+    private void waitSeconds(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public String createTask(CreateTaskMessage createTaskMessage) {
+
+        Response camundaResult = camundaApiActions.post(
+            "/message",
+            createTaskMessage,
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        camundaResult.then().assertThat()
+            .statusCode(HttpStatus.NO_CONTENT.value());
+
+        Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
+
+        String filter = "?processVariables=" + "caseId_eq_" + createTaskMessage.getCaseId();
+
+        AtomicReference<String> response = getTaskId(taskName, filter);
+
+        return response.get();
+
+    }
 }
