@@ -9,21 +9,21 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserIdamTok
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.IdamServiceApi;
 
 @Configuration
-public class IdamTokenGeneratorConfig {
+public class WaLawUserIdamTokenGeneratorConfig {
 
     @SuppressWarnings({"PMD.UseObjectForClearerAPI"})
     @Bean
-    public UserIdamTokenGeneratorInfo systemUserIdamInfo(
-        @Value("${idam.system.username}") String systemUserName,
-        @Value("${idam.system.password}") String systemUserPass,
+    public UserIdamTokenGeneratorInfo testUserIdamInfo(
+        @Value("${idam.test.username}") String testUserName,
+        @Value("${idam.test.password}") String testUserPass,
         @Value("${idam.redirectUrl}") String idamRedirectUrl,
         @Value("${idam.scope}") String scope,
         @Value("${spring.security.oauth2.client.registration.oidc.client-id}") String clientId,
         @Value("${spring.security.oauth2.client.registration.oidc.client-secret}") String clientSecret
     ) {
         return UserIdamTokenGeneratorInfo.builder()
-            .userName(systemUserName)
-            .userPassword(systemUserPass)
+            .userName(testUserName)
+            .userPassword(testUserPass)
             .idamRedirectUrl(idamRedirectUrl)
             .idamScope(scope)
             .idamClientId(clientId)
@@ -32,14 +32,13 @@ public class IdamTokenGeneratorConfig {
     }
 
     @Bean
-    public IdamTokenGenerator systemUserIdamToken(
-        UserIdamTokenGeneratorInfo systemUserIdamInfo,
+    public IdamTokenGenerator waTestLawFirmIdamToken(
+        UserIdamTokenGeneratorInfo testUserIdamInfo,
         @Autowired IdamServiceApi idamServiceApi
     ) {
         return new IdamTokenGenerator(
-            systemUserIdamInfo,
+            testUserIdamInfo,
             idamServiceApi
         );
     }
-
 }

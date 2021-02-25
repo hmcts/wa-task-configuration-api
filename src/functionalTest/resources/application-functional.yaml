@@ -1,2 +1,7 @@
 targets:
   instance: ${TEST_URL:http://localhost:8091}
+
+idam:
+  test:
+    username: ${TEST_WA_LAW_FIRM_USERNAME:some_user@hmcts.net}
+    password: ${TEST_WA_LAW_FIRM_PASSWORD:password}
