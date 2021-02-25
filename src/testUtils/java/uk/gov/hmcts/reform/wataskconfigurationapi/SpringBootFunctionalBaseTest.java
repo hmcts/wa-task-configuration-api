@@ -62,6 +62,8 @@ public abstract class SpringBootFunctionalBaseTest {
     @Autowired
     private IdamTokenGenerator systemUserIdamToken;
     @Autowired
+    private IdamTokenGenerator waTestLawFirmIdamToken;
+    @Autowired
     private CoreCaseDataApi coreCaseDataApi;
     @Autowired
     protected RoleAssignmentHelper roleAssignmentHelper;
@@ -128,8 +130,8 @@ public abstract class SpringBootFunctionalBaseTest {
 
 
     public String createCcdCase() throws IOException {
-        String userToken = systemUserIdamToken.generate();
-        UserInfo userInfo = systemUserIdamToken.getUserInfo(userToken);
+        String userToken = waTestLawFirmIdamToken.generate();
+        UserInfo userInfo = waTestLawFirmIdamToken.getUserInfo(userToken);
         String serviceToken = authorizationHeadersProvider.getServiceAuthorizationHeader().getValue();
         StartEventResponse startCase = coreCaseDataApi.startForCaseworker(
             userToken,
