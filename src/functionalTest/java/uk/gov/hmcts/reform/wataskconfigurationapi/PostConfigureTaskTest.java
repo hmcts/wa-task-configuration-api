@@ -62,8 +62,9 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
             .withCaseId(caseId)
             .build();
         taskId = createTask(createTaskMessage);
+        log.info("task found [{}]", taskId);
 
-        log.info("Creating roles");
+        log.info("Creating roles...");
         roleAssignmentHelper.setRoleAssignments(caseId);
 
         Response result = restApiActions.post(
@@ -72,7 +73,6 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
             new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader())
         );
         result.prettyPeek();
-
 
         result.then().assertThat()
             .statusCode(HttpStatus.OK.value())
@@ -102,7 +102,6 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
             .body("hasWarnings.value", is("false"))
             .body("tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"))
             .body("senior-tribunal-caseworker.value", is("Read,Refer,Own,Manage,Cancel"));
-
     }
 
     @Test
