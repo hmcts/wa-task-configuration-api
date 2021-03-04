@@ -105,14 +105,13 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
     }
 
     @Test
-    @Ignore
     public void given_configure_task_then_expect_task_state_is_unassigned() throws IOException {
-
         caseId = createCcdCase();
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
         taskId = createTask(createTaskMessage);
+        log.info("task found [{}]", taskId);
 
         Response result = restApiActions.post(
             ENDPOINT_BEING_TESTED,
