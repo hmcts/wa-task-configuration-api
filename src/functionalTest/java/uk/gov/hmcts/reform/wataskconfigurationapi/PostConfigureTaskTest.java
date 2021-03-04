@@ -149,20 +149,20 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
     private String createTask(CreateTaskMessage createTaskMessage) {
 
-        //        Response camundaResult = camundaApiActions.post(
-        //            "/message",
-        //            createTaskMessage,
-        //            authorizationHeadersProvider.getServiceAuthorizationHeader()
-        //        );
+        Response camundaResult = camundaApiActions.post(
+            "/message",
+            createTaskMessage,
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
 
-        //        camundaResult.then().assertThat()
-        //            .statusCode(HttpStatus.NO_CONTENT.value());
+        camundaResult.then().assertThat()
+            .statusCode(HttpStatus.NO_CONTENT.value());
 
-        //        Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
+        Object taskName = createTaskMessage.getProcessVariables().get("name").getValue();
 
         String filter = "?processVariables=" + "caseId_eq_" + createTaskMessage.getCaseId();
 
-        AtomicReference<String> response = getTaskId("task name", filter);
+        AtomicReference<String> response = getTaskId(taskName, filter);
 
         return response.get();
     }
@@ -185,7 +185,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
                                         .getResourceAsStream("case_data.json"))).readAllBytes()
         );
 
-        Map data = new ObjectMapper().readValue(caseData, Map.class);
+        var data = new ObjectMapper().readValue(caseData, Map.class);
         CaseDataContent caseDataContent = CaseDataContent.builder()
             .eventToken(startCase.getToken())
             .event(Event.builder()
