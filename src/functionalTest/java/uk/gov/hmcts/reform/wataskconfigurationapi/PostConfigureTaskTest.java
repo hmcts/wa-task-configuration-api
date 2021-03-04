@@ -5,6 +5,7 @@ import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
     }
 
     @Test
+    @Ignore
     public void given_configure_task_then_expect_task_state_is_assigned() throws Exception {
         caseId = createCcdCase();
         createTaskMessage = createBasicMessageForTask()
@@ -105,6 +107,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
     }
 
     @Test
+    @Ignore
     public void given_configure_task_then_expect_task_state_is_unassigned() throws IOException {
 
         caseId = createCcdCase();
@@ -162,7 +165,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         String filter = "?processVariables=" + "caseId_eq_" + createTaskMessage.getCaseId();
 
         AtomicReference<String> response = getTaskId(taskName, filter);
-        
+
         return response.get();
     }
 
