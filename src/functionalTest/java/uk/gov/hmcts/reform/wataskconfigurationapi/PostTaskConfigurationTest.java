@@ -39,14 +39,14 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .withCaseId(caseId)
             .build();
         taskId = createTask(createTaskMessage);
-
+        log.info("task found [{}]", taskId);
 
         Map<String, Object> requiredProcessVariables = Map.of(
             CASE_ID.value(), caseId,
             NAME.value(), "task name"
         );
 
-        log.info("Creating roles");
+        log.info("Creating roles...");
         roleAssignmentHelper.setRoleAssignments(caseId);
 
         Response result = restApiActions.post(
@@ -82,6 +82,7 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .withCaseId(caseId)
             .build();
         taskId = createTask(createTaskMessage);
+        log.info("task found [{}]", taskId);
 
         Map<String, Object> requiredProcessVariables = Map.of(
             CASE_ID.value(), caseId,
