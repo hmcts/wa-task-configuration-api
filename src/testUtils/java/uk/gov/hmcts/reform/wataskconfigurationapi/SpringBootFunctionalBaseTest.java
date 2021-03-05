@@ -5,6 +5,7 @@ import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import net.serenitybdd.junit.spring.integration.SpringIntegrationSerenityRunner;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,29 +78,30 @@ public abstract class SpringBootFunctionalBaseTest {
     }
 
     public void cleanUp(String taskId) {
+        if (StringUtils.isNotBlank(taskId)) {
+            camundaApiActions.post(
+                ENDPOINT_COMPLETE_TASK,
+                taskId,
+                new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader())
+            );
 
-        camundaApiActions.post(
-            ENDPOINT_COMPLETE_TASK,
-            taskId,
-            new Headers(authorizationHeadersProvider.getServiceAuthorizationHeader()));
+            await().ignoreException(AssertionError.class)
+                .pollInterval(500, MILLISECONDS)
+                .atMost(20, SECONDS)
+                .until(
+                    () -> {
 
-        await().ignoreException(AssertionError.class)
-            .pollInterval(500, MILLISECONDS)
-            .atMost(20, SECONDS)
-            .until(
-                () -> {
+                        Response result = camundaApiActions.get(
+                            ENDPOINT_HISTORY_TASK + "?taskId=" + taskId,
+                            authorizationHeadersProvider.getServiceAuthorizationHeader()
+                        );
 
-                    Response result = camundaApiActions.get(
-                        ENDPOINT_HISTORY_TASK + "?taskId=" + taskId,
-                        authorizationHeadersProvider.getServiceAuthorizationHeader()
-                    );
-
-                    result.then().assertThat()
-                        .statusCode(HttpStatus.OK.value())
-                        .body("[0].deleteReason", is("completed"));
-                    return true;
-                });
-
+                        result.then().assertThat()
+                            .statusCode(HttpStatus.OK.value())
+                            .body("[0].deleteReason", is("completed"));
+                        return true;
+                    });
+        }
     }
 
     public AtomicReference<String> getTaskId(Object taskName, String filter) {
