@@ -42,10 +42,14 @@ class RoleAssignmentTest {
             .roleName(RoleName.TRIBUNAL_CASEWORKER)
             .classification(Classification.RESTRICTED)
             .grantType(GrantType.SPECIFIC)
-            .roleCategory(RoleCategory.STAFF)
+            .roleCategory(RoleCategory.LEGAL_OPERATIONS)
             .readOnly(false)
             .created(LocalDateTime.parse("2020-11-06T17:15:36.960886"))
-            .attributes(Map.of(Attributes.CASE_ID, "1604584759556245"))
+            .attributes(Map.of(
+                Attributes.CASE_ID, "1604584759556245",
+                Attributes.JURISDICTION, "IA",
+                Attributes.CASE_TYPE, "Asylum"
+                ))
             .authorisations(Collections.emptyList())
             .build();
 

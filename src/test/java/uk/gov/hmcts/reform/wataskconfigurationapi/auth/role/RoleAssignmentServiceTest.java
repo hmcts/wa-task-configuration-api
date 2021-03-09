@@ -86,7 +86,7 @@ class RoleAssignmentServiceTest {
             .actorIdType(ActorIdType.IDAM)
             .actorId(testUserId)
             .roleName(RoleName.TRIBUNAL_CASEWORKER)
-            .roleCategory(RoleCategory.STAFF)
+            .roleCategory(RoleCategory.LEGAL_OPERATIONS)
             .roleType(RoleType.ORGANISATION)
             .classification(Classification.PUBLIC)
             .build();

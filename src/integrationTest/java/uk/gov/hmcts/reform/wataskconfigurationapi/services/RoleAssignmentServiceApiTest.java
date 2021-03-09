@@ -71,10 +71,50 @@ public class RoleAssignmentServiceApiTest {
             .roleName(RoleName.TRIBUNAL_CASEWORKER)
             .classification(Classification.RESTRICTED)
             .grantType(GrantType.SPECIFIC)
-            .roleCategory(RoleCategory.STAFF)
+            .roleCategory(RoleCategory.LEGAL_OPERATIONS)
             .readOnly(false)
             .created(LocalDateTime.parse("2020-11-09T14:32:23.693195"))
-            .attributes(Map.of(Attributes.CASE_ID, "1604929600826893"))
+            .attributes(Map.of(
+                Attributes.CASE_ID, "1604929600826893",
+                Attributes.JURISDICTION, "IA",
+                Attributes.CASE_TYPE, "Asylum"
+            ))
+            .authorisations(Collections.emptyList())
+            .build();
+
+        assertThat(roleAssignmentResource.getRoleAssignmentResponse()).isNotEmpty();
+        assertThat(roleAssignmentResource.getRoleAssignmentResponse().get(0)).isEqualTo(expectedRoleAssignment);
+    }
+
+    @Test
+    void queryRoleAssignmentTestWhenValuesAreUnknown() throws IOException {
+
+        String roleAssignmentsResponseAsJsonString = loadJsonFileResourceWithUknownValues();
+
+        stubRoleAssignmentApiResponse(roleAssignmentsResponseAsJsonString);
+
+        RoleAssignmentResource roleAssignmentResource = roleAssignmentServiceApi.queryRoleAssignments(
+            "user token",
+            "s2s token",
+            QueryRequest.builder().build()
+        );
+
+        RoleAssignment expectedRoleAssignment = RoleAssignment.builder()
+            .id("428971b1-3954-4783-840f-c2718732b466")
+            .actorIdType(ActorIdType.UNKNOWN)
+            .actorId("122f8de4-2eb6-4dcf-91c9-16c2c8aaa422")
+            .roleType(RoleType.UNKNOWN)
+            .roleName(RoleName.TRIBUNAL_CASEWORKER)
+            .classification(Classification.UNKNOWN)
+            .grantType(GrantType.UNKNOWN)
+            .roleCategory(RoleCategory.UNKNOWN)
+            .readOnly(false)
+            .created(LocalDateTime.parse("2020-11-09T14:32:23.693195"))
+            .attributes(Map.of(
+                Attributes.CASE_ID, "1604929600826893",
+                Attributes.JURISDICTION, "IA",
+                Attributes.CASE_TYPE, "Asylum"
+            ))
             .authorisations(Collections.emptyList())
             .build();
 
@@ -99,6 +139,12 @@ public class RoleAssignmentServiceApiTest {
         return FileUtils.readFileToString(ResourceUtils.getFile(
             "classpath:uk/gov/hmcts/reform/wataskconfigurationapi/ccdmapping/variableextractors/"
             + "roleAssignmentsResponse.json"));
+    }
+
+    private String loadJsonFileResourceWithUknownValues() throws IOException {
+        return FileUtils.readFileToString(ResourceUtils.getFile(
+            "classpath:uk/gov/hmcts/reform/wataskconfigurationapi/ccdmapping/variableextractors/"
+                + "roleAssignmentsResponseUnknownValues.json"));
     }
 
 }

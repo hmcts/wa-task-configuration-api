@@ -1,5 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities;
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+
 public enum Classification {
-    PUBLIC, PRIVATE, RESTRICTED
+    PUBLIC, PRIVATE, RESTRICTED, @JsonEnumDefaultValue UNKNOWN
 }

@@ -73,7 +73,7 @@ class TaskAutoAssignmentServiceTest {
             .actorIdType(ActorIdType.IDAM)
             .actorId("someUserId")
             .roleName(RoleName.TRIBUNAL_CASEWORKER)
-            .roleCategory(RoleCategory.STAFF)
+            .roleCategory(RoleCategory.LEGAL_OPERATIONS)
             .roleType(RoleType.ORGANISATION)
             .classification(Classification.PUBLIC)
             .build();
@@ -112,7 +112,7 @@ class TaskAutoAssignmentServiceTest {
             .actorIdType(ActorIdType.IDAM)
             .actorId("someUserId")
             .roleName(RoleName.TRIBUNAL_CASEWORKER)
-            .roleCategory(RoleCategory.STAFF)
+            .roleCategory(RoleCategory.LEGAL_OPERATIONS)
             .roleType(RoleType.ORGANISATION)
             .classification(Classification.PUBLIC)
             .build();

@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role;
 
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -21,6 +22,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
 
+@Slf4j
 @Service
 @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
 public class RoleAssignmentService {
@@ -51,11 +53,13 @@ public class RoleAssignmentService {
 
     private RoleAssignmentResource performSearch(String caseId) {
         try {
-            return roleAssignmentServiceApi.queryRoleAssignments(
+            final RoleAssignmentResource roleAssignmentResource = roleAssignmentServiceApi.queryRoleAssignments(
                 systemUserIdamToken.generate(),
                 serviceAuthTokenGenerator.generate(),
                 buildQueryRequest(caseId)
             );
+            log.info("Roleassignment service details {0}", roleAssignmentResource.toString());
+            return roleAssignmentResource;
         } catch (FeignException ex) {
             throw new ServerErrorException(
                 "Could not retrieve role assignments when performing the search", ex);
