@@ -26,7 +26,7 @@ public final class QueryRequest {
     private final List<GrantType> grantType;
     private final LocalDateTime validAt;
     private final List<RoleCategory> roleCategory;
-    private final Map<Attributes, List<String>> attributes;
+    private final Map<String, List<String>> attributes;
     private final List<String> authorisations;
 
     public List<String> getActorId() {
@@ -57,7 +57,7 @@ public final class QueryRequest {
         return roleCategory;
     }
 
-    public Map<Attributes, List<String>> getAttributes() {
+    public Map<String, List<String>> getAttributes() {
         return attributes;
     }
 

@@ -30,7 +30,7 @@ public final class RoleAssignment extends Assignment {
                            GrantType grantType,
                            Boolean readOnly,
                            LocalDateTime created,
-                           Map<Attributes, String> attributes,
+                           Map<String, String> attributes,
                            List<String> authorisations) {
         super(actorIdType, actorId, roleType, roleName, roleCategory, classification, grantType, readOnly, attributes);
         this.id = id;

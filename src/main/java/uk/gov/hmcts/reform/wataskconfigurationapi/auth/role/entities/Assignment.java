@@ -16,7 +16,7 @@ public class Assignment {
     protected final Classification classification;
     protected final GrantType grantType;
     protected final Boolean readOnly;
-    protected final Map<Attributes, String> attributes;
+    protected final Map<String, String> attributes;
 
 
     public Assignment(ActorIdType actorIdType,
@@ -27,7 +27,7 @@ public class Assignment {
                       Classification classification,
                       GrantType grantType,
                       Boolean readOnly,
-                      Map<Attributes, String> attributes) {
+                      Map<String, String> attributes) {
         this.actorIdType = actorIdType;
         this.actorId = actorId;
         this.roleType = roleType;
@@ -71,7 +71,7 @@ public class Assignment {
         return readOnly;
     }
 
-    public Map<Attributes, String> getAttributes() {
+    public Map<String, String> getAttributes() {
         return attributes;
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamTokenGenerator;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.Attributes;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignment;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignmentResource;
@@ -71,7 +70,7 @@ public class RoleAssignmentService {
             .roleType(singletonList(RoleType.CASE))
             .roleName(singletonList(RoleName.TRIBUNAL_CASEWORKER))
             .validAt(LocalDateTime.now())
-            .attributes(singletonMap(Attributes.CASE_ID, singletonList(caseId)))
+            .attributes(singletonMap("caseId", singletonList(caseId)))
             .build();
     }
 
