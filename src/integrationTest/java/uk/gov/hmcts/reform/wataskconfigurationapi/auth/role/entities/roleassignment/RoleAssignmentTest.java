@@ -7,15 +7,14 @@ import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.ObjectContent;
 import org.springframework.test.context.junit4.SpringRunner;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.ActorIdType;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.Classification;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.GrantType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignment;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAttributeDefinition;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleCategory;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleName;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.ActorIdType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Classification;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.GrantType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleCategory;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -39,7 +38,7 @@ class RoleAssignmentTest {
             .actorIdType(ActorIdType.IDAM)
             .actorId("4afa7d5c-02fa-4a82-82c2-0a9ad7467d30")
             .roleType(RoleType.CASE)
-            .roleName(RoleName.TRIBUNAL_CASEWORKER)
+            .roleName("tribunal-caseworker")
             .classification(Classification.RESTRICTED)
             .grantType(GrantType.SPECIFIC)
             .roleCategory(RoleCategory.LEGAL_OPERATIONS)

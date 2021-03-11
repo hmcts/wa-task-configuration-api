@@ -9,16 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.ResourceUtils;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.ActorIdType;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.Classification;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.GrantType;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignment;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAttributeDefinition;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleCategory;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleName;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.ActorIdType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Classification;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.GrantType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleCategory;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
 
 import java.io.IOException;
@@ -68,7 +67,7 @@ public class RoleAssignmentServiceApiTest {
             .actorIdType(ActorIdType.IDAM)
             .actorId("122f8de4-2eb6-4dcf-91c9-16c2c8aaa422")
             .roleType(RoleType.CASE)
-            .roleName(RoleName.TRIBUNAL_CASEWORKER)
+            .roleName("tribunal-caseworker")
             .classification(Classification.RESTRICTED)
             .grantType(GrantType.SPECIFIC)
             .roleCategory(RoleCategory.LEGAL_OPERATIONS)
@@ -104,7 +103,7 @@ public class RoleAssignmentServiceApiTest {
             .actorIdType(ActorIdType.UNKNOWN)
             .actorId("122f8de4-2eb6-4dcf-91c9-16c2c8aaa422")
             .roleType(RoleType.UNKNOWN)
-            .roleName(RoleName.TRIBUNAL_CASEWORKER)
+            .roleName("tribunal-caseworker")
             .classification(Classification.UNKNOWN)
             .grantType(GrantType.UNKNOWN)
             .roleCategory(RoleCategory.UNKNOWN)

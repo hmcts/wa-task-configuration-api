@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.roleassignment;
+package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities;
 
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAttributeDefinition;

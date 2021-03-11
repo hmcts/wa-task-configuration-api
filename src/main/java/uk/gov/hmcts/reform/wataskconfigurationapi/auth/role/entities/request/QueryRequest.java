@@ -1,10 +1,14 @@
-package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities;
+package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Classification;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.GrantType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleCategory;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +25,7 @@ public final class QueryRequest {
 
     private final List<String> actorId;
     private final List<RoleType> roleType;
-    private final List<RoleName> roleName;
+    private final List<String> roleName;
     private final List<Classification> classification;
     private final List<GrantType> grantType;
     private final LocalDateTime validAt;
@@ -37,7 +41,7 @@ public final class QueryRequest {
         return roleType;
     }
 
-    public List<RoleName> getRoleName() {
+    public List<String> getRoleName() {
         return roleName;
     }
 
