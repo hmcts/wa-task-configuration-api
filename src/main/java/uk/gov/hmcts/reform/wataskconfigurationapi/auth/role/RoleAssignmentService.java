@@ -52,13 +52,11 @@ public class RoleAssignmentService {
 
     private RoleAssignmentResource performSearch(String caseId) {
         try {
-            final RoleAssignmentResource roleAssignmentResource = roleAssignmentServiceApi.queryRoleAssignments(
+            return roleAssignmentServiceApi.queryRoleAssignments(
                 systemUserIdamToken.generate(),
                 serviceAuthTokenGenerator.generate(),
                 buildQueryRequest(caseId)
             );
-            log.info("Roleassignment service details {0}", roleAssignmentResource.toString());
-            return roleAssignmentResource;
         } catch (FeignException ex) {
             throw new ServerErrorException(
                 "Could not retrieve role assignments when performing the search", ex);
