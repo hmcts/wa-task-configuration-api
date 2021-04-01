@@ -20,14 +20,14 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@PactTestFor(providerName = "wa_task_configuration_api", port = "8892")
+@PactTestFor(providerName = "wa_task_management_api", port = "8892")
 @ContextConfiguration(classes = {IdamConsumerApplication.class})
 public class IdamConsumerTestForPostToken extends SpringBootContractBaseTest {
 
     @Autowired
     IdamServiceApi idamApi;
 
-    @Pact(provider = "idamApi_oidc", consumer = "wa_task_configuration_api")
+    @Pact(provider = "idamApi_oidc", consumer = "wa_task_management_api")
     public RequestResponsePact generatePactFragmentToken(PactDslWithProvider builder) {
 
         Map<String, String> responseheaders = ImmutableMap.<String, String>builder()
