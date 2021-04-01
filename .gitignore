@@ -24,5 +24,3 @@ bin/main/application.yaml
 lombok.config
 
 .DS_Store
-
-/pacts
