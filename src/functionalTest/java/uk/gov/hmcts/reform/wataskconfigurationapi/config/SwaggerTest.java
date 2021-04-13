@@ -22,4 +22,5 @@ public class SwaggerTest extends SpringBootFunctionalBaseTest {
             .statusCode(HttpStatus.OK.value());
 
     }
+
 }
