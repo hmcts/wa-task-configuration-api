@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
-import com.microsoft.applicationinsights.core.dependencies.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +13,6 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AddLoc
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.AssigneeRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DecisionTableRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.configuration.TaskToConfigure;
 
@@ -27,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_ID;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_STATE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.UNCONFIGURED;
@@ -85,27 +81,6 @@ class CamundaServiceTest {
         assertEquals(actualCamundaTask.getName(), camundaTask.getName());
         assertEquals(actualCamundaTask.getId(), camundaTask.getId());
         assertEquals(actualCamundaTask.getProcessInstanceId(), camundaTask.getProcessInstanceId());
-    }
-
-    @Test
-    void should_get_task2() {
-
-        String caseDate = "{\n"
-                          + "  \"id\": \"123456789\",\n"
-                          + "  \"data\": {\n"
-                          + "    \"caseManagementLocation\": {\n"
-                          + "      \"region\": \"1\",\n"
-                          + "      \"baseLocation\": \"1123455\"\n"
-                          + "    },\n"
-                          + "    \"staffLocation\": \"Newcastle\",\n"
-                          + "    \"appealType\": \"refusalOfHumanRights\",\n"
-                          + "    \"appellantGivenNames\": \"John\",\n"
-                          + "    \"appellantFamilyName\": \"Doe\"\n"
-                          + "  }\n"
-                          + "}";
-        System.out.println(new Gson().toJson(new DmnRequest<>(
-            new DecisionTableRequest(jsonValue(caseDate))
-        )));
     }
 
     @Test
