@@ -17,7 +17,7 @@ public enum CamundaVariableDefinition {
     JURISDICTION("jurisdiction"),
     ASSIGNEE("assignee"),
     TASK_ID("taskId"),
-    TYPE("type"),
+    TASK_TYPE("taskType"),
     FORM_KEY("formKey"),
     CASE_ID("caseId"),
     NAME("name"),

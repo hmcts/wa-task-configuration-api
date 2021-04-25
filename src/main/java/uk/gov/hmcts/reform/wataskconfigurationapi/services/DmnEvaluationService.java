@@ -9,14 +9,13 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.Decisi
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
 
 import java.util.List;
-import java.util.Locale;
 
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_CONFIGURATION;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_PERMISSIONS;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 
 @Component
 public class DmnEvaluationService {
-    public static final String WA_TASK_PERMISSIONS_DECISION_TABLE_NAME = "wa-task-permissions";
-    public static final String WA_TASK_CONFIGURATION_DECISION_TABLE_NAME = "wa-task-configuration";
 
     private final CamundaServiceApi camundaServiceApi;
     private final AuthTokenGenerator serviceAuthTokenGenerator;
@@ -30,33 +29,31 @@ public class DmnEvaluationService {
     public List<DecisionTableResult> evaluateTaskPermissionsDmn(String jurisdiction,
                                                                 String caseType,
                                                                 String caseData) {
-        return performEvaluateDmnAction(WA_TASK_PERMISSIONS_DECISION_TABLE_NAME, jurisdiction, caseType, caseData);
+        String decisionTableKey = WA_TASK_PERMISSIONS.getTableKey(jurisdiction, caseType);
+        return performEvaluateDmnAction(decisionTableKey, caseData);
     }
 
 
     public List<DecisionTableResult> evaluateTaskConfigurationDmn(String jurisdiction,
                                                                   String caseType,
                                                                   String caseData) {
-        return performEvaluateDmnAction(WA_TASK_CONFIGURATION_DECISION_TABLE_NAME, jurisdiction, caseType, caseData);
+        String decisionTableKey = WA_TASK_CONFIGURATION.getTableKey(jurisdiction, caseType);
+        return performEvaluateDmnAction(decisionTableKey, caseData);
     }
 
-    private List<DecisionTableResult> performEvaluateDmnAction(String dmnTableName,
-                                                               String jurisdiction,
-                                                               String caseType,
+    private List<DecisionTableResult> performEvaluateDmnAction(String decisionTableKey,
                                                                String caseData) {
         try {
             return camundaServiceApi.evaluateDmnTable(
                 serviceAuthTokenGenerator.generate(),
-                dmnTableName,
-                jurisdiction.toLowerCase(Locale.getDefault()),
-                caseType.toLowerCase(Locale.getDefault()),
+                decisionTableKey,
                 new DmnRequest<>(
                     new DecisionTableRequest(jsonValue(caseData))
                 )
             );
         } catch (FeignException e) {
             throw new IllegalStateException(
-                String.format("Could not evaluate from decision table %s", dmnTableName),
+                String.format("Could not evaluate from decision table %s", decisionTableKey),
                 e
             );
         }
