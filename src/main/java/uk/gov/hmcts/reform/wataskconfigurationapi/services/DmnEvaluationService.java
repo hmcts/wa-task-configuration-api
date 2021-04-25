@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.CamundaServiceApi;
@@ -14,6 +15,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.Decisio
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_PERMISSIONS;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 
+@Slf4j
 @Component
 public class DmnEvaluationService {
 
