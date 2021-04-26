@@ -20,10 +20,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_CONFIGURATION;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_PERMISSIONS;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.stringValue;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.services.DmnEvaluationService.WA_TASK_CONFIGURATION_DECISION_TABLE_NAME;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.services.DmnEvaluationService.WA_TASK_PERMISSIONS_DECISION_TABLE_NAME;
 
 @ExtendWith(MockitoExtension.class)
 class DmnEvaluationServiceTest {
@@ -46,9 +46,7 @@ class DmnEvaluationServiceTest {
 
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
-            WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
-            "ia",
-            "asylum",
+            WA_TASK_PERMISSIONS.getTableKey("ia", "asylum"),
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(
@@ -78,9 +76,7 @@ class DmnEvaluationServiceTest {
 
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
-            WA_TASK_PERMISSIONS_DECISION_TABLE_NAME,
-            "ia",
-            "asylum",
+            WA_TASK_PERMISSIONS.getTableKey("ia", "asylum"),
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         )).thenThrow(FeignException.class);
 
@@ -88,7 +84,7 @@ class DmnEvaluationServiceTest {
 
         assertThatThrownBy(() -> dmnEvaluationService.evaluateTaskPermissionsDmn("ia", "Asylum", ccdData))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessage("Could not evaluate from decision table wa-task-permissions")
+            .hasMessage("Could not evaluate from decision table wa-task-permissions-ia-asylum")
             .hasCauseInstanceOf(FeignException.class);
     }
 
@@ -98,9 +94,7 @@ class DmnEvaluationServiceTest {
 
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
-            WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
-            "ia",
-            "asylum",
+            WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(
@@ -129,9 +123,7 @@ class DmnEvaluationServiceTest {
 
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
-            WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
-            "ia",
-            "asylum",
+            WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         )).thenThrow(FeignException.class);
 
@@ -139,7 +131,7 @@ class DmnEvaluationServiceTest {
 
         assertThatThrownBy(() -> dmnEvaluationService.evaluateTaskConfigurationDmn("ia", "Asylum", ccdData))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessage("Could not evaluate from decision table wa-task-configuration")
+            .hasMessage("Could not evaluate from decision table wa-task-configuration-ia-asylum")
             .hasCauseInstanceOf(FeignException.class);
     }
 

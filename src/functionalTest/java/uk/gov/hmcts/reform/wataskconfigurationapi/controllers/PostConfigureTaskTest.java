@@ -58,11 +58,10 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
             authorizationHeadersProvider.getServiceAuthorizationHeader()
         );
 
-        camundaResult.prettyPeek();
-
         camundaResult.then().assertThat()
             .statusCode(HttpStatus.OK.value())
             .contentType(APPLICATION_JSON_VALUE)
+            .body("taskType.value", is("wa-task-configuration-api-task"))
             .body("caseName.value", is("Bob Smith"))
             .body("appealType.value", is("protection"))
             .body("region.value", is("1"))
@@ -107,6 +106,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
         camundaResult.then().assertThat()
             .statusCode(HttpStatus.OK.value())
             .contentType(APPLICATION_JSON_VALUE)
+            .body("taskType.value", is("wa-task-configuration-api-task"))
             .body("caseName.value", is("Bob Smith"))
             .body("appealType.value", is("protection"))
             .body("region.value", is("1"))

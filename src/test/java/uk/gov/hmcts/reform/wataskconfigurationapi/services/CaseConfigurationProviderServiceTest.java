@@ -57,7 +57,7 @@ class CaseConfigurationProviderServiceTest {
                          + "}";
 
         when(ccdDataService.getCaseData(someCaseId)).thenReturn(ccdData);
-        when(dmnEvaluationService.evaluateTaskPermissionsDmn("IA", "Asylum", ccdData))
+        when(dmnEvaluationService.evaluateTaskPermissionsDmn("IA", "Asylum", "{}"))
             .thenReturn(asList(
                 new DecisionTableResult(
                     stringValue("tribunalCaseworker"), stringValue("Read,Refer,Own,Manage,Cancel")),
@@ -104,7 +104,7 @@ class CaseConfigurationProviderServiceTest {
                          + "}";
 
         when(ccdDataService.getCaseData(someCaseId)).thenReturn(ccdData);
-        when(dmnEvaluationService.evaluateTaskConfigurationDmn("IA", "Asylum", ccdData))
+        when(dmnEvaluationService.evaluateTaskConfigurationDmn("IA", "Asylum", "{}"))
             .thenReturn(asList(
                 new DecisionTableResult(stringValue("name1"), stringValue("value1")),
                 new DecisionTableResult(stringValue("name2"), stringValue("value2"))

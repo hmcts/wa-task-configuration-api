@@ -27,19 +27,17 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.config.ServiceTokenGene
 public interface CamundaServiceApi {
 
     @PostMapping(
-        value = "/decision-definition/key/{decisionTableName}-{jurisdiction}-{caseType}/tenant-id/ia/evaluate",
+        value = "/decision-definition/key/{decisionTableKey}/tenant-id/ia/evaluate",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     @SuppressWarnings("PMD.UseObjectForClearerAPI")
     List<DecisionTableResult> evaluateDmnTable(
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorisation,
-        @PathVariable("decisionTableName") String decisionTableName,
-        @PathVariable("jurisdiction") String jurisdiction,
-        @PathVariable("caseType") String caseType,
+        @PathVariable("decisionTableKey") String decisionTableKey,
         DmnRequest<DecisionTableRequest> requestParameters
     );
 
-    @PostMapping(value = "/task/{id}/variables", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/task/{id}/localVariables", produces = MediaType.APPLICATION_JSON_VALUE)
     void addLocalVariablesToTask(@RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorisation,
                                  @PathVariable("id") String taskId,
                                  AddLocalVariableRequest addLocalVariableRequest);

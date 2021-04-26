@@ -53,15 +53,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.controllers.util.CreatorObjectMapper.asJsonString;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_CONFIGURATION;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.jsonValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaValue.stringValue;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_ID;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.NAME;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_ID;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_STATE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.ASSIGNED;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.UNASSIGNED;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.UNCONFIGURED;
-import static uk.gov.hmcts.reform.wataskconfigurationapi.services.DmnEvaluationService.WA_TASK_CONFIGURATION_DECISION_TABLE_NAME;
 
 class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
 
@@ -205,6 +206,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
                                   + "  \"case_id\": \"" + testCaseId + "\",\n"
                                   + "  \"assignee\": \"" + testUserId + "\",\n"
                                   + "  \"configuration_variables\": {\n"
+                                  + "    \"taskType\": \"reviewTheAppeal\",\n"
                                   + "    \"jurisdiction\": \"IA\",\n"
                                   + "    \"caseTypeId\": \"Asylum\",\n"
                                   + "    \"taskState\": \"assigned\",\n"
@@ -220,6 +222,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
 
 
         Map<String, Object> requiredProcessVariables = Map.of(
+            TASK_ID.value(), "reviewTheAppeal",
             CASE_ID.value(), testCaseId,
             NAME.value(), TASK_NAME
         );
@@ -247,6 +250,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
                                   + "  \"task_id\": \"" + testTaskId + "\",\n"
                                   + "  \"case_id\": \"" + testCaseId + "\",\n"
                                   + "  \"configuration_variables\": {\n"
+                                  + "    \"taskType\": \"reviewTheAppeal\",\n"
                                   + "    \"jurisdiction\": \"IA\",\n"
                                   + "    \"caseTypeId\": \"Asylum\",\n"
                                   + "    \"taskState\": \"unassigned\",\n"
@@ -256,12 +260,12 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
                                   + "    \"autoAssigned\": false,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
-                                  + "    \"name1\": \"value1\",\n"
                                   + "    \"hasWarnings\": false\n"
                                   + "  }\n"
                                   + "}";
 
         Map<String, Object> requiredProcessVariables = Map.of(
+            TASK_ID.value(), "reviewTheAppeal",
             CASE_ID.value(), testCaseId,
             NAME.value(), TASK_NAME
         );
@@ -310,6 +314,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
             .thenReturn(new CamundaTask(testTaskId, testProcessInstanceId, TASK_NAME));
 
         Map<String, CamundaValue<Object>> processVariables = Map.of(
+            TASK_ID.value(), new CamundaValue<>("reviewTheAppeal", "String"),
             CASE_ID.value(), new CamundaValue<>(testCaseId, "String"),
             TASK_STATE.value(), new CamundaValue<>(UNCONFIGURED, "String")
         );
@@ -338,25 +343,24 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
 
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
-            WA_TASK_CONFIGURATION_DECISION_TABLE_NAME,
-            "ia",
-            "asylum",
+            WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
             new DmnRequest<>(new DecisionTableRequest(jsonValue(caseData)))
             )
-        ).thenReturn(singletonList(new DecisionTableResult(stringValue("name1"), stringValue("value1"))));
+        ).thenReturn(singletonList(new DecisionTableResult(stringValue("name"), stringValue("value1"))));
 
         HashMap<String, CamundaValue<String>> modifications = new HashMap<>();
-        modifications.put("name1", stringValue("value1"));
         modifications.put("caseId", stringValue(testCaseId));
-        modifications.put(TASK_STATE.value(), stringValue("configured"));
+        modifications.put("taskState", stringValue("configured"));
         modifications.put("autoAssigned", stringValue("false"));
+        modifications.put("caseTypeId", stringValue("Asylum"));
         modifications.put("executionType", stringValue("Case Management Task"));
         modifications.put("securityClassification", stringValue("PUBLIC"));
         modifications.put("taskSystem", stringValue("SELF"));
         modifications.put("jurisdiction", stringValue("IA"));
-        modifications.put("caseTypeId", stringValue("Asylum"));
         modifications.put("title", stringValue(TASK_NAME));
         modifications.put("hasWarnings", stringValue("false"));
+        modifications.put("taskType", stringValue("reviewTheAppeal"));
+
         return modifications;
     }
 }

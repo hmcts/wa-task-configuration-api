@@ -8,18 +8,17 @@ import lombok.ToString;
 @ToString
 public class DecisionTableRequest {
 
-    private CamundaValue<String> caseJson;
+    private CamundaValue<String> caseData;
 
     private DecisionTableRequest() {
     }
 
-    public DecisionTableRequest(CamundaValue<String> caseJson) {
-        this.caseJson = caseJson;
+    public DecisionTableRequest(CamundaValue<String> caseData) {
+        this.caseData = caseData;
     }
 
-    @JsonProperty("case")
-    public CamundaValue<String> getCaseJson() {
-        return caseJson;
+    @JsonProperty("caseData")
+    public CamundaValue<String> getCaseData() {
+        return caseData;
     }
-
 }

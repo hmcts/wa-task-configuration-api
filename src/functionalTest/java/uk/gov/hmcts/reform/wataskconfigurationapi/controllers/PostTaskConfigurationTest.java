@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_ID;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.NAME;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_ID;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.utils.CreateTaskMessageBuilder.createBasicMessageForTask;
 
 @Slf4j
@@ -39,10 +40,12 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
+
         taskId = createTask(createTaskMessage);
         log.info("task found [{}]", taskId);
 
         Map<String, Object> requiredProcessVariables = Map.of(
+            TASK_ID.value(), "reviewTheAppeal",
             CASE_ID.value(), caseId,
             NAME.value(), "task name"
         );
@@ -67,6 +70,7 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .body("case_id", equalTo(caseId))
             .body("assignee", notNullValue())
             .body("configuration_variables", notNullValue())
+            .body("configuration_variables.taskType", equalTo("reviewTheAppeal"))
             .body("configuration_variables.jurisdiction", equalTo("IA"))
             .body("configuration_variables.caseTypeId", equalTo("Asylum"))
             .body("configuration_variables.taskState", equalTo("assigned"))
@@ -87,6 +91,7 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
         log.info("task found [{}]", taskId);
 
         Map<String, Object> requiredProcessVariables = Map.of(
+            TASK_ID.value(), "reviewTheAppeal",
             CASE_ID.value(), caseId,
             NAME.value(), "task name"
         );
@@ -105,6 +110,7 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .body("case_id", equalTo(caseId))
             .body("assignee", nullValue())
             .body("configuration_variables", notNullValue())
+            .body("configuration_variables.taskType", equalTo("reviewTheAppeal"))
             .body("configuration_variables.jurisdiction", equalTo("IA"))
             .body("configuration_variables.caseTypeId", equalTo("Asylum"))
             .body("configuration_variables.taskState", equalTo("unassigned"))
