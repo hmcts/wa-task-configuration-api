@@ -260,7 +260,6 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
                                   + "    \"autoAssigned\": false,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
                                   + "    \"title\": \"taskName\",\n"
-                                  + "    \"name\": \"value1\",\n"
                                   + "    \"hasWarnings\": false\n"
                                   + "  }\n"
                                   + "}";
@@ -350,15 +349,14 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
         ).thenReturn(singletonList(new DecisionTableResult(stringValue("name"), stringValue("value1"))));
 
         HashMap<String, CamundaValue<String>> modifications = new HashMap<>();
-        modifications.put("name", stringValue("value1"));
         modifications.put("caseId", stringValue(testCaseId));
         modifications.put("taskState", stringValue("configured"));
         modifications.put("autoAssigned", stringValue("false"));
+        modifications.put("caseTypeId", stringValue("Asylum"));
         modifications.put("executionType", stringValue("Case Management Task"));
         modifications.put("securityClassification", stringValue("PUBLIC"));
         modifications.put("taskSystem", stringValue("SELF"));
         modifications.put("jurisdiction", stringValue("IA"));
-        modifications.put("caseTypeId", stringValue("Asylum"));
         modifications.put("title", stringValue(TASK_NAME));
         modifications.put("hasWarnings", stringValue("false"));
         modifications.put("taskType", stringValue("reviewTheAppeal"));
