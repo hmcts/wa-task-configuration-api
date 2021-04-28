@@ -50,7 +50,7 @@ public class CreateTaskMessageBuilder {
         processVariables.put("name", stringValue("task name"));
         processVariables.put(
             "delayUntil",
-            stringValue(ZonedDateTime.now()
+            stringValue(ZonedDateTime.now().minusHours(1)
                 .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
         return new CreateTaskMessageBuilder()
             .withMessageName("createTaskMessage")
