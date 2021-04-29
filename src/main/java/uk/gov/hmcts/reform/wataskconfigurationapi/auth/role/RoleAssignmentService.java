@@ -44,6 +44,7 @@ public class RoleAssignmentService {
         requireNonNull(caseId, "caseId cannot be null");
 
         RoleAssignmentResource roleAssignmentResponse = performSearch(buildQueryRequest(caseId));
+        log.debug("Roles successfully retrieved from RoleAssignment Service for caseId '{}'", caseId);
 
         return roleAssignmentResponse.getRoleAssignmentResponse();
     }
