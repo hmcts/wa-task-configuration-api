@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.ActorIdType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Classification;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.GrantType;
@@ -10,6 +11,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleT
 import java.util.Map;
 
 @EqualsAndHashCode
+@ToString
 public class Assignment {
     protected final ActorIdType actorIdType;
     protected final String actorId;

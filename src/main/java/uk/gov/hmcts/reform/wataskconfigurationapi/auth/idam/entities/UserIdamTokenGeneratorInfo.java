@@ -2,8 +2,10 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @EqualsAndHashCode
+@ToString
 @Builder
 public class UserIdamTokenGeneratorInfo {
 

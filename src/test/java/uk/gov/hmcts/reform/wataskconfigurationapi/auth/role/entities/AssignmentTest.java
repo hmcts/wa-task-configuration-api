@@ -15,6 +15,7 @@ class AssignmentTest {
         assertPojoMethodsFor(classUnderTest)
             .testing(Method.GETTER)
             .testing(Method.CONSTRUCTOR)
+            .testing(Method.TO_STRING)
             .testing(Method.EQUALS)
             .testing(Method.HASH_CODE)
             .areWellImplemented();

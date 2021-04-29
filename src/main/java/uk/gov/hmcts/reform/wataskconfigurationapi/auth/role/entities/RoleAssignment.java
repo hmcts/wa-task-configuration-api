@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.ActorIdType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Classification;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.GrantType;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString(callSuper = true)
 @SuppressWarnings("PMD.MissingStaticMethodInNonInstantiatableClass")
 public final class RoleAssignment extends Assignment {
     private final String id;
