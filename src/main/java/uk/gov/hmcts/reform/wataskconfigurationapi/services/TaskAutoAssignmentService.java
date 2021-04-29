@@ -55,9 +55,8 @@ public class TaskAutoAssignmentService {
         } else {
             String assignee = roleAssignments.get(0).getActorId();
             log.info(
-                "The case contained specific users assigned, Setting task state to '{}' and assignee to '{}",
-                ASSIGNED,
-                assignee
+                "The case contained specific users assigned, Setting task state to '{}' ",
+                ASSIGNED
             );
 
             camundaService.assignTask(
