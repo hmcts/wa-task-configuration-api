@@ -47,8 +47,7 @@ public class TaskAutoAssignmentService {
                                                String currentTaskState) {
 
         List<RoleAssignment> roleAssignments = roleAssignmentService.searchRolesByCaseId(taskToConfigure.getCaseId());
-
-
+        log.info("Role assignments retrieved for caseId '{}'", taskToConfigure.getCaseId());
         if (roleAssignments.isEmpty()) {
             log.info("The case did not have specific users assigned, Setting task state to '{}'", UNASSIGNED);
             camundaService.updateTaskStateTo(taskToConfigure.getId(), UNASSIGNED);

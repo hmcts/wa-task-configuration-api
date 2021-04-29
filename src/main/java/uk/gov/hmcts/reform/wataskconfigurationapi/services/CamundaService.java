@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerErrorException;
@@ -19,6 +20,7 @@ import java.util.Map;
 import static java.util.Objects.requireNonNull;
 
 @SuppressWarnings("PMD.LawOfDemeter")
+@Slf4j
 @Service
 public class CamundaService {
 
@@ -64,6 +66,7 @@ public class CamundaService {
         try {
             return camundaServiceApi.getVariables(serviceTokenGenerator.generate(), id);
         } catch (FeignException ex) {
+            log.error("There was a problem fetching the variables for task with id '{}'", id);
             throw new ResourceNotFoundException(String.format(
                 "There was a problem fetching the variables for task with id: %s",
                 id
@@ -75,6 +78,7 @@ public class CamundaService {
         try {
             return camundaServiceApi.getTask(serviceTokenGenerator.generate(), id);
         } catch (FeignException ex) {
+            log.error("There was a problem fetching the task with id '{}'", id);
             throw new ResourceNotFoundException(String.format(
                 "There was a problem fetching the task with id: %s",
                 id
@@ -89,9 +93,11 @@ public class CamundaService {
                 taskId,
                 new AddLocalVariableRequest(processVariablesToAdd)
             );
+            log.info("Updated local variables for task with id '{}'", taskId);
         } catch (FeignException ex) {
+            log.error("There was a problem updating local variables for task with id '{}'", taskId);
             throw new ResourceNotFoundException(String.format(
-                "There was a problem updating process variables for task with id: %s",
+                "There was a problem updating local variables for task with id: %s",
                 taskId
             ), ex);
         }
@@ -103,9 +109,13 @@ public class CamundaService {
         try {
             if (!taskStateIsAssignedAlready) {
                 updateTaskStateTo(taskId, TaskState.ASSIGNED);
+                log.info("Updated task id '{}' localVariables with state '{}'",
+                         taskId, TaskState.ASSIGNED.value());
             }
             camundaServiceApi.assignTask(serviceTokenGenerator.generate(), taskId, new AssigneeRequest(userId));
+            log.info("Task Id '{}' assigned", taskId);
         } catch (FeignException ex) {
+            log.error("There was a problem assigning the task with id '{}'", taskId);
             throw new ServerErrorException(
                 String.format(
                     "There was a problem assigning the task with id: %s",

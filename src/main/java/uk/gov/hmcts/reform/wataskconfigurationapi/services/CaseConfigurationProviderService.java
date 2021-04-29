@@ -89,6 +89,7 @@ public class CaseConfigurationProviderService {
         try {
             return objectMapper.readValue(caseData, CaseDetails.class);
         } catch (JsonProcessingException ex) {
+            log.error("Cannot parse result from CCD for caseId '{}'", caseId);
             throw new IllegalStateException(
                 String.format("Cannot parse result from CCD for %s", caseId),
                 ex

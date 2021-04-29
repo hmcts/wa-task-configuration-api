@@ -39,7 +39,7 @@ public class ConfigureTaskService {
     public void configureTask(String taskId) {
 
         CamundaTask task = camundaService.getTask(taskId);
-        log.info("Camunda task details {}", task);
+        log.info("Task details retrieved from Camunda : {}", task);
 
         Map<String, CamundaValue<Object>> processVariables = camundaService.getVariables(taskId);
         CamundaValue<Object> caseIdValue = processVariables.get(CASE_ID.value());
