@@ -41,6 +41,7 @@ public class CreateTaskMessageBuilder {
     public static CreateTaskMessageBuilder createBasicMessageForTask() {
         HashMap<String, CamundaValue<?>> processVariables = new HashMap<>();
         processVariables.put("caseId", stringValue(UUID.randomUUID().toString()));
+        processVariables.put("hasWarnings", stringValue("false"));
         processVariables.put("taskId", stringValue("wa-task-configuration-api-task"));
         processVariables.put("group", stringValue("TCW"));
         processVariables.put(
