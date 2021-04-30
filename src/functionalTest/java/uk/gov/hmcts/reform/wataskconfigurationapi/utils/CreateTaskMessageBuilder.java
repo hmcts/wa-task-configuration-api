@@ -41,7 +41,7 @@ public class CreateTaskMessageBuilder {
     public static CreateTaskMessageBuilder createBasicMessageForTask() {
         HashMap<String, CamundaValue<?>> processVariables = new HashMap<>();
         processVariables.put("caseId", stringValue(UUID.randomUUID().toString()));
-        processVariables.put("hasWarnings", stringValue("false"));
+        processVariables.put("hasWarnings", new CamundaValue<>(false, "boolean"));
         processVariables.put("taskId", stringValue("wa-task-configuration-api-task"));
         processVariables.put("group", stringValue("TCW"));
         processVariables.put(
@@ -52,7 +52,8 @@ public class CreateTaskMessageBuilder {
         processVariables.put(
             "delayUntil",
             stringValue(ZonedDateTime.now().minusHours(1)
-                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+                            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+        );
         return new CreateTaskMessageBuilder()
             .withMessageName("createTaskMessage")
             .withProcessVariables(processVariables);
