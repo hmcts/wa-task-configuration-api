@@ -24,11 +24,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.NAME;
 
 @Slf4j
-@RequestMapping(
-    path = "/task",
-    consumes = APPLICATION_JSON_VALUE,
-    produces = APPLICATION_JSON_VALUE
-)
+@RequestMapping(path = "/task", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 @RestController
 public class TaskConfigurationController {
     private static final String UNAUTHORIZED = "Unauthorized";
@@ -46,35 +42,14 @@ public class TaskConfigurationController {
 
     @ApiOperation("Given an existent task id configures a task over rest")
     @ApiResponses({
-        @ApiResponse(
-            code = 200,
-            message = OK
-        ),
-        @ApiResponse(
-            code = 400,
-            message = BAD_REQUEST
-        ),
-        @ApiResponse(
-            code = 403,
-            message = FORBIDDEN
-        ),
-        @ApiResponse(
-            code = 401,
-            message = UNAUTHORIZED
-        ),
-        @ApiResponse(
-            code = 415,
-            message = UNSUPPORTED_MEDIA_TYPE
-        ),
-        @ApiResponse(
-            code = 500,
-            message = INTERNAL_SERVER_ERROR
-        )
+        @ApiResponse(code = 200, message = OK),
+        @ApiResponse(code = 400, message = BAD_REQUEST),
+        @ApiResponse(code = 403, message = FORBIDDEN),
+        @ApiResponse(code = 401, message = UNAUTHORIZED),
+        @ApiResponse(code = 415, message = UNSUPPORTED_MEDIA_TYPE),
+        @ApiResponse(code = 500, message = INTERNAL_SERVER_ERROR)
     })
-    @PostMapping(
-        path = "/{task-id}",
-        consumes = APPLICATION_JSON_VALUE
-    )
+    @PostMapping(path = "/{task-id}")
     public ResponseEntity<String> configureTask(
         @PathVariable(TASK_ID) String taskId) {
         try {
@@ -89,36 +64,14 @@ public class TaskConfigurationController {
 
     @ApiOperation("Retrieves a list of configuration variables to be added to a task")
     @ApiResponses({
-        @ApiResponse(
-            code = 200,
-            message = OK,
-            response = ConfigureTaskResponse.class
-        ),
-        @ApiResponse(
-            code = 400,
-            message = BAD_REQUEST
-        ),
-        @ApiResponse(
-            code = 403,
-            message = FORBIDDEN
-        ),
-        @ApiResponse(
-            code = 401,
-            message = UNAUTHORIZED
-        ),
-        @ApiResponse(
-            code = 415,
-            message = UNSUPPORTED_MEDIA_TYPE
-        ),
-        @ApiResponse(
-            code = 500,
-            message = INTERNAL_SERVER_ERROR
-        )
+        @ApiResponse(code = 200, message = OK, response = ConfigureTaskResponse.class),
+        @ApiResponse(code = 400, message = BAD_REQUEST),
+        @ApiResponse(code = 403, message = FORBIDDEN),
+        @ApiResponse(code = 401, message = UNAUTHORIZED),
+        @ApiResponse(code = 415, message = UNSUPPORTED_MEDIA_TYPE),
+        @ApiResponse(code = 500, message = INTERNAL_SERVER_ERROR)
     })
-    @PostMapping(
-        path = "/{task-id}/configuration",
-        consumes = APPLICATION_JSON_VALUE
-    )
+    @PostMapping(path = "/{task-id}/configuration")
     public ResponseEntity<ConfigureTaskResponse> getConfigurationForTask(
         @PathVariable(TASK_ID) String taskId,
         @RequestBody ConfigureTaskRequest configureTaskRequest) {
