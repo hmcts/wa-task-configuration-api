@@ -66,7 +66,9 @@ public class CamundaService {
         try {
             return camundaServiceApi.getVariables(serviceTokenGenerator.generate(), id);
         } catch (FeignException ex) {
-            log.error("Error occurred while fetching the variables for task with id '{}'", id);
+            log.error(
+                "Task Configuration Failure : Error occurred while fetching the variables for task with id '{}'", id)
+            ;
             throw new ResourceNotFoundException(String.format(
                 "There was a problem fetching the variables for task with id: %s",
                 id
@@ -78,7 +80,7 @@ public class CamundaService {
         try {
             return camundaServiceApi.getTask(serviceTokenGenerator.generate(), id);
         } catch (FeignException ex) {
-            log.error("Error occurred while fetching the task with id '{}'", id);
+            log.error("Task Configuration Failure : Error occurred while fetching the task with id '{}'", id);
             throw new ResourceNotFoundException(String.format(
                 "There was a problem fetching the task with id: %s",
                 id
@@ -95,9 +97,11 @@ public class CamundaService {
             );
             log.info("Task id '{}' configured", taskId);
         } catch (FeignException ex) {
-            log.error("Error occurred while configuring task with id '{}'", taskId);
+            log.error(
+                "Task Configuration Failure : Error occurred while adding local variables to task id '{}'",taskId
+            );
             throw new ResourceNotFoundException(String.format(
-                "There was a problem updating local variables for task with id: %s",
+                "There was a problem updating local variables to task id: %s",
                 taskId
             ), ex);
         }
@@ -115,10 +119,10 @@ public class CamundaService {
             camundaServiceApi.assignTask(serviceTokenGenerator.generate(), taskId, new AssigneeRequest(userId));
             log.info("Task Id '{}' assigned", taskId);
         } catch (FeignException ex) {
-            log.error("Error occurred while assigning the task with id '{}'", taskId);
+            log.error("Task Configuration Failure : Error occurred while assigning to task id '{}'", taskId);
             throw new ServerErrorException(
                 String.format(
-                    "There was a problem assigning the task with id: %s",
+                    "There was a problem assigning to task id: %s",
                     taskId
                 ), ex);
         }
