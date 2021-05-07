@@ -7,7 +7,10 @@
 - Receives an unconfigured Task upon its creation
 - Retrieves CCD case data for given caseId
 - Evaluates DMN configuration and gets output variables
-- Updates the Task
+- Updates the Task, where the taskState values mean:
+  - "unconfigured" means the task has not run though wa-task-configuration or failed when configuring the task.
+  - "unassigned"  means a task has been run though the wa-task-configuration and did not have any pre-defined users to assign the task to so available to anyone
+  - "assigned"  means the task has been run though the wa-task-configuration and had a pre-defined user to assign the task to. Or the task was claimed using the task management workflow.
 - Auto-assigns the Task
 - Responds with a Configured Camunda Task.
 

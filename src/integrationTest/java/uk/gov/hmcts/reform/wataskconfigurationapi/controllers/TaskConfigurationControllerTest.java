@@ -215,8 +215,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
                                   + "    \"securityClassification\": \"PUBLIC\",\n"
                                   + "    \"autoAssigned\": true,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
-                                  + "    \"title\": \"taskName\",\n"
-                                  + "    \"hasWarnings\": false\n"
+                                  + "    \"title\": \"taskName\""
                                   + "  }\n"
                                   + "}";
 
@@ -259,8 +258,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
                                   + "    \"securityClassification\": \"PUBLIC\",\n"
                                   + "    \"autoAssigned\": false,\n"
                                   + "    \"taskSystem\": \"SELF\",\n"
-                                  + "    \"title\": \"taskName\",\n"
-                                  + "    \"hasWarnings\": false\n"
+                                  + "    \"title\": \"taskName\""
                                   + "  }\n"
                                   + "}";
 
@@ -358,7 +356,6 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
         modifications.put("taskSystem", stringValue("SELF"));
         modifications.put("jurisdiction", stringValue("IA"));
         modifications.put("title", stringValue(TASK_NAME));
-        modifications.put("hasWarnings", stringValue("false"));
         modifications.put("taskType", stringValue("reviewTheAppeal"));
 
         return modifications;
