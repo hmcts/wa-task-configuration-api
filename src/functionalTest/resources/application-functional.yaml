@@ -1,7 +1,6 @@
 targets:
   instance: ${TEST_URL:http://localhost:8091}
-  documentUrl: ${DOCUMENT_URL:http://dm-store-aat.service.core-compute-aat.internal/documents/c78071ff-a011-42c1-99a2-17b0adb9b906}
-  documentBinaryUrl: ${DOCUMENT_BINARY_URL:http://dm-store-aat.service.core-compute-aat.internal/documents/c78071ff-a011-42c1-99a2-17b0adb9b906/binary}
+  documentStoreUrl: ${DOCUMENT_STORE_URL:http://dm-store-aat.service.core-compute-aat.internal}
 idam:
   test:
     username: ${TEST_WA_LAW_FIRM_USERNAME:some_user@hmcts.net}

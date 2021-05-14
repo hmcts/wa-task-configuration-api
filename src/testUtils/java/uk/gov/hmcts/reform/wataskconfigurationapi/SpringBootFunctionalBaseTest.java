@@ -54,10 +54,9 @@ public abstract class SpringBootFunctionalBaseTest {
     protected String testUrl;
     @Value("${camunda.url}")
     protected String camundaUrl;
-    @Value("${targets.documentUrl}")
-    private String documentUrl;
-    @Value("${targets.documentBinaryUrl}")
-    private String documentBinaryUrl;
+    @Value("${targets.documentStoreUrl}")
+    private String documentStoreUrl;
+
 
     protected RestApiActions restApiActions;
     protected RestApiActions camundaApiActions;
@@ -151,8 +150,8 @@ public abstract class SpringBootFunctionalBaseTest {
             (Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
                                         .getResourceAsStream("case_data.json"))).readAllBytes()
         );
-        caseData = caseData.replace("{documentUrl}", documentUrl);
-        caseData = caseData.replace("{documentBinaryUrl}", documentBinaryUrl);
+
+        caseData = caseData.replace("{DOCUMENT_STORE_URL}", documentStoreUrl);
         var data = new ObjectMapper().readValue(caseData, Map.class);
         CaseDataContent caseDataContent = CaseDataContent.builder()
             .eventToken(startCase.getToken())
