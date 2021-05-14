@@ -98,10 +98,10 @@ public class CamundaService {
             log.info("Task id '{}' configured", taskId);
         } catch (FeignException ex) {
             log.error(
-                "Task Configuration Failure : Error occurred while adding local variables to task id '{}'",taskId
+                "Task Configuration Failure : Error occurred while adding task variables to task id '{}'",taskId
             );
             throw new ResourceNotFoundException(String.format(
-                "There was a problem updating local variables to task id: %s",
+                "There was a problem updating task variables to task id: %s",
                 taskId
             ), ex);
         }
@@ -113,8 +113,8 @@ public class CamundaService {
         try {
             if (!taskStateIsAssignedAlready) {
                 updateTaskStateTo(taskId, TaskState.ASSIGNED);
-                log.info("Updated task id '{}' localVariables with state '{}'",
-                         taskId, TaskState.ASSIGNED.value());
+                log.info("Updated task variables with state '{}' for task id '{}'",
+                         TaskState.ASSIGNED.value(), taskId);
             }
             camundaServiceApi.assignTask(serviceTokenGenerator.generate(), taskId, new AssigneeRequest(userId));
             log.info("Task Id '{}' assigned", taskId);
