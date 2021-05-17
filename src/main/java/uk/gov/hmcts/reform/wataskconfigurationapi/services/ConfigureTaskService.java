@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.wataskconfigurationapi.controllers.response.ConfigureTaskResponse;
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.CamundaTask;
@@ -18,6 +19,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_ID;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_STATE;
 
+@Slf4j
 @Component
 public class ConfigureTaskService {
 
@@ -37,6 +39,7 @@ public class ConfigureTaskService {
     public void configureTask(String taskId) {
 
         CamundaTask task = camundaService.getTask(taskId);
+        log.info("CamundaTask id '{}' retrieved from Camunda", task.getId());
 
         Map<String, CamundaValue<Object>> processVariables = camundaService.getVariables(taskId);
         CamundaValue<Object> caseIdValue = processVariables.get(CASE_ID.value());

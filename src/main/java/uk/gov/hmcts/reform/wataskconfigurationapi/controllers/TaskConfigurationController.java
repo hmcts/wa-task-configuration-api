@@ -75,9 +75,7 @@ public class TaskConfigurationController {
     public ResponseEntity<ConfigureTaskResponse> getConfigurationForTask(
         @PathVariable(TASK_ID) String taskId,
         @RequestBody ConfigureTaskRequest configureTaskRequest) {
-        log.info("Received call to configure task: {}", taskId);
         Map<String, Object> variables = configureTaskRequest.getProcessVariables();
-        log.info("{}", variables);
 
         String caseId = (String) variables.get(CASE_ID.value());
         String taskName = (String) variables.get(NAME.value());

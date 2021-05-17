@@ -54,6 +54,7 @@ public class DmnEvaluationService {
                 )
             );
         } catch (FeignException e) {
+            log.error("Case Configuration : Could not evaluate from decision table '{}'", decisionTableKey);
             throw new IllegalStateException(
                 String.format("Could not evaluate from decision table %s", decisionTableKey),
                 e
