@@ -80,7 +80,7 @@ public class CamundaService {
         try {
             return camundaServiceApi.getTask(serviceTokenGenerator.generate(), id);
         } catch (FeignException ex) {
-            log.error("Task Configuration Failure : Error occurred while fetching the task with id '{}'", id);
+            log.error("Task Configuration Failure - Get Task : Error occurred while fetching the task with id '{}'", id);
             throw new ResourceNotFoundException(String.format(
                 "There was a problem fetching the task with id: %s",
                 id
@@ -119,7 +119,7 @@ public class CamundaService {
             camundaServiceApi.assignTask(serviceTokenGenerator.generate(), taskId, new AssigneeRequest(userId));
             log.info("Task Id '{}' assigned", taskId);
         } catch (FeignException ex) {
-            log.error("Task Configuration Failure : Error occurred while assigning to task id '{}'", taskId);
+            log.error("Task Configuration Failure - Assign Task: Error occurred while assigning to task id '{}'", taskId);
             throw new ServerErrorException(
                 String.format(
                     "There was a problem assigning to task id: %s",
