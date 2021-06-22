@@ -17,7 +17,6 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Grant
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleCategory;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.MultipleQueryRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
 

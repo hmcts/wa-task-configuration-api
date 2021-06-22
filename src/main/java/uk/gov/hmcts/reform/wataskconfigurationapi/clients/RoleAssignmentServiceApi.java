@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.MultipleQueryRequest;
-import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.config.FeignConfiguration;
 
