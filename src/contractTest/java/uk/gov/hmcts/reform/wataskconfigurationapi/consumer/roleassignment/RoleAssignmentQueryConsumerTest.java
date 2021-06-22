@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.RoleAssignmentService;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignment;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.MultipleQueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
 
@@ -32,6 +33,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi.V2_MEDIA_TYPE_POST_ASSIGNMENTS;
 
 @PactTestFor(providerName = "am_roleAssignment_queryAssignment", port = "8991")
 @ContextConfiguration(classes = {RoleAssignmentConsumerApplication.class})
@@ -70,6 +73,7 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
             .method(HttpMethod.POST.toString())
             .matchHeader(AUTHORIZATION, AUTH_TOKEN)
             .matchHeader(SERVICE_AUTHORIZATION, SERVICE_AUTH_TOKEN)
+            .matchHeader(CONTENT_TYPE, V2_MEDIA_TYPE_POST_ASSIGNMENTS)
             .body(createRoleAssignmentRequestSearchQueryMultipleRoleAssignments())
             .willRespondWith()
             .status(HttpStatus.OK.value())
@@ -88,14 +92,16 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
 
     }
 
-    private QueryRequest buildQueryRequest() {
-
-        return QueryRequest.builder()
+    private MultipleQueryRequest buildQueryRequest() {
+        QueryRequest queryRequest = QueryRequest.builder()
             .roleType(singletonList(RoleType.CASE))
             .roleName(singletonList("tribunal-caseworker"))
             .validAt(validAtDate)
+            .hasAttributes(singletonList("caseId"))
             .attributes(Map.of("caseId", List.of(caseId)))
             .build();
+
+        return MultipleQueryRequest.builder().queryRequests(singletonList(queryRequest)).build();
     }
 
     private DslPart createRoleAssignmentResponseSearchQueryResponse() {
@@ -119,9 +125,7 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
 
     private Map<String, String> getResponseHeaders() {
         Map<String, String> responseHeaders = Maps.newHashMap();
-        responseHeaders.put("Content-Type",
-            "application/vnd.uk.gov.hmcts.role-assignment-service.post-assignment-query-request+json;"
-            + "charset=UTF-8;version=1.0");
+        responseHeaders.put("Content-Type", V2_MEDIA_TYPE_POST_ASSIGNMENTS);
         return responseHeaders;
     }
 

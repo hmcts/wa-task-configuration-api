@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Class
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.GrantType;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleCategory;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.MultipleQueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
@@ -59,7 +60,7 @@ public class RoleAssignmentServiceApiTest {
         RoleAssignmentResource roleAssignmentResource = roleAssignmentServiceApi.queryRoleAssignments(
             "user token",
             "s2s token",
-            QueryRequest.builder().build()
+            MultipleQueryRequest.builder().build()
         );
 
         RoleAssignment expectedRoleAssignment = RoleAssignment.builder()
@@ -95,7 +96,7 @@ public class RoleAssignmentServiceApiTest {
         RoleAssignmentResource roleAssignmentResource = roleAssignmentServiceApi.queryRoleAssignments(
             "user token",
             "s2s token",
-            QueryRequest.builder().build()
+            MultipleQueryRequest.builder().build()
         );
 
         RoleAssignment expectedRoleAssignment = RoleAssignment.builder()

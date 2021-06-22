@@ -1,8 +1,11 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.auth.role;
 
+import feign.FeignException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
@@ -12,22 +15,31 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Actor
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.Classification;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleCategory;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.MultipleQueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
+import uk.gov.hmcts.reform.wataskconfigurationapi.exceptions.ServerErrorException;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RoleAssignmentServiceTest {
+    private static final String IDAM_USER_TOKEN = "IDAM_USER_TOKEN";
+    private static final String S2S_TOKEN = "S2S_SERVICE_TOKEN";
 
     @Mock
     private AuthTokenGenerator serviceAuthTokenGenerator;
@@ -40,42 +52,80 @@ class RoleAssignmentServiceTest {
 
     private RoleAssignmentService roleAssignmentService;
 
+    @Captor
+    private ArgumentCaptor<MultipleQueryRequest> captor;
+
+    private String caseId;
+    private RoleAssignment testRoleAssignment;
+
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        caseId = UUID.randomUUID().toString();
+        testRoleAssignment = getRoleAssignment();
         roleAssignmentService = new RoleAssignmentService(roleAssignmentServiceApi,
             serviceAuthTokenGenerator,
-                                                          idamTokenGenerator
+            idamTokenGenerator
         );
+
+        when(idamTokenGenerator.generate()).thenReturn(IDAM_USER_TOKEN);
+        when(serviceAuthTokenGenerator.generate()).thenReturn(S2S_TOKEN);
+
     }
 
     @Test
     void should_search_roles_by_case_id() {
 
-        final List<RoleAssignment> roleAssignments = new ArrayList<>();
+        final RoleAssignmentResource roleAssignmentResource = new RoleAssignmentResource(
+            singletonList(testRoleAssignment), null
+        );
 
-        RoleAssignment roleAssignment =
-            getRoleAssignment();
-
-        roleAssignments.add(roleAssignment);
-
-        final RoleAssignmentResource roleAssignmentResource = new RoleAssignmentResource(roleAssignments, null);
-
-        final String caseId = UUID.randomUUID().toString();
-        final String userToken = "userToken";
-        final String s2sToken = "s2sToken";
-
-        when(idamTokenGenerator.generate()).thenReturn(userToken);
-        when(serviceAuthTokenGenerator.generate()).thenReturn(s2sToken);
-
-        when(roleAssignmentServiceApi.queryRoleAssignments(eq(userToken),
-            eq(s2sToken),
-            any(QueryRequest.class)))
+        when(roleAssignmentServiceApi.queryRoleAssignments(eq(IDAM_USER_TOKEN),
+            eq(S2S_TOKEN),
+            any(MultipleQueryRequest.class)))
             .thenReturn(roleAssignmentResource);
 
         final List<RoleAssignment> actualRoleAssignments = roleAssignmentService.searchRolesByCaseId(caseId);
 
-        assertNotNull(roleAssignments);
+        assertNotNull(actualRoleAssignments);
         assertEquals(1, actualRoleAssignments.size());
+
+        verify(roleAssignmentServiceApi).queryRoleAssignments(
+            eq(IDAM_USER_TOKEN),
+            eq(S2S_TOKEN),
+            captor.capture()
+        );
+
+        MultipleQueryRequest queryRequests = captor.getValue();
+
+        assertThat(queryRequests).isNotNull();
+        assertThat(queryRequests.getQueryRequests()).isNotEmpty();
+        QueryRequest actualQueryRequest = queryRequests.getQueryRequests().get(0);
+        assertThat(actualQueryRequest.getRoleType()).contains(RoleType.CASE);
+        assertThat(actualQueryRequest.getRoleName()).contains("tribunal-caseworker");
+        assertThat(actualQueryRequest.getValidAt()).isBefore(LocalDateTime.now());
+        assertThat(actualQueryRequest.getHasAttributes()).contains("caseId");
+        assertThat(actualQueryRequest.getAttributes()).isNotNull();
+        assertThat(actualQueryRequest.getAttributes().get("caseId")).contains(caseId);
+    }
+
+    @Test
+    void should_throw_server_error_exception_when_call_to_role_assignment_fails() {
+
+        final RoleAssignmentResource roleAssignmentResource = new RoleAssignmentResource(
+            singletonList(testRoleAssignment), null
+        );
+
+
+        doThrow(FeignException.FeignServerException.class)
+            .when(roleAssignmentServiceApi).queryRoleAssignments(eq(IDAM_USER_TOKEN),
+            eq(S2S_TOKEN),
+            any(MultipleQueryRequest.class));
+
+        assertThatThrownBy(() -> roleAssignmentService.searchRolesByCaseId(caseId))
+            .isInstanceOf(ServerErrorException.class)
+            .hasCauseInstanceOf(FeignException.class)
+            .hasMessage("Could not retrieve role assignments when performing the search");
+
     }
 
     private RoleAssignment getRoleAssignment() {
