@@ -38,6 +38,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi.V2_MEDIA_TYPE_POST_ASSIGNMENTS;
 
+@SuppressWarnings("checkstyle:LineLength")
 @PactTestFor(providerName = "am_roleAssignment_queryAssignment", port = "8991")
 @ContextConfiguration(classes = {RoleAssignmentConsumerApplication.class})
 public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest {
@@ -114,11 +115,12 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
     }
 
     private DslPart createRoleAssignmentResponseSearchQueryResponse() {
-        return newJsonBody(o -> o
-            .minArrayLike("roleAssignmentResponse", 1, 1,
-                          roleAssignmentResponse -> roleAssignmentResponse
-                              .stringType("actorId", assigneeId)
-            )).build();
+        return newJsonBody(o ->
+                               o.minArrayLike(
+                                   "roleAssignmentResponse", 1, 1,
+                                   roleAssignmentResponse ->
+                                       roleAssignmentResponse.stringType("actorId", assigneeId)
+                               )).build();
     }
 
     private String createRoleAssignmentRequestSearchQueryMultipleRoleAssignments() throws JsonProcessingException {
