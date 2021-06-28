@@ -5,6 +5,8 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,16 +46,14 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
     private final String assigneeId = "14a21569-eb80-4681-b62c-6ae2ed069e5f";
     private final String caseId = "1212121212121213";
     private final LocalDateTime validAtDate = LocalDateTime.parse("2021-12-04T00:00:00");
-
+    @Autowired
+    protected ObjectMapper objectMapper;
     @Autowired
     RoleAssignmentServiceApi roleAssignmentApi;
-
     @MockBean
     AuthTokenGenerator authTokenGenerator;
-
     @MockBean
     private IdamTokenGenerator idamTokenGenerator;
-
     private RoleAssignmentService roleAssignmentService;
 
     @BeforeEach
@@ -65,7 +65,7 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
     }
 
     @Pact(provider = "am_roleAssignment_queryAssignment", consumer = "wa_task_configuration_api")
-    public RequestResponsePact generatePactFragmentForQueryRoleAssignments(PactDslWithProvider builder) {
+    public RequestResponsePact generatePactFragmentForQueryRoleAssignments(PactDslWithProvider builder) throws JsonProcessingException {
         return builder
             .given("A list of role assignments for the search query")
             .uponReceiving("A query request for roles by caseId")
@@ -73,9 +73,18 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
             .method(HttpMethod.POST.toString())
             .matchHeader(AUTHORIZATION, AUTH_TOKEN)
             .matchHeader(SERVICE_AUTHORIZATION, SERVICE_AUTH_TOKEN)
-            .matchHeader(CONTENT_TYPE, V2_MEDIA_TYPE_POST_ASSIGNMENTS)
-            .body(createRoleAssignmentRequestSearchQueryMultipleRoleAssignments())
+            .matchHeader(
+                CONTENT_TYPE,
+                "application\\/vnd\\.uk\\.gov\\.hmcts\\.role-assignment-service\\.post-assignment-query-request\\+json\\;charset\\=UTF-8\\;version\\=2\\.0",
+                "application/vnd.uk.gov.hmcts.role-assignment-service.post-assignment-query-request+json;charset=UTF-8;version=2.0"
+            )
+            .body(createRoleAssignmentRequestSearchQueryMultipleRoleAssignments(), V2_MEDIA_TYPE_POST_ASSIGNMENTS)
             .willRespondWith()
+            .matchHeader(
+                CONTENT_TYPE,
+                "application\\/vnd\\.uk\\.gov\\.hmcts\\.role-assignment-service\\.post-assignment-query-request\\+json\\;charset\\=UTF-8\\;version\\=2\\.0",
+                "application/vnd.uk.gov.hmcts.role-assignment-service.post-assignment-query-request+json;charset=UTF-8;version=2.0"
+            )
             .status(HttpStatus.OK.value())
             .headers(getResponseHeaders())
             .body(createRoleAssignmentResponseSearchQueryResponse())
@@ -107,20 +116,14 @@ public class RoleAssignmentQueryConsumerTest extends SpringBootContractBaseTest 
     private DslPart createRoleAssignmentResponseSearchQueryResponse() {
         return newJsonBody(o -> o
             .minArrayLike("roleAssignmentResponse", 1, 1,
-                roleAssignmentResponse -> roleAssignmentResponse
-                    .stringType("actorId", assigneeId)
+                          roleAssignmentResponse -> roleAssignmentResponse
+                              .stringType("actorId", assigneeId)
             )).build();
     }
 
-    private String createRoleAssignmentRequestSearchQueryMultipleRoleAssignments() {
-        return "{\n"
-               + "\"roleType\": [\"CASE\"],\n"
-               + "\"roleName\": [\"tribunal-caseworker\"],\n"
-               + "\"validAt\": \"2021-12-04T00:00:00\",\n"
-               + "\"attributes\": {\n"
-               + "\"caseId\": [\"" + caseId + "\"]\n"
-               + "}\n"
-               + "}";
+    private String createRoleAssignmentRequestSearchQueryMultipleRoleAssignments() throws JsonProcessingException {
+        MultipleQueryRequest queryRequest = buildQueryRequest();
+        return objectMapper.writeValueAsString(queryRequest);
     }
 
     private Map<String, String> getResponseHeaders() {
