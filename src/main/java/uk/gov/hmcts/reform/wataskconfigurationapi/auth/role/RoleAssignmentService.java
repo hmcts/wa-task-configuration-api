@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.IdamTokenGenerator;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.RoleAssignment;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.enums.RoleType;
+import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.MultipleQueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.request.QueryRequest;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.role.entities.response.RoleAssignmentResource;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.RoleAssignmentServiceApi;
@@ -50,7 +51,7 @@ public class RoleAssignmentService {
     }
 
 
-    public RoleAssignmentResource performSearch(QueryRequest queryRequest) {
+    public RoleAssignmentResource performSearch(MultipleQueryRequest queryRequest) {
         try {
             return roleAssignmentServiceApi.queryRoleAssignments(
                 systemUserIdamToken.generate(),
@@ -63,13 +64,16 @@ public class RoleAssignmentService {
         }
     }
 
-    private QueryRequest buildQueryRequest(String caseId) {
-        return QueryRequest.builder()
+    private MultipleQueryRequest buildQueryRequest(String caseId) {
+        QueryRequest queryRequest = QueryRequest.builder()
             .roleType(singletonList(RoleType.CASE))
             .roleName(singletonList("tribunal-caseworker"))
             .validAt(LocalDateTime.now())
+            .hasAttributes(singletonList("caseId"))
             .attributes(Map.of("caseId", List.of(caseId)))
             .build();
+
+        return MultipleQueryRequest.builder().queryRequests(singletonList(queryRequest)).build();
     }
 
 }
