@@ -36,7 +36,7 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
 
     @Test
     public void should_return_task_configuration_then_expect_task_is_auto_assigned() throws Exception {
-        caseId = createCcdCase();
+        caseId = createCcdCase("case_data.json");
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
@@ -78,12 +78,13 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .body("configuration_variables.caseId", equalTo(caseId))
             .body("configuration_variables.securityClassification", equalTo("PUBLIC"))
             .body("configuration_variables.autoAssigned", equalTo(true))
-            .body("configuration_variables.taskSystem", equalTo("SELF"));
+            .body("configuration_variables.taskSystem", equalTo("SELF"))
+            .body("configuration_variables.caseManagementCategory", equalTo("Protection"));
     }
 
     @Test
     public void should_return_task_configuration_then_expect_task_is_unassigned() throws Exception {
-        caseId = createCcdCase();
+        caseId = createCcdCase("case_data.json");
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
@@ -118,7 +119,49 @@ public class PostTaskConfigurationTest extends SpringBootFunctionalBaseTest {
             .body("configuration_variables.caseId", equalTo(caseId))
             .body("configuration_variables.securityClassification", equalTo("PUBLIC"))
             .body("configuration_variables.autoAssigned", equalTo(false))
-            .body("configuration_variables.taskSystem", equalTo("SELF"));
+            .body("configuration_variables.taskSystem", equalTo("SELF"))
+            .body("configuration_variables.caseManagementCategory", equalTo("Protection"));
+    }
+
+    @Test
+    public void should_return_task_configuration_then_expect_task_with_case_management_category() throws Exception {
+        caseId = createCcdCase("case_data_with_case_management_category.json");
+        createTaskMessage = createBasicMessageForTask()
+            .withCaseId(caseId)
+            .build();
+        taskId = createTask(createTaskMessage);
+        log.info("task found [{}]", taskId);
+
+        Map<String, Object> requiredProcessVariables = Map.of(
+            TASK_ID.value(), "reviewTheAppeal",
+            CASE_ID.value(), caseId,
+            NAME.value(), "task name"
+        );
+
+        Response result = restApiActions.post(
+            ENDPOINT_BEING_TESTED,
+            taskId,
+            new ConfigureTaskRequest(requiredProcessVariables),
+            authorizationHeadersProvider.getServiceAuthorizationHeader()
+        );
+
+        result.then().assertThat()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(APPLICATION_JSON_VALUE)
+            .body("task_id", equalTo(taskId))
+            .body("case_id", equalTo(caseId))
+            .body("assignee", nullValue())
+            .body("configuration_variables", notNullValue())
+            .body("configuration_variables.taskType", equalTo("reviewTheAppeal"))
+            .body("configuration_variables.jurisdiction", equalTo("IA"))
+            .body("configuration_variables.caseTypeId", equalTo("Asylum"))
+            .body("configuration_variables.taskState", equalTo("unassigned"))
+            .body("configuration_variables.executionType", equalTo("Case Management Task"))
+            .body("configuration_variables.caseId", equalTo(caseId))
+            .body("configuration_variables.securityClassification", equalTo("PUBLIC"))
+            .body("configuration_variables.autoAssigned", equalTo(false))
+            .body("configuration_variables.taskSystem", equalTo("SELF"))
+            .body("configuration_variables.caseManagementCategory", equalTo("Protection"));
     }
 
 }

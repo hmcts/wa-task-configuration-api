@@ -83,7 +83,7 @@ This will do compilation, checkstyle, PMD checks , run tests , but not integrati
        ```
          ./gradlew bootRun
        ```
-    - Run wa-case-event-handler
+    - Run wa-workflow-api
        ```
          ./gradlew bootRun
        ```

@@ -96,23 +96,39 @@ class CaseConfigurationProviderServiceTest {
     @Test
     void gets_fields_to_map() {
         String someCaseId = "someCaseId";
+        String caseManagementCategory =  "{\"caseManagementCategory\":{"
+                                          + "\"value\":{"
+                                          + "\"code\":\"refusalOfEu\","
+                                          + "\"label\":\"Refusal of application under the EEA regulations\""
+                                          + "},"
+                                          + "\"list_items\":["
+                                          + "{"
+                                          + "\"code\":\"refusalOfEu\","
+                                          + "\"label\":\"Refusal of application under the EEA regulations\""
+                                          + "}"
+                                          + "]"
+                                          + "}"
+                                          + "}";
         String ccdData = "{ "
                          + "\"jurisdiction\": \"IA\","
                          + "\"case_type\": \"Asylum\","
                          + "\"security_classification\": \"PUBLIC\","
-                         + "\"data\": {}"
+                         + "\"data\": "
+                         + caseManagementCategory
                          + "}";
 
         when(ccdDataService.getCaseData(someCaseId)).thenReturn(ccdData);
-        when(dmnEvaluationService.evaluateTaskConfigurationDmn("IA", "Asylum", "{}"))
+        when(dmnEvaluationService.evaluateTaskConfigurationDmn("IA", "Asylum", caseManagementCategory))
             .thenReturn(asList(
                 new DecisionTableResult(stringValue("name1"), stringValue("value1")),
-                new DecisionTableResult(stringValue("name2"), stringValue("value2"))
+                new DecisionTableResult(stringValue("name2"), stringValue("value2")),
+                new DecisionTableResult(stringValue("caseManagementCategory"), stringValue("EEA"))
             ));
 
         Map<String, Object> expectedMappedData = Map.of(
             "name1", "value1",
             "name2", "value2",
+            "caseManagementCategory", "EEA",
             "securityClassification", "PUBLIC",
             "jurisdiction", "IA",
             "caseTypeId", "Asylum");

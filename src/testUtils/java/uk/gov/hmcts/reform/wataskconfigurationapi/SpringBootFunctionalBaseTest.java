@@ -134,7 +134,7 @@ public abstract class SpringBootFunctionalBaseTest {
     }
 
 
-    public String createCcdCase() throws IOException {
+    public String createCcdCase(String filename) throws IOException {
         String userToken = waTestLawFirmIdamToken.generate();
         UserInfo userInfo = waTestLawFirmIdamToken.getUserInfo(userToken);
         String serviceToken = authorizationHeadersProvider.getServiceAuthorizationHeader().getValue();
@@ -148,7 +148,7 @@ public abstract class SpringBootFunctionalBaseTest {
         );
         String caseData = new String(
             (Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
-                                        .getResourceAsStream("case_data.json"))).readAllBytes()
+                                        .getResourceAsStream(filename))).readAllBytes()
         );
 
         caseData = caseData.replace("{DOCUMENT_STORE_URL}", documentStoreUrl);

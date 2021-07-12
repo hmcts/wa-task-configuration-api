@@ -69,6 +69,30 @@ class DmnEvaluationServiceTest {
         )));
     }
 
+    @Test
+    void should_succeed_and_return_a_case_management_category() {
+        String ccdData = getCcdData();
+
+        when(camundaServiceApi.evaluateDmnTable(
+            BEARER_SERVICE_TOKEN,
+            WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
+            new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
+        ))
+            .thenReturn(asList(
+                new DecisionTableResult(
+                    stringValue("caseManagementCategory"), stringValue("Human Rights"))
+            ));
+
+        when(authTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
+
+        List<DecisionTableResult> response = dmnEvaluationService.evaluateTaskConfigurationDmn("ia", "Asylum", ccdData);
+
+        assertThat(response.size(), is(1));
+        assertThat(response, is(asList(
+            new DecisionTableResult(
+                stringValue("caseManagementCategory"), stringValue("Human Rights"))
+        )));
+    }
 
     @Test
     void should_throw_illegal_state_exception_when_feign_exception_is_caught() {
@@ -141,7 +165,20 @@ class DmnEvaluationServiceTest {
                + "\"jurisdiction\": \"ia\","
                + "\"case_type_id\": \"Asylum\","
                + "\"security_classification\": \"PUBLIC\","
-               + "\"data\": {}"
+               + "\"data\": {"
+               + "\"caseManagementCategory\": {\n"
+               + "    \"value\": {\n"
+               + "      \"code\": \"refusalOfEu\",\n"
+               + "      \"label\": \"Refusal of application under the EEA regulations\"\n"
+               + "    },\n"
+               + "    \"list_items\": [\n"
+               + "      {\n"
+               + "        \"code\": \"refusalOfEu\",\n"
+               + "        \"label\": \"Refusal of application under the EEA regulations\"\n"
+               + "      }\n"
+               + "    ]\n"
+               + "  }"
+               + "}"
                + "}";
     }
 }
