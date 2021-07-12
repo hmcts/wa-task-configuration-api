@@ -21,7 +21,8 @@ public enum CamundaVariableDefinition {
     FORM_KEY("formKey"),
     CASE_ID("caseId"),
     NAME("name"),
-    HAS_WARNINGS("hasWarnings");
+    HAS_WARNINGS("hasWarnings"),
+    CASE_MANAGEMENT_CATEGORY("caseManagementCategory");
 
     private final String value;
 
