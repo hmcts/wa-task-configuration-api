@@ -260,6 +260,8 @@ dependencyManagement {
       entry 'spring-web'
       entry 'spring-webmvc'
     }
+    //CVE-2021-27568
+    dependency group: 'net.minidev', name: 'json-smart', version: '2.4.7'
   }
 }
 
@@ -299,10 +301,8 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBoot
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: versions.springBoot
   implementation group: 'org.zalando', name:'logbook-spring-boot-starter', version: versions.logbook
-  compile (group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: versions.springBoot) {
-    exclude group: 'net.minidev', module: 'json-smart'
-  }
-  implementation group: 'net.minidev', name: 'json-smart', version: '2.4.7'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: versions.springBoot
+
   implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
 
