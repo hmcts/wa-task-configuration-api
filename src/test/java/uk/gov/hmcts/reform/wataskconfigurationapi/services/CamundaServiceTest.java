@@ -31,6 +31,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_ID;
+import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.CASE_MANAGEMENT_CATEGORY;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.CamundaVariableDefinition.TASK_STATE;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.enums.TaskState.UNCONFIGURED;
 
@@ -111,9 +112,11 @@ class CamundaServiceTest {
     void should_get_variables() {
 
         final String caseId = randomUUID().toString();
+
         Map<String, CamundaValue<Object>> processVariables = Map.of(
             CASE_ID.value(), new CamundaValue<>(caseId, "String"),
-            TASK_STATE.value(), new CamundaValue<>(UNCONFIGURED, "String")
+            TASK_STATE.value(), new CamundaValue<>(UNCONFIGURED, "String"),
+            CASE_MANAGEMENT_CATEGORY.value(), new CamundaValue<>("Protection", "String")
         );
 
         when(authTokenGenerator.generate()).thenReturn(serviceTokenId);
@@ -125,6 +128,7 @@ class CamundaServiceTest {
         final CamundaValue<Object> taskState = expectedProcessVariables.get("taskState");
         assertEquals(taskState.getValue().toString(), UNCONFIGURED.toString());
         assertEquals(expectedProcessVariables.get("caseId").getValue().toString(), caseId);
+        assertEquals(expectedProcessVariables.get("caseManagementCategory").getValue().toString(), "Protection");
     }
 
     @Test

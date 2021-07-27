@@ -31,7 +31,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
     @Test
     public void given_configure_task_then_expect_task_state_is_assigned() throws Exception {
-        caseId = createCcdCase();
+        caseId = createCcdCase("case_data.json");
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
@@ -80,7 +80,7 @@ public class PostConfigureTaskTest extends SpringBootFunctionalBaseTest {
 
     @Test
     public void given_configure_task_then_expect_task_state_is_unassigned() throws IOException {
-        caseId = createCcdCase();
+        caseId = createCcdCase("case_data.json");
         createTaskMessage = createBasicMessageForTask()
             .withCaseId(caseId)
             .build();
