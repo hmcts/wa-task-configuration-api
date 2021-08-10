@@ -27,7 +27,7 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.config.ServiceTokenGene
 public interface CamundaServiceApi {
 
     @PostMapping(
-        value = "/decision-definition/key/{decisionTableKey}/tenant-id/ia/evaluate",
+        value = "/decision-definition/key/{decisionTableKey}/tenant-id/wa/evaluate",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     @SuppressWarnings("PMD.UseObjectForClearerAPI")
