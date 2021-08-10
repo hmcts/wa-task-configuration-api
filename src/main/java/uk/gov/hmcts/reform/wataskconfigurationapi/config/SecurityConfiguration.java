@@ -20,9 +20,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    public static final String AUTHORIZATION = "Authorization";
-    public static final String SERVICE_AUTHORIZATION = "ServiceAuthorization";
-
     private final List<String> anonymousPaths = new ArrayList<>();
     private final ServiceAuthFilter serviceAuthFilter;
 
@@ -30,6 +27,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public SecurityConfiguration(ServiceAuthFilter serviceAuthFilter) {
         super();
         this.serviceAuthFilter = serviceAuthFilter;
+    }
+
+    public List<String> getAnonymousPaths() {
+        return anonymousPaths;
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().mvcMatchers(
+            anonymousPaths.toArray(String[]::new)
+        );
     }
 
     @Override
@@ -43,16 +51,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin().disable()
             .logout().disable()
             .csrf().disable();
-    }
-
-    public List<String> getAnonymousPaths() {
-        return anonymousPaths;
-    }
-
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().mvcMatchers(
-            anonymousPaths.toArray(String[]::new)
-        );
     }
 }
