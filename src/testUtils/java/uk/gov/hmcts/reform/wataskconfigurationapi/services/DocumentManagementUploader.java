@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.wataskconfigurationapi.services;
 
 import com.google.common.io.ByteStreams;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -55,6 +56,7 @@ public class DocumentManagementUploader {
                     .get(0);
 
             log.info("Document '{}' uploaded successfully", file.getOriginalFilename());
+            log.info(new Gson().toJson(uploadedDocument));
             return new Document(
                 uploadedDocument
                     .links
