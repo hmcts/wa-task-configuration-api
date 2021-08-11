@@ -56,7 +56,6 @@ public class DocumentManagementUploader {
                     .get(0);
 
             log.info("Document '{}' uploaded successfully", file.getOriginalFilename());
-            log.info(new Gson().toJson(uploadedDocument));
             return new Document(
                 uploadedDocument
                     .links
@@ -66,8 +65,7 @@ public class DocumentManagementUploader {
                     .links
                     .binary
                     .href,
-                uploadedDocument
-                    .originalDocumentName
+                file.getOriginalFilename()
             );
 
         } catch (IOException e) {
