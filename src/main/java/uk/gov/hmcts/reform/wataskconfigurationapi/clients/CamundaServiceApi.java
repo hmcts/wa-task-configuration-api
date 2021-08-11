@@ -27,13 +27,14 @@ import static uk.gov.hmcts.reform.wataskconfigurationapi.config.ServiceTokenGene
 public interface CamundaServiceApi {
 
     @PostMapping(
-        value = "/decision-definition/key/{decisionTableKey}/tenant-id/wa/evaluate",
+        value = "/decision-definition/key/{decisionTableKey}/tenant-id/{tenantId}/evaluate",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     @SuppressWarnings("PMD.UseObjectForClearerAPI")
     List<DecisionTableResult> evaluateDmnTable(
         @RequestHeader(SERVICE_AUTHORIZATION) String serviceAuthorisation,
         @PathVariable("decisionTableKey") String decisionTableKey,
+        @PathVariable("tenantId") String tenantId,
         DmnRequest<DecisionTableRequest> requestParameters
     );
 

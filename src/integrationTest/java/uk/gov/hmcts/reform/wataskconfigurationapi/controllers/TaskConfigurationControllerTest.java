@@ -342,6 +342,7 @@ class TaskConfigurationControllerTest extends SpringBootIntegrationBaseTest {
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
+            "ia",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(caseData)))
             )
         ).thenReturn(singletonList(new DecisionTableResult(stringValue("name"), stringValue("value1"))));
