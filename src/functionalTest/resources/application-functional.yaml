@@ -1,13 +1,12 @@
 targets:
   instance: ${TEST_URL:http://localhost:8091}
-  documentStoreUrl: ${DOCUMENT_STORE_URL:http://dm-store-aat.service.core-compute-aat.internal}
 idam:
   test:
     username: ${TEST_WA_LAW_FIRM_USERNAME:some_user@hmcts.net}
     password: ${TEST_WA_LAW_FIRM_PASSWORD:password}
 
 document_management:
-  url: ${DM_STORE_URL:http://dm-store}
+  url: ${DM_STORE_URL:http://local-dm-store}
 
 ccd_gateway:
   url: ${CCD_GW_URL:http://ccd-api-gateway}
