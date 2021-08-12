@@ -6,3 +6,8 @@ idam:
     username: ${TEST_WA_LAW_FIRM_USERNAME:some_user@hmcts.net}
     password: ${TEST_WA_LAW_FIRM_PASSWORD:password}
 
+document_management:
+  url: ${DM_STORE_URL:http://local-dm-store}
+
+ccd_gateway:
+  url: ${CCD_GW_URL:http://ccd-api-gateway}
