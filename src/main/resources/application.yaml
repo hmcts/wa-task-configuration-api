@@ -63,6 +63,8 @@ idam:
     baseUrl: ${IDAM_API_URL:http://sidam-api}
 
 spring:
+  config:
+    import: "optional:configtree:/mnt/secrets/wa/"
   application:
     name: WA Task Configuration
   main:
