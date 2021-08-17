@@ -12,7 +12,6 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.Token;
 import uk.gov.hmcts.reform.wataskconfigurationapi.auth.idam.entities.UserInfo;
 import uk.gov.hmcts.reform.wataskconfigurationapi.clients.IdamServiceApi;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -23,6 +22,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("integration")
 class IdamTokenGeneratorTest {
 
+    private final String bearerAccessToken1 = "some bearer access token";
     @MockBean
     private IdamServiceApi idamServiceApi;
 
@@ -35,62 +35,44 @@ class IdamTokenGeneratorTest {
                                                                   .uid("some user id")
                                                                   .build());
 
-        UserInfo actualUserInfo = systemUserIdamToken.getUserInfo("some Bearer token");
-        systemUserIdamToken.getUserInfo("some Bearer token");
-        systemUserIdamToken.getUserInfo("some Bearer token");
-        systemUserIdamToken.getUserInfo("some Bearer token2");
-        systemUserIdamToken.getUserInfo("some Bearer token2");
-        systemUserIdamToken.getUserInfo("some Bearer token2");
-        systemUserIdamToken.getUserInfo("some Bearer token2");
+        systemUserIdamToken.getUserInfo(bearerAccessToken1);
+        systemUserIdamToken.getUserInfo(bearerAccessToken1);
+        systemUserIdamToken.getUserInfo(bearerAccessToken1);
 
-        assertThat(actualUserInfo).isEqualTo(UserInfo.builder()
-                                                 .uid("some user id")
-                                                 .build());
+        String bearerAccessToken2 = "some other bearer access token";
+        systemUserIdamToken.getUserInfo(bearerAccessToken2);
+        systemUserIdamToken.getUserInfo(bearerAccessToken2);
+        systemUserIdamToken.getUserInfo(bearerAccessToken2);
 
-        verify(idamServiceApi, times(1)).userInfo("some Bearer token");
-        verify(idamServiceApi, times(1)).userInfo("some Bearer token2");
+        verify(idamServiceApi, times(1)).userInfo(bearerAccessToken1);
+        verify(idamServiceApi, times(1)).userInfo(bearerAccessToken2);
     }
 
     @Test
     void generate() {
-        when(idamServiceApi.token(anyMap()))
-            .thenReturn(new Token("some user token", "some scope"));
+        when(idamServiceApi.token(anyMap())).thenReturn(new Token(bearerAccessToken1, "some scope"));
 
-        systemUserIdamToken.getUserBearerToken(
-            "some username",
-            "some user password"
-        );
-        systemUserIdamToken.getUserBearerToken(
-            "some username",
-            "some user password"
-        );
-        systemUserIdamToken.getUserBearerToken(
-            "some username",
-            "some user password"
-        );
-        systemUserIdamToken.getUserBearerToken(
-            "some username",
-            "some user password"
-        );
+        String someUsername = "some username";
+        String someUserPassword = "some user password";
+        systemUserIdamToken.getUserBearerToken(someUsername, someUserPassword);
+        systemUserIdamToken.getUserBearerToken(someUsername, someUserPassword);
+        systemUserIdamToken.getUserBearerToken(someUsername, someUserPassword);
+        systemUserIdamToken.getUserBearerToken(someUsername, someUserPassword);
 
-        systemUserIdamToken.getUserBearerToken(
-            "some other username",
-            "some other user password"
-        );
-        systemUserIdamToken.getUserBearerToken(
-            "some other username",
-            "some other user password"
-        );
+        String someOtherUsername = "some other username";
+        String someOtherUserPassword = "some other user password";
+        systemUserIdamToken.getUserBearerToken(someOtherUsername, someOtherUserPassword);
+        systemUserIdamToken.getUserBearerToken(someOtherUsername, someOtherUserPassword);
+
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
         map.add("redirect_uri", "http://localhost:3451/oauth2redirect");
         map.add("client_id", "wa");
         map.add("client_secret", "something");
-        map.add("username", "some username");
-        map.add("password", "some user password");
+        map.add("username", someUsername);
+        map.add("password", someUserPassword);
         map.add("scope", "openid profile roles");
-
         verify(idamServiceApi).token(map);
 
         MultiValueMap<String, String> map2 = new LinkedMultiValueMap<>();
@@ -98,10 +80,10 @@ class IdamTokenGeneratorTest {
         map2.add("redirect_uri", "http://localhost:3451/oauth2redirect");
         map2.add("client_id", "wa");
         map2.add("client_secret", "something");
-        map2.add("username", "some other username");
-        map2.add("password", "some other user password");
+        map2.add("username", someOtherUsername);
+        map2.add("password", someOtherUserPassword);
         map2.add("scope", "openid profile roles");
-
         verify(idamServiceApi).token(map2);
+
     }
 }
