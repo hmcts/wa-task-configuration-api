@@ -18,7 +18,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(properties = "IA_IDAM_REDIRECT_URI=http://localhost:3002/oauth2/callback")
 @ActiveProfiles("integration")
 class IdamTokenGeneratorTest {
 
@@ -67,7 +67,7 @@ class IdamTokenGeneratorTest {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
-        map.add("redirect_uri", "http://localhost:3451/oauth2redirect");
+        map.add("redirect_uri", "http://localhost:3002/oauth2/callback");
         map.add("client_id", "wa");
         map.add("client_secret", "something");
         map.add("username", someUsername);
@@ -77,13 +77,12 @@ class IdamTokenGeneratorTest {
 
         MultiValueMap<String, String> map2 = new LinkedMultiValueMap<>();
         map2.add("grant_type", "password");
-        map2.add("redirect_uri", "http://localhost:3451/oauth2redirect");
+        map2.add("redirect_uri", "http://localhost:3002/oauth2/callback");
         map2.add("client_id", "wa");
         map2.add("client_secret", "something");
         map2.add("username", someOtherUsername);
         map2.add("password", someOtherUserPassword);
         map2.add("scope", "openid profile roles");
         verify(idamServiceApi).token(map2);
-
     }
 }
