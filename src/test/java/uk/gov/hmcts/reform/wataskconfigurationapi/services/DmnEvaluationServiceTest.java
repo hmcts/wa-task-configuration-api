@@ -47,6 +47,7 @@ class DmnEvaluationServiceTest {
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_PERMISSIONS.getTableKey("ia", "asylum"),
+            "ia",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(
@@ -58,7 +59,8 @@ class DmnEvaluationServiceTest {
 
         when(authTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
-        List<DecisionTableResult> response = dmnEvaluationService.evaluateTaskPermissionsDmn("ia", "Asylum", ccdData);
+        List<DecisionTableResult> response = dmnEvaluationService
+            .evaluateTaskPermissionsDmn("ia", "Asylum", ccdData);
 
         assertThat(response.size(), is(2));
         assertThat(response, is(asList(
@@ -76,19 +78,21 @@ class DmnEvaluationServiceTest {
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
+            "ia",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
-            .thenReturn(asList(
+            .thenReturn(List.of(
                 new DecisionTableResult(
                     stringValue("caseManagementCategory"), stringValue("Human Rights"))
             ));
 
         when(authTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
-        List<DecisionTableResult> response = dmnEvaluationService.evaluateTaskConfigurationDmn("ia", "Asylum", ccdData);
+        List<DecisionTableResult> response = dmnEvaluationService
+            .evaluateTaskConfigurationDmn("ia", "Asylum", ccdData);
 
         assertThat(response.size(), is(1));
-        assertThat(response, is(asList(
+        assertThat(response, is(List.of(
             new DecisionTableResult(
                 stringValue("caseManagementCategory"), stringValue("Human Rights"))
         )));
@@ -101,12 +105,14 @@ class DmnEvaluationServiceTest {
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_PERMISSIONS.getTableKey("ia", "asylum"),
+            "ia",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         )).thenThrow(FeignException.class);
 
         when(authTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
-        assertThatThrownBy(() -> dmnEvaluationService.evaluateTaskPermissionsDmn("ia", "Asylum", ccdData))
+        assertThatThrownBy(() -> dmnEvaluationService
+            .evaluateTaskPermissionsDmn("ia", "Asylum", ccdData))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("Could not evaluate from decision table wa-task-permissions-ia-asylum")
             .hasCauseInstanceOf(FeignException.class);
@@ -119,6 +125,7 @@ class DmnEvaluationServiceTest {
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
+            "ia",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         ))
             .thenReturn(asList(
@@ -130,7 +137,8 @@ class DmnEvaluationServiceTest {
 
         when(authTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
-        List<DecisionTableResult> response = dmnEvaluationService.evaluateTaskConfigurationDmn("ia", "Asylum", ccdData);
+        List<DecisionTableResult> response = dmnEvaluationService
+            .evaluateTaskConfigurationDmn("ia", "Asylum", ccdData);
 
         assertThat(response.size(), is(2));
         assertThat(response, is(asList(
@@ -148,12 +156,14 @@ class DmnEvaluationServiceTest {
         when(camundaServiceApi.evaluateDmnTable(
             BEARER_SERVICE_TOKEN,
             WA_TASK_CONFIGURATION.getTableKey("ia", "asylum"),
+            "ia",
             new DmnRequest<>(new DecisionTableRequest(jsonValue(ccdData)))
         )).thenThrow(FeignException.class);
 
         when(authTokenGenerator.generate()).thenReturn(BEARER_SERVICE_TOKEN);
 
-        assertThatThrownBy(() -> dmnEvaluationService.evaluateTaskConfigurationDmn("ia", "Asylum", ccdData))
+        assertThatThrownBy(() -> dmnEvaluationService
+            .evaluateTaskConfigurationDmn("ia", "Asylum", ccdData))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("Could not evaluate from decision table wa-task-configuration-ia-asylum")
             .hasCauseInstanceOf(FeignException.class);

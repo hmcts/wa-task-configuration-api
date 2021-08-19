@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.Decisi
 import uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.camunda.DmnRequest;
 
 import java.util.List;
+import java.util.Locale;
 
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_CONFIGURATION;
 import static uk.gov.hmcts.reform.wataskconfigurationapi.domain.entities.DecisionTable.WA_TASK_PERMISSIONS;
@@ -32,23 +33,24 @@ public class DmnEvaluationService {
                                                                 String caseType,
                                                                 String caseData) {
         String decisionTableKey = WA_TASK_PERMISSIONS.getTableKey(jurisdiction, caseType);
-        return performEvaluateDmnAction(decisionTableKey, caseData);
+        return performEvaluateDmnAction(decisionTableKey, caseData, jurisdiction);
     }
-
 
     public List<DecisionTableResult> evaluateTaskConfigurationDmn(String jurisdiction,
                                                                   String caseType,
                                                                   String caseData) {
         String decisionTableKey = WA_TASK_CONFIGURATION.getTableKey(jurisdiction, caseType);
-        return performEvaluateDmnAction(decisionTableKey, caseData);
+        return performEvaluateDmnAction(decisionTableKey, caseData, jurisdiction);
     }
 
     private List<DecisionTableResult> performEvaluateDmnAction(String decisionTableKey,
-                                                               String caseData) {
+                                                               String caseData,
+                                                               String jurisdiction) {
         try {
             return camundaServiceApi.evaluateDmnTable(
                 serviceAuthTokenGenerator.generate(),
                 decisionTableKey,
+                jurisdiction.toLowerCase(Locale.ENGLISH),
                 new DmnRequest<>(
                     new DecisionTableRequest(jsonValue(caseData))
                 )
