@@ -31,7 +31,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
    envVariable: envVar
   ]
 }
-
+def branchesToSync = ['demo']
 
 withPipeline(type, product, component) {
   disableLegacyDeployment()
@@ -69,4 +69,7 @@ withPipeline(type, product, component) {
   onPR() {
     enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
   }
+
+  // Sync environment specific branches with master branch
+  syncBranchesWithMaster(branchesToSync)
 }
