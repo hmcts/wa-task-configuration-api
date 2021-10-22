@@ -264,7 +264,7 @@ def versions = [
   sonarPitest     : '0.5',
   pactVersion     : '4.1.7',
   logbook         : '2.6.2',
-  tomcat          : '9.0.50'
+  tomcat          : '9.0.54'
 ]
 
 ext.libraries = [
