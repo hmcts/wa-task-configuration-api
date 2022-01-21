@@ -10,7 +10,6 @@
       "roleName": "case-allocator",
       "roleType": "ORGANISATION",
       "attributes": {
-        "caseType": "Asylum",
         "jurisdiction": "IA",
         "primaryLocation": "765324"
       }
