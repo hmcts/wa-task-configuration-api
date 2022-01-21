@@ -7,7 +7,7 @@
       "grantType": "STANDARD",
       "readOnly": false,
       "roleCategory": "LEGAL_OPERATIONS",
-      "roleName": "tribunal-caseworker",
+      "roleName": "case-allocator",
       "roleType": "ORGANISATION",
       "attributes": {
         "caseType": "Asylum",
