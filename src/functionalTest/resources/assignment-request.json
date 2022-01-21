@@ -5,8 +5,6 @@
       "actorIdType": "IDAM",
       "attributes": {
         "caseId": "{CASE_ID_PLACEHOLDER}",
-        "caseType": "Asylum",
-        "jurisdiction": "IA"
       },
       "classification": "RESTRICTED",
       "grantType": "SPECIFIC",
