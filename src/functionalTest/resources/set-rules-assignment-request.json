@@ -10,8 +10,9 @@
       "roleName": "tribunal-caseworker",
       "roleType": "ORGANISATION",
       "attributes": {
-        "primaryLocation": "765324",
-        "jurisdiction": "IA"
+        "caseType": "Asylum",
+        "jurisdiction": "IA",
+        "primaryLocation": "765324"
       }
     }
   ],
