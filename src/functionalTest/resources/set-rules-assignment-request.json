@@ -7,7 +7,7 @@
       "grantType": "STANDARD",
       "readOnly": false,
       "roleCategory": "LEGAL_OPERATIONS",
-      "roleName": "case-allocator",
+      "roleName": "case-manager",
       "roleType": "ORGANISATION",
       "attributes": {
         "jurisdiction": "IA",
