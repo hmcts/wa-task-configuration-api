@@ -7,10 +7,9 @@
       "grantType": "STANDARD",
       "readOnly": false,
       "roleCategory": "LEGAL_OPERATIONS",
-      "roleName": "tribunal-caseworker",
+      "roleName": "case-manager",
       "roleType": "ORGANISATION",
       "attributes": {
-        "caseType": "Asylum",
         "jurisdiction": "IA",
         "primaryLocation": "765324"
       }
