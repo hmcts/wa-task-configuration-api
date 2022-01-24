@@ -52,7 +52,7 @@ public class RoleAssignmentHelper {
             "set-rules-assignment-request.json"
         );
 
-        log.info("Creating Restricted role-assignment, with Public classification...");
+        log.info("Creating Restricted role-assignment...");
         postRoleAssignment(
             caseId,
             bearerUserToken,
