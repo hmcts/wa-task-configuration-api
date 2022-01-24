@@ -61,14 +61,6 @@ public class RoleAssignmentHelper {
             "assignment-request.json"
         );
 
-        log.info("Creating Restricted role-assignment, with Restricted classification...");
-        postRoleAssignment(
-            caseId,
-            bearerUserToken,
-            s2sToken,
-            userInfo,
-            "set-tribunal-case-worker-assignment-request.json-"
-        );
     }
 
     private void postRoleAssignment(String caseId,
