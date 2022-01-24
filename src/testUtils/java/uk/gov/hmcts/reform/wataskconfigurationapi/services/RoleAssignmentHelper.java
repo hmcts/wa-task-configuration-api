@@ -95,7 +95,6 @@ public class RoleAssignmentHelper {
         assignmentRequestBody = assignmentRequestBody.replace("{CASE_ID_PLACEHOLDER}", caseId);
         assignmentRequestBody = assignmentRequestBody.replace("{ASSIGNER_ID_PLACEHOLDER}", userInfo.getUid());
 
-        log.info("DEBUG REQUEST: {}", assignmentRequestBody);
 
         return assignmentRequestBody;
     }
