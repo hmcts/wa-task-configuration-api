@@ -7,11 +7,25 @@
       "grantType": "STANDARD",
       "readOnly": false,
       "roleCategory": "LEGAL_OPERATIONS",
+      "roleName": "case-allocator",
+      "roleType": "ORGANISATION",
+      "attributes": {
+        "jurisdiction": "IA",
+        "primaryLocation": "765324"
+      }
+    },
+    {
+      "actorId": "{ACTOR_ID_PLACEHOLDER}",
+      "actorIdType": "IDAM",
+      "classification": "PUBLIC",
+      "grantType": "STANDARD",
+      "readOnly": false,
+      "roleCategory": "LEGAL_OPERATIONS",
       "roleName": "tribunal-caseworker",
       "roleType": "ORGANISATION",
       "attributes": {
-        "primaryLocation": "765324",
-        "jurisdiction": "IA"
+        "jurisdiction": "IA",
+        "primaryLocation": "765324"
       }
     }
   ],
@@ -22,3 +36,4 @@
     "replaceExisting": true
   }
 }
+

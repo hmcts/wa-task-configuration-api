@@ -60,6 +60,7 @@ public class RoleAssignmentHelper {
             userInfo,
             "assignment-request.json"
         );
+
     }
 
     private void postRoleAssignment(String caseId,
@@ -93,6 +94,7 @@ public class RoleAssignmentHelper {
         assignmentRequestBody = assignmentRequestBody.replace("{ACTOR_ID_PLACEHOLDER}", userInfo.getUid());
         assignmentRequestBody = assignmentRequestBody.replace("{CASE_ID_PLACEHOLDER}", caseId);
         assignmentRequestBody = assignmentRequestBody.replace("{ASSIGNER_ID_PLACEHOLDER}", userInfo.getUid());
+
 
         return assignmentRequestBody;
     }
