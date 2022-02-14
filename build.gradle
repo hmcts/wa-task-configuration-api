@@ -267,7 +267,7 @@ repositories {
 def versions = [
   junit           : '5.7.2',
   junitPlatform   : '1.7.2',
-  reformLogging   : '5.1.5',
+  reformLogging   : '5.1.9',
   springfoxSwagger: '3.0.0',
   serenity        : '2.2.12',
   gradlePitest    : '1.5.1',
@@ -300,7 +300,7 @@ dependencies {
 
   implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
-  
+
   compile group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '3.1.2'
   compile group: 'com.github.hmcts', name: 'core-case-data-store-client', version: '4.7.5'
 
