@@ -14,7 +14,7 @@ plugins {
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.springframework.boot' version '2.4.12'
-  id 'org.owasp.dependencycheck' version '6.1.6'
+  id 'org.owasp.dependencycheck' version '6.5.3'
   id 'com.github.ben-manes.versions' version '0.38.0'
   id 'org.sonarqube' version '3.2.0'
   id 'info.solidsoft.pitest' version '1.5.2'
@@ -250,6 +250,11 @@ dependencyManagement {
 
     //CVE-2021-28170
     dependency group: 'org.glassfish', name: 'jakarta.el', version: '4.0.1'
+    //CVE-2021-42550
+    dependencySet(group: 'ch.qos.logback', version: '1.2.10') {
+      entry 'logback-classic'
+      entry 'logback-core'
+    }
   }
 }
 
@@ -262,7 +267,7 @@ repositories {
 def versions = [
   junit           : '5.7.2',
   junitPlatform   : '1.7.2',
-  reformLogging   : '5.1.5',
+  reformLogging   : '5.1.9',
   springfoxSwagger: '3.0.0',
   serenity        : '2.2.12',
   gradlePitest    : '1.5.1',
@@ -270,7 +275,7 @@ def versions = [
   sonarPitest     : '0.5',
   pactVersion     : '4.1.7',
   logbook         : '2.6.2',
-  tomcat          : '9.0.54'
+  tomcat          : '9.0.58'
 ]
 
 ext.libraries = [
@@ -296,16 +301,17 @@ dependencies {
   implementation group: 'io.springfox', name: 'springfox-boot-starter', version: versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
 
-  implementation group: 'com.github.hmcts.java-logging', name: 'java-logging', version: versions.reformLogging
-  implementation group: 'com.github.hmcts.java-logging', name: 'java-logging-appinsights', version: versions.reformLogging
   compile group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '3.1.2'
   compile group: 'com.github.hmcts', name: 'core-case-data-store-client', version: '4.7.5'
 
-  compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.15.0'
-  compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.15.0'
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
 
-  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
-  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.1'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.17.1'
+
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: versions.tomcat
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: versions.tomcat
 
   compile group: 'com.launchdarkly', name: 'launchdarkly-java-server-sdk', version: '5.2.2'
 
