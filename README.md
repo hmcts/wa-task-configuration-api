@@ -1,3 +1,8 @@
+
+## THIS APP IS ARCHIVED
+
+The app is no longer required.
+
 # wa-task-configuration-api
 
 [![Build Status](https://travis-ci.org/hmcts/wa-task-configuration-api.svg?branch=master)](https://travis-ci.org/hmcts/wa-task-configuration-api)
@@ -126,4 +131,6 @@ This will do compilation, checkstyle, PMD checks , run tests , but not integrati
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## THIS APP IS ARCHIVED
 
